@@ -1,0 +1,56 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Test Move Object</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+    <style>
+    .box {
+    	width: 20px;
+    	height: 20px;
+    	left: 70px;
+    	top: 80px;
+    	background:#ccc;
+    	position: relative;
+	}
+
+	.hurdle {
+		width: 30px;
+		height: 30px;
+		left: 110%;
+		top: 50px;
+    	background: black;
+    	position: relative;
+	}
+
+	.border1 {
+		height: 40%;
+	}
+
+	.lane{
+		overflow: hidden;
+		height: 100px;
+	}
+
+	.border2 {
+		height: 40%;
+		border-top: 1px;
+		border-top-style: solid;
+		border-top-color: black;
+	}
+    </style>
+</head>
+<body>
+
+<div class="border1"></div>
+
+<div class="lane">
+	<div class="box"></div>
+	<div class="hurdle"></div>
+</div>
+
+<div class="border2"></div>
+
+<script type="text/javascript" src="freeRunnerLogic.js"></script>
+</body>
+</html>
