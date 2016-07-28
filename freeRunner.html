@@ -8,48 +8,97 @@
     .box {
     	width: 20px;
     	height: 20px;
-    	left: 70px;
-    	top: 80px;
+    	left: 15%;
+    	top: 42%;
     	background:#ccc;
-    	position: relative;
+    	position: absolute;
 	}
 
 	.hurdle {
-		width: 30px;
-		height: 30px;
-		left: 110%;
-		top: 50px;
+		width: 20px;
+		height: 20px;
     	background: black;
-    	position: relative;
-	}
-
-	.border1 {
-		height: 40%;
 	}
 
 	.lane{
+		margin-left: 10%;
+		margin-top: 20%;
+		border-top: 1px solid black;
+		border-bottom: 1px solid black;
 		overflow: hidden;
-		height: 100px;
+		height: 40px;
+		position: relative;
+		z-index: -1;
 	}
 
-	.border2 {
-		height: 40%;
-		border-top: 1px;
-		border-top-style: solid;
-		border-top-color: black;
+	#start{
+		position: absolute;
+		z-index: -2;
+		background-color: white;
+		/*opacity: 0.2;*/
+		height: 30%;
+		width: 280px;
+		margin-left: 10%;
 	}
+
+	.ledge-edge {
+		border-left: 1px solid black;
+		position: absolute;
+		height: 70%;
+		width: 50px;
+		background-color: black;
+		/*margin-left: 16.75%;*/
+	}
+
+	.ledge-bottom {
+		border-bottom: 40px solid white;
+	    border-top: 0px solid transparent;
+	    border-left: 0px solid transparent;
+	    border-right: 50px solid black;
+	    position: absolute;
+	    background-color: black;
+	    bottom: 11%;
+	}
+
+	.ledge{
+		margin-left: 18%;
+		position: relative;
+	    height: 40px;
+	    width: 200px;
+	    background-color: white;
+	}
+	.ledge::before {
+		/*background-color: white;*/
+	    content: '';
+	    line-height: 0;
+	    font-size: 0;
+	    width: 0;
+	    height: 0;
+	    border-bottom: 0px solid transparent;
+	    border-top: 40px solid white;
+	    border-left: 50px solid black;
+	    border-right: 0px solid white;
+	    position: absolute;
+	    left: -50px;
+	}
+
     </style>
 </head>
 <body>
 
-<div class="border1"></div>
 
-<div class="lane">
-	<div class="box"></div>
-	<div class="hurdle"></div>
+
+
+<div id="start">
+	<div class="ledge"></div>
+	<div class="ledge-edge"></div>
+	<div class="ledge-bottom"></div>
 </div>
 
-<div class="border2"></div>
+<div class="lane"></div>
+<div class="box"></div>
+
+
 
 <script type="text/javascript" src="freeRunnerLogic.js"></script>
 </body>
