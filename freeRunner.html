@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
     <style>
+    /*ledge and lane need to be relative to box*/
     .box {
     	width: 20px;
     	height: 20px;
@@ -21,7 +22,6 @@
 	}
 
 	.lane{
-		margin-left: 10%;
 		margin-top: 20%;
 		border-top: 1px solid black;
 		border-bottom: 1px solid black;
@@ -31,22 +31,32 @@
 		z-index: -1;
 	}
 
-	#start{
+	#ledge-div{
 		position: absolute;
-		z-index: -2;
 		background-color: white;
-		/*opacity: 0.2;*/
-		height: 30%;
+		z-index: -2;
+/*		background-color: grey;
+		opacity: 0.2;*/
+		height: 59%;
 		width: 280px;
 		margin-left: 10%;
+		overflow: hidden;
+	}
+
+	#ledge-block{
+		position: absolute;
+		background-color: white;
+		height: 15%;
+		width: 10%;
 	}
 
 	.ledge-edge {
 		border-left: 1px solid black;
 		position: absolute;
-		height: 70%;
+		height: 100%;
 		width: 50px;
 		background-color: black;
+		overflow: hidden;
 		/*margin-left: 16.75%;*/
 	}
 
@@ -57,7 +67,7 @@
 	    border-right: 50px solid black;
 	    position: absolute;
 	    background-color: black;
-	    bottom: 11%;
+	    bottom: 0%;
 	}
 
 	.ledge{
@@ -67,6 +77,7 @@
 	    width: 200px;
 	    background-color: white;
 	}
+
 	.ledge::before {
 		/*background-color: white;*/
 	    content: '';
@@ -82,17 +93,24 @@
 	    left: -50px;
 	}
 
+	#start{
+		top: 5%;
+		left: 40%;
+		position: absolute;
+		z-index: +2;
+	}
+
     </style>
 </head>
 <body>
 
+<div id="start"><h1>Click 'S' to start</h1></div>
 
-
-
-<div id="start">
+<div id="ledge-block"></div>
+<div id="ledge-div">
 	<div class="ledge"></div>
 	<div class="ledge-edge"></div>
-	<div class="ledge-bottom"></div>
+<!-- 	<div class="ledge-bottom"></div> -->
 </div>
 
 <div class="lane"></div>

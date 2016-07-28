@@ -5,18 +5,33 @@ var i = 0;
 var z = 0;
 var k = 0;
 
+//Uncomment "newHurdle" to start hurdle creation
+
 $(document).keydown(function(e) {
     switch (e.which) {
     case 32:
         jump();
         break;
+    case 83:
+        start();
+        break;
     }
 });
 
+function start(){
+    $('#start').remove();
+    $('#ledge-div').animate({
+        left: "-=50%"
+    }, 10000);
+    $('#ledge-block').animate({
+        left: "-=50%"
+    }, 10000);
+}
+
 function jump(){
-        $('.box').animate({
-            top: '-=85'
-        }, 350); 
+    $('.box').animate({
+        top: '-=85'
+    }, 350); 
         fall()
 }
 
@@ -30,7 +45,6 @@ function fall(){
     createHurdle();
 }, 1500);*/
 
-//doesnt show with relative
 function createHurdle(){
     i += 1;
     $('.lane').append('<div class="hurdle" id="hurdle' + i + '" style="position:fixed;left:110%;top:42%;">' + '</div>');
