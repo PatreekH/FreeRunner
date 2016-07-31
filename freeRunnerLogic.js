@@ -6,6 +6,9 @@ var z = 0;
 var k = 0;
 
 //Uncomment "newHurdle" to start hurdle creation
+//Look into gravity for pits
+//Don't start hurdles until S is pressed
+//No jump if S is not pressed
 
 $(document).keydown(function(e) {
     switch (e.which) {
@@ -20,12 +23,12 @@ $(document).keydown(function(e) {
 
 function start(){
     $('#start').remove();
-    $('#ledge-div').animate({
-        left: "-=50%"
-    }, 10000);
+    $('#ledge-pic').animate({
+        left: "-=20%"
+    }, 3000);
     $('#ledge-block').animate({
-        left: "-=50%"
-    }, 10000);
+        left: "-=20%"
+    }, 3000);
 }
 
 function jump(){
@@ -41,9 +44,18 @@ function fall(){
      }, 800);
 }
 
-/*var newHurdle = setInterval(function(){
+//Code for dropoffs
+
+/*var newDropOff = setInterval(function(){
+    createDrop();
+}, 3000);*/
+
+
+//Code for Hurdles
+
+var newHurdle = setInterval(function(){
     createHurdle();
-}, 1500);*/
+}, 1500);
 
 function createHurdle(){
     i += 1;
@@ -57,6 +69,7 @@ function moveHurdle(){
     $('#hurdle' + z).animate({
         left: '-=120%'
     }, 7000);
+    // .remove();
 }
 
 function update() {
@@ -70,6 +83,7 @@ function update() {
        newBoxPos.left < newHurdlePos.left + hurdlePos.height &&
        boxPos.height + newBoxPos.left > newHurdlePos.left) {
             alert("Collision!");
+            location.reload();
         }
     }, 1);
 }

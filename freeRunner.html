@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
     <style>
-    /*ledge and lane need to be relative to box*/
+
     .box {
     	width: 20px;
     	height: 20px;
@@ -18,64 +18,37 @@
 	.hurdle {
 		width: 20px;
 		height: 20px;
-    	background: black;
+    	background: red;
 	}
 
 	.lane{
-		margin-top: 20%;
-		border-top: 1px solid black;
-		border-bottom: 1px solid black;
+		width: 100%;
+		top: 41.20%;
+		border-top: 2px solid black;
+		border-bottom: 2px solid black;
 		overflow: hidden;
-		height: 40px;
-		position: relative;
+		height: 30px;
+		position: fixed;
 		z-index: -1;
 	}
 
-	#ledge-div{
-		position: absolute;
-		background-color: white;
-		z-index: -2;
-/*		background-color: grey;
-		opacity: 0.2;*/
-		height: 59%;
-		width: 280px;
-		margin-left: 10%;
-		overflow: hidden;
-	}
-
 	#ledge-block{
+		top: 32%;
 		position: absolute;
 		background-color: white;
 		height: 15%;
-		width: 10%;
-	}
-
-	.ledge-edge {
-		border-left: 1px solid black;
-		position: absolute;
-		height: 100%;
-		width: 50px;
-		background-color: black;
-		overflow: hidden;
-		/*margin-left: 16.75%;*/
-	}
-
-	.ledge-bottom {
-		border-bottom: 40px solid white;
-	    border-top: 0px solid transparent;
-	    border-left: 0px solid transparent;
-	    border-right: 50px solid black;
-	    position: absolute;
-	    background-color: black;
-	    bottom: 0%;
+/*		opacity: 0.5;*/
+		width: 149px;
 	}
 
 	.ledge{
-		margin-left: 18%;
+		top: 35%;
+		opacity: 0.5;
+		margin-left: 13%;
 		position: relative;
-	    height: 40px;
+	    height: 30px;
 	    width: 200px;
-	    background-color: white;
+	    background-color: grey;
 	}
 
 	.ledge::before {
@@ -85,9 +58,9 @@
 	    font-size: 0;
 	    width: 0;
 	    height: 0;
-	    border-bottom: 0px solid transparent;
-	    border-top: 40px solid white;
-	    border-left: 50px solid black;
+	    border-bottom: 10px solid transparent;
+	    border-top: 30px solid white;
+	    border-left: 41px solid grey;
 	    border-right: 0px solid white;
 	    position: absolute;
 	    left: -50px;
@@ -100,6 +73,15 @@
 		z-index: +2;
 	}
 
+	#ledge-pic{
+		top: 40.45%;
+		width: 400px;
+		height: 510px;
+		position: fixed;
+		z-index: -1;
+		overflow: hidden;
+	}
+
     </style>
 </head>
 <body>
@@ -107,12 +89,14 @@
 <div id="start"><h1>Click 'S' to start</h1></div>
 
 <div id="ledge-block"></div>
+<!-- 
 <div id="ledge-div">
 	<div class="ledge"></div>
 	<div class="ledge-edge"></div>
-<!-- 	<div class="ledge-bottom"></div> -->
-</div>
-
+	<div class="ledge-bottom"></div>
+</div> -->
+<!-- <div class="ledge"></div> -->
+<img id="ledge-pic" src="startLedge2.png">
 <div class="lane"></div>
 <div class="box"></div>
 
