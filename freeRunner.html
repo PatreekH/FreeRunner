@@ -10,9 +10,10 @@
     	width: 20px;
     	height: 20px;
     	left: 15%;
-    	top: 42%;
+    	top: 41.50%;
     	background:#ccc;
     	position: absolute;
+    	z-index: +2;
 	}
 
 	.hurdle {
@@ -29,19 +30,28 @@
 		overflow: hidden;
 		height: 30px;
 		position: fixed;
-		z-index: -1;
+		z-index: +1;
 	}
 
 	#ledge-block{
 		top: 32%;
 		position: absolute;
+		z-index: +2;
 		background-color: white;
 		height: 15%;
-/*		opacity: 0.5;*/
 		width: 149px;
 	}
 
-	.ledge{
+	#ledge-block2{
+		top: 39.55%;
+		position: absolute;
+		z-index: +2;
+		background-color: white;
+		height: 2%;
+		width: 192px;
+	}
+
+/*	.ledge{
 		top: 35%;
 		opacity: 0.5;
 		margin-left: 13%;
@@ -52,7 +62,7 @@
 	}
 
 	.ledge::before {
-		/*background-color: white;*/
+		background-color: white;
 	    content: '';
 	    line-height: 0;
 	    font-size: 0;
@@ -64,7 +74,7 @@
 	    border-right: 0px solid white;
 	    position: absolute;
 	    left: -50px;
-	}
+	}*/
 
 	#start{
 		top: 5%;
@@ -74,33 +84,63 @@
 	}
 
 	#ledge-pic{
-		top: 40.45%;
+		top: 40.50%;
 		width: 400px;
-		height: 510px;
+		height: 800px;
 		position: fixed;
 		z-index: -1;
 		overflow: hidden;
 	}
 
+	.ledge-pic2{
+		width: 400px;
+		height: 800px;
+		position: fixed;
+		z-index: -2;
+		overflow: hidden;
+	}
+
+	.drop-off{
+		z-index: -1;
+		width: 200px;
+		height: 900px;
+		position: fixed;
+		overflow: hidden;
+	}
+
+/*	.drop-off-block{
+		z-index: +2;
+		position: fixed;
+		background-color: white;
+		width: 26.70px;
+		height: 45px;
+	}
+
+	.drop-off-block2{
+		z-index: +2;
+		position: fixed;
+		background-color: white;
+		width: 69px;
+		height: 20px;
+	}*/
+
     </style>
 </head>
+
 <body>
 
-<div id="start"><h1>Click 'S' to start</h1></div>
+	<div id="start"><h1>Click 'S' to start</h1></div>
 
-<div id="ledge-block"></div>
-<!-- 
-<div id="ledge-div">
-	<div class="ledge"></div>
-	<div class="ledge-edge"></div>
-	<div class="ledge-bottom"></div>
-</div> -->
-<!-- <div class="ledge"></div> -->
-<img id="ledge-pic" src="startLedge2.png">
-<div class="lane"></div>
-<div class="box"></div>
+	<div id="ledge-block"></div>
+	<div id="ledge-block2"></div>
+	<img id="ledge-pic" src="startLedge2.png">
+
+<!-- 		<img class="drop-off" id="dropoff" src="dropoff.png" style="top:40.75%;left:50%;">
+		<img class="ledge-pic2" id="ledge-pic2" src="startLedge2.png" style="top:40.50%;left:55%;" -->
 
 
+	<div class="lane"></div>
+	<div class="box"></div>
 
 <script type="text/javascript" src="freeRunnerLogic.js"></script>
 </body>

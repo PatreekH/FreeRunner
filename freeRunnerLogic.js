@@ -1,13 +1,18 @@
 var box = $('.box');
-var boxPos = {width: 20, height: 20}
-var hurdlePos = {width: 20, height: 20}
+var boxPos = {width: 20, height: 20};
+var hurdlePos = {width: 20, height: 20};
 var i = 0;
 var z = 0;
 var k = 0;
+var s = 0;
+var p = 0;
+var t = 0;
+var r = 0;
 
-//Uncomment "newHurdle" to start hurdle creation
+
+//After every random section of 5-25 hurdles, have 1 drop of a different distance
+//Add double jump
 //Look into gravity for pits
-//Don't start hurdles until S is pressed
 //No jump if S is not pressed
 
 $(document).keydown(function(e) {
@@ -24,11 +29,15 @@ $(document).keydown(function(e) {
 function start(){
     $('#start').remove();
     $('#ledge-pic').animate({
-        left: "-=20%"
-    }, 3000);
+        left: "-=250px"
+    }, 2000);
     $('#ledge-block').animate({
-        left: "-=20%"
-    }, 3000);
+        left: "-=250px"
+    }, 2000);
+    $('#ledge-block2').animate({
+        left: "-=250px"
+    }, 2000);
+    createRandomNumbers()
 }
 
 function jump(){
@@ -44,18 +53,31 @@ function fall(){
      }, 800);
 }
 
-//Code for dropoffs
+//Randomly creates obsticales
+function createRandomNumbers(){
+    var rN = Math.floor((Math.random() * 2) + 1);
+    var interval = Math.floor((Math.random() * 2000) + 1500);
+    console.log("Num of hurdles: " + rN + "-- interval at: " + interval);
+    createObsticales(rN, interval)
+}
 
-/*var newDropOff = setInterval(function(){
-    createDrop();
-}, 3000);*/
-
+function createObsticales(rN, interval) {
+    if (r != rN){
+        r += 1;
+        var newHurdle = setTimeout(function(){
+            createHurdle();
+        }, interval);
+    } else {
+        //make dropoff
+        //dropoff resets randomNumbers
+    }
+}
 
 //Code for Hurdles
 
-var newHurdle = setInterval(function(){
+/*var newHurdle = setInterval(function(){
     createHurdle();
-}, 1500);
+}, 1500);*/
 
 function createHurdle(){
     i += 1;
@@ -87,3 +109,35 @@ function update() {
         }
     }, 1);
 }
+
+//==========Code for dropoffs=============
+
+/*var newDropOff = setInterval(function(){
+    createDrop();
+}, 10000);*/
+
+function createDrop(){
+    s += 1;
+    $('.lane').append(
+        '<img class="drop-off" id="dropoff' + s + '" src="dropoff.png" style="top:40.75%;left:110%;"><img class="ledge-pic2" id="ledge-pic2' + s + '" src="startLedge2.png" style="top:40.50%;left:120%;">'
+    );
+    moveLedge();
+}
+
+function moveLedge(){
+    p += 1;
+    $('#dropoff' + p).animate({
+        left: '-=165%'
+    }, 10000, 'linear');
+    $('#ledge-pic2' + p).animate({
+        left: '-=165%'
+    }, 10000, 'linear');
+}
+
+/*var deleteDropOff = setInterval(function(){
+    t += 1;
+    $('#dropoff' + t).remove();
+    $('#ledge-pic2' + t).remove();
+}, 15000);*/
+
+//===========================================
