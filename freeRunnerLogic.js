@@ -1,6 +1,6 @@
 var box = $('.box');
-var boxPos = {width: 20, height: 20};
-var hurdlePos = {width: 20, height: 20};
+var boxPos = {width: 30, height: 30};
+var hurdlePos = {width: 30, height: 30};
 var i = 0;
 var z = 0;
 var k = 0;
@@ -8,6 +8,7 @@ var s = 0;
 var p = 0;
 var t = 0;
 var r = 0;
+var rN;
 
 
 //After every random section of 5-25 hurdles, have 1 drop of a different distance
@@ -17,11 +18,17 @@ var r = 0;
 
 $(document).keydown(function(e) {
     switch (e.which) {
-    case 32:
-        jump();
+    case 40:
+        up();
+        break;
+    case 38:
+        down();
         break;
     case 83:
         start();
+        break;
+    case 32:
+        jump();
         break;
     }
 });
@@ -37,31 +44,61 @@ function start(){
     $('#ledge-block2').animate({
         left: "-=250px"
     }, 2000);
-    createRandomNumbers()
+    newHurdleSection();
 }
 
 function jump(){
     $('.box').animate({
-        top: '-=85'
-    }, 350); 
-        fall()
+        top: '-=100'
+    }, 150, 'linear');
+    fall()
 }
 
 function fall(){
+    $('.box').animate({
+        top: '+=100'
+    }, 150, 'linear'); 
+}
+
+function up(){
+    $('.box').animate({
+        top: '+=22',
+        left: '-=22'
+    }, 150, 'linear'); 
+}
+
+function down(){
      $('.box').animate({
-         top: '+=85'
-     }, 800);
+        top: '-=22',
+        left: '+=22'
+     }, 150, 'linear');
 }
 
 //Randomly creates obsticales
-function createRandomNumbers(){
-    var rN = Math.floor((Math.random() * 2) + 1);
-    var interval = Math.floor((Math.random() * 2000) + 1500);
-    console.log("Num of hurdles: " + rN + "-- interval at: " + interval);
-    createObsticales(rN, interval)
+function createRandomNumbers(rN){
+    var interval = Math.floor(Math.random() * (2500 - 1200)) + 1200;
+    console.log("Num of hurdles: " + rN + " -- interval at: " + interval);
+    if (r != rN){
+        r += 1;
+        var newHurdle = setTimeout(function(){
+            createHurdle();
+            createRandomNumbers(rN);
+        }, interval);
+    } else {
+        newHurdleSection();
+        /*createDrop();*/
+        //make dropoff
+        //dropoff resets randomNumbers
+    }
 }
 
-function createObsticales(rN, interval) {
+function newHurdleSection(){
+    rN = Math.floor((Math.random() * 8) + 3);
+    createRandomNumbers(rN);
+    r = 0;
+}
+
+/*function createObsticales(rN, interval) {
     if (r != rN){
         r += 1;
         var newHurdle = setTimeout(function(){
@@ -71,7 +108,7 @@ function createObsticales(rN, interval) {
         //make dropoff
         //dropoff resets randomNumbers
     }
-}
+}*/
 
 //Code for Hurdles
 
@@ -81,7 +118,8 @@ function createObsticales(rN, interval) {
 
 function createHurdle(){
     i += 1;
-    $('.lane').append('<div class="hurdle" id="hurdle' + i + '" style="position:fixed;left:110%;top:42%;">' + '</div>');
+    $('.lane').append('<div class="hurdle" id="hurdle' + i + '" style="position:fixed;left:110%;top:40%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
+    $('.lane').append('<div class="hurdle" id="hurdle2' + i + '" style="position:fixed;left:108%;top:43%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
     moveHurdle();
     update();
 }
@@ -89,8 +127,11 @@ function createHurdle(){
 function moveHurdle(){
     z += 1;
     $('#hurdle' + z).animate({
-        left: '-=120%'
-    }, 7000);
+        left: '-=165%'
+    }, 15000, 'linear');
+    $('#hurdle2' + z).animate({
+        left: '-=165%'
+    }, 15000, 'linear');
     // .remove();
 }
 
@@ -119,7 +160,7 @@ function update() {
 function createDrop(){
     s += 1;
     $('.lane').append(
-        '<img class="drop-off" id="dropoff' + s + '" src="dropoff.png" style="top:40.75%;left:110%;"><img class="ledge-pic2" id="ledge-pic2' + s + '" src="startLedge2.png" style="top:40.50%;left:120%;">'
+        '<img class="drop-off" id="dropoff' + s + '" src="dropoff.png" style="top:40.75%;left:110%;"><img class="ledge-pic2" id="ledge-pic2' + s + '" src="startLedge2.png" style="top:40.50%;left:115%;">'
     );
     moveLedge();
 }
@@ -128,10 +169,11 @@ function moveLedge(){
     p += 1;
     $('#dropoff' + p).animate({
         left: '-=165%'
-    }, 10000, 'linear');
+    }, 15000, 'linear');
     $('#ledge-pic2' + p).animate({
         left: '-=165%'
-    }, 10000, 'linear');
+    }, 15000, 'linear');
+    newHurdleSection();
 }
 
 /*var deleteDropOff = setInterval(function(){

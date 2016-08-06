@@ -7,19 +7,29 @@
     <style>
 
     .box {
-    	width: 20px;
-    	height: 20px;
+    	/*background-image: url(pcube.png);*/
+    	width: 30px;
+    	height: 30px;
     	left: 15%;
-    	top: 41.50%;
-    	background:#ccc;
+    	top: 40%;
+    	/*background:#ccc;*/
     	position: absolute;
     	z-index: +2;
 	}
 
+	#pcube{
+		width: 30px;
+		height: 30px;
+	}
+
+	#hcube{
+		width: 30px;
+		height: 30px;
+	}
+
 	.hurdle {
-		width: 20px;
-		height: 20px;
-    	background: red;
+		width: 30px;
+		height: 30px;
 	}
 
 	.lane{
@@ -28,7 +38,7 @@
 		border-top: 2px solid black;
 		border-bottom: 2px solid black;
 		overflow: hidden;
-		height: 30px;
+		height: 50px;
 		position: fixed;
 		z-index: +1;
 	}
@@ -38,7 +48,7 @@
 		position: absolute;
 		z-index: +2;
 		background-color: white;
-		height: 15%;
+		height: 18%;
 		width: 149px;
 	}
 
@@ -84,9 +94,9 @@
 	}
 
 	#ledge-pic{
-		top: 40.50%;
+		top: 40%;
 		width: 400px;
-		height: 800px;
+		height: 1375px;
 		position: fixed;
 		z-index: -1;
 		overflow: hidden;
@@ -94,7 +104,7 @@
 
 	.ledge-pic2{
 		width: 400px;
-		height: 800px;
+		height: 1375px;
 		position: fixed;
 		z-index: -2;
 		overflow: hidden;
@@ -103,7 +113,7 @@
 	.drop-off{
 		z-index: -1;
 		width: 200px;
-		height: 900px;
+		height: 1375px;
 		position: fixed;
 		overflow: hidden;
 	}
@@ -138,9 +148,8 @@
 <!-- 		<img class="drop-off" id="dropoff" src="dropoff.png" style="top:40.75%;left:50%;">
 		<img class="ledge-pic2" id="ledge-pic2" src="startLedge2.png" style="top:40.50%;left:55%;" -->
 
-
 	<div class="lane"></div>
-	<div class="box"></div>
+	<div class="box"><img id="pcube" src="pcube.png"></div>
 
 <script type="text/javascript" src="freeRunnerLogic.js"></script>
 </body>
