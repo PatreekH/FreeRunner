@@ -10,6 +10,7 @@ var t = 0;
 var r = 0;
 var rN;
 var launch = false;
+var lane = 1;
 
 
 //create 5 rows
@@ -69,7 +70,7 @@ function fall(){
 function down(){
     var pos = box.position();
     console.log(pos.top);
-    if (pos.top >= 393.1875) {
+    if (pos.top >= 393.1875 && launch == true) {
         alert("You Fell!");
         location.reload();
     } else if (pos.top < 393.1875 && launch == true) {
@@ -78,12 +79,20 @@ function down(){
             left: '-=22'
         }, 150, 'linear'); 
     }
+
+    if (lane >= 5){
+        console.log("Fall");
+    } else {
+        lane++;
+        console.log(lane);
+    }
 }
 
 function up(){
     var pos = box.position();
     console.log(pos.top);
-    if (pos.top <= 305.1875) {
+
+    if (pos.top <= 305.1875 && launch == true) {
         alert("You Fell!");
         location.reload();
     } else if (pos.top > 305.1875 && launch == true) {
@@ -92,6 +101,14 @@ function up(){
             left: '+=22'
         }, 150, 'linear'); 
     }
+
+    if (lane <= 1){
+        console.log("Fall");
+    } else {
+        lane--;
+        console.log(lane);
+    }
+
 }
 
 //Randomly creates obsticales
@@ -139,7 +156,10 @@ function newHurdleSection(){
 function createHurdle(){
     i += 1;
     $('.lane').append('<div class="hurdle" id="hurdle' + i + '" style="position:fixed;left:110%;top:40%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
-    $('.lane').append('<div class="hurdle" id="hurdle2' + i + '" style="position:fixed;left:108%;top:43%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
+    $('.lane').append('<div class="hurdle" id="hurdle2-' + i + '" style="position:fixed;left:108%;top:43%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
+    $('.lane').append('<div class="hurdle" id="hurdle3-' + i + '" style="position:fixed;left:106%;top:46%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
+    $('.lane').append('<div class="hurdle" id="hurdle4-' + i + '" style="position:fixed;left:104%;top:49%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
+    $('.lane').append('<div class="hurdle" id="hurdle5-' + i + '" style="position:fixed;left:102%;top:52%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
     moveHurdle();
     update();
 }
@@ -149,26 +169,91 @@ function moveHurdle(){
     $('#hurdle' + z).animate({
         left: '-=165%'
     }, 15000, 'linear');
-    $('#hurdle2' + z).animate({
+    $('#hurdle2-' + z).animate({
         left: '-=165%'
-    }, 15000, 'linear');
+    }, 12000, 'linear');
+    $('#hurdle3-' + z).animate({
+        left: '-=165%'
+    }, 19000, 'linear');
+    $('#hurdle4-' + z).animate({
+        left: '-=165%'
+    }, 14000, 'linear');
+    $('#hurdle5-' + z).animate({
+        left: '-=165%'
+    }, 10000, 'linear');
     // .remove();
 }
 
 function update() {
-    k += 1;
-    var hurdle = $('#hurdle' + k);
-    var update = setInterval(function(){
-        var newHurdlePos = hurdle.position();
-        var newBoxPos = box.position();
-        if (newBoxPos.top < newHurdlePos.top + hurdlePos.width &&
-       newBoxPos.top + boxPos.width > newHurdlePos.top &&
-       newBoxPos.left < newHurdlePos.left + hurdlePos.height &&
-       boxPos.height + newBoxPos.left > newHurdlePos.left) {
+    var newBoxPos = box.position();
+
+    var hurdle1 = $('#hurdle' + i);
+    var update1 = setInterval(function(){
+        var newHurdlePos1 = hurdle1.position();
+        newBoxPos = box.position();
+        if (newBoxPos.top < newHurdlePos1.top + hurdlePos.width &&
+       newBoxPos.top + boxPos.width > newHurdlePos1.top &&
+       newBoxPos.left < newHurdlePos1.left + hurdlePos.height &&
+       boxPos.height + newBoxPos.left > newHurdlePos1.left && lane == 1) {
             alert("Collision!");
             location.reload();
         }
     }, 1);
+
+    var hurdle2 = $('#hurdle2-' + i);
+    var update2 = setInterval(function(){
+        var newHurdlePos2 = hurdle2.position();
+        newBoxPos = box.position();
+        if (newBoxPos.top < newHurdlePos2.top + hurdlePos.width &&
+       newBoxPos.top + boxPos.width > newHurdlePos2.top &&
+       newBoxPos.left < newHurdlePos2.left + hurdlePos.height &&
+       boxPos.height + newBoxPos.left > newHurdlePos2.left && lane == 2) {
+            alert("Collision!");
+            location.reload();
+        }
+    }, 1);
+
+
+    var hurdle3 = $('#hurdle3-' + i);
+    var update3 = setInterval(function(){
+        var newHurdlePos3 = hurdle3.position();
+        newBoxPos = box.position();
+        if (newBoxPos.top < newHurdlePos3.top + hurdlePos.width &&
+       newBoxPos.top + boxPos.width > newHurdlePos3.top &&
+       newBoxPos.left < newHurdlePos3.left + hurdlePos.height &&
+       boxPos.height + newBoxPos.left > newHurdlePos3.left && lane == 3) {
+            alert("Collision!");
+            location.reload();
+        }
+    }, 1);
+
+
+    var hurdle4 = $('#hurdle4-' + i);
+    var update4 = setInterval(function(){
+        var newHurdlePos4 = hurdle4.position();
+        newBoxPos = box.position();
+        if (newBoxPos.top < newHurdlePos4.top + hurdlePos.width &&
+       newBoxPos.top + boxPos.width > newHurdlePos4.top &&
+       newBoxPos.left < newHurdlePos4.left + hurdlePos.height &&
+       boxPos.height + newBoxPos.left > newHurdlePos4.left && lane == 4) {
+            alert("Collision!");
+            location.reload();
+        }
+    }, 1);
+
+    var hurdle5 = $('#hurdle5-' + i);
+    var update5 = setInterval(function(){
+        var newHurdlePos5 = hurdle5.position();
+        newBoxPos = box.position();
+        if (newBoxPos.top < newHurdlePos5.top + hurdlePos.width &&
+       newBoxPos.top + boxPos.width > newHurdlePos5.top &&
+       newBoxPos.left < newHurdlePos5.left + hurdlePos.height &&
+       boxPos.height + newBoxPos.left > newHurdlePos5.left && lane == 5) {
+            alert("Collision!");
+            location.reload();
+        }
+    }, 1);
+
 }
 
 //==========Code for dropoffs=============
