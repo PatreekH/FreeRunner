@@ -9,20 +9,21 @@ var p = 0;
 var t = 0;
 var r = 0;
 var rN;
+var launch = false;
 
 
 //create 5 rows
-//create barriers for each lane side (if box top < this then boxtop==this else do animation)
+//fall of ledges if over lane size
 //dynamically have hurdles entering page
 //only detect the current lane hurdles
 
 $(document).keydown(function(e) {
     switch (e.which) {
     case 40:
-        up();
+        down();
         break;
     case 38:
-        down();
+        up();
         break;
     case 83:
         start();
@@ -34,44 +35,63 @@ $(document).keydown(function(e) {
 });
 
 function start(){
-    $('#start').remove();
-    $('#ledge-pic').animate({
-        left: "-=250px"
-    }, 2000);
-    $('#ledge-block').animate({
-        left: "-=250px"
-    }, 2000);
-    $('#ledge-block2').animate({
-        left: "-=250px"
-    }, 2000);
-    newHurdleSection();
+    if (launch == false){
+        $('#start').remove();
+        $('#ledge-pic').animate({
+            left: "-=250px"
+        }, 2000);
+        $('#ledge-block').animate({
+            left: "-=250px"
+        }, 2000);
+        $('#ledge-block2').animate({
+            left: "-=250px"
+        }, 2000);
+        newHurdleSection();
+        launch = true;
+    } else {
+        console.log("Game already started!");
+    }
 }
 
 function jump(){
     $('.box').animate({
         top: '-=100'
-    }, 150, 'linear');
+    }, 1100);
     fall()
 }
 
 function fall(){
     $('.box').animate({
         top: '+=100'
-    }, 150, 'linear'); 
-}
-
-function up(){
-    $('.box').animate({
-        top: '+=22',
-        left: '-=22'
-    }, 150, 'linear'); 
+    }, 1100); 
 }
 
 function down(){
-     $('.box').animate({
-        top: '-=22',
-        left: '+=22'
-     }, 150, 'linear');
+    var pos = box.position();
+    console.log(pos.top);
+    if (pos.top >= 393.1875) {
+        alert("You Fell!");
+        location.reload();
+    } else if (pos.top < 393.1875 && launch == true) {
+        $('.box').animate({
+            top: '+=22',
+            left: '-=22'
+        }, 150, 'linear'); 
+    }
+}
+
+function up(){
+    var pos = box.position();
+    console.log(pos.top);
+    if (pos.top <= 305.1875) {
+        alert("You Fell!");
+        location.reload();
+    } else if (pos.top > 305.1875 && launch == true) {
+        $('.box').animate({
+            top: '-=22',
+            left: '+=22'
+        }, 150, 'linear'); 
+    }
 }
 
 //Randomly creates obsticales
