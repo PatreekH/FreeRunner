@@ -11,10 +11,10 @@ var r = 0;
 var rN;
 
 
-//After every random section of 5-25 hurdles, have 1 drop of a different distance
-//Add double jump
-//Look into gravity for pits
-//No jump if S is not pressed
+//create 5 rows
+//create barriers for each lane side (if box top < this then boxtop==this else do animation)
+//dynamically have hurdles entering page
+//only detect the current lane hurdles
 
 $(document).keydown(function(e) {
     switch (e.which) {
