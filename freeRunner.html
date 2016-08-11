@@ -32,6 +32,26 @@
 		height: 30px;
 	}
 
+	.h1z{
+		z-index: +5;
+	}
+
+	.h2z{
+		z-index: +5;
+	}
+
+	.h3z{
+		z-index: +5;
+	}
+
+	.h4z{
+		z-index: +5;
+	}
+
+	.h5z{
+		z-index: +5;
+	}
+
 	.lane{
 		width: 100%;
 		top: 41.30%;
@@ -39,8 +59,8 @@
 		border-bottom: 2px solid black;
 		overflow: hidden;
 		height: 122px;
-		position: fixed;
-		z-index: +1;
+		position: absolute;
+		/*z-index: +1;*/
 	}
 
 	#ledge-block{
@@ -109,6 +129,11 @@
 		height: 20px;
 	}*/
 
+	#scoreDiv{
+		margin-left: 5%;
+		margin-top: 2%;
+	}
+
     </style>
 </head>
 
@@ -120,10 +145,18 @@
 	<div id="ledge-block2"></div>
 	<img id="ledge-pic" src="startLedge3.png">
 
+	<div id="scoreDiv"></div>
+
 <!-- 		<img class="drop-off" id="dropoff" src="dropoff.png" style="top:40.75%;left:50%;">
 		<img class="ledge-pic2" id="ledge-pic2" src="startLedge2.png" style="top:40.50%;left:55%;" -->
 
-	<div class="lane"></div>
+	<div class="lane">
+<!-- 		<div class="hurdle"  style="position:fixed;left:20%;top:40%;z-index:+5;"><img id="hcube" src="hcube.png"></div>
+		<div class="hurdle"  style="position:fixed;left:18%;top:43%;"><img id="hcube" src="hcube.png"></div>
+		<div class="hurdle"  style="position:fixed;left:16%;top:46%;"><img id="hcube" src="hcube.png"></div>
+		<div class="hurdle"  style="position:fixed;left:14%;top:49%;"><img id="hcube" src="hcube.png"></div>
+		<div class="hurdle"  style="position:fixed;left:12%;top:52%;"><img id="hcube" src="hcube.png"></div> -->
+	</div>
 	<div class="box"><img id="pcube" src="pcube.png"></div>
 
 <script type="text/javascript" src="freeRunnerLogic.js"></script>
