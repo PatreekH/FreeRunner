@@ -148,10 +148,10 @@ function down(){
 
 function startScore(){
     $("#scoreDiv").html('<h3>Score: <span id="score"></span></h3>')
- /*   var score = setInterval(function(){
+    var score = setInterval(function(){
         score += 1;
         $('#score').html(score);
-    }, 10);*/
+    }, 10);
 }
 
 //Code for Hurdles
