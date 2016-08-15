@@ -22,14 +22,23 @@ var h5counter = 0;
 var profileStatus = 0;
 var shopStatus = 0;
 
+//Window measurments for responsive gameplay
+var windowSize = $(window).height();
+console.log(windowSize);
+var onePercent = windowSize / 100;
+console.log(onePercent);
+
 //after animation deleteHurdle function will add 1 to hurdle value then delete
 //100% responsive
 //lower ledge to fall too
 //add pitfalls
 //change box catch dimensions
 //cant access any nav buttons while game is started
+//alert to refresh window after resizing
 
 //Code for nav
+
+    //Code for profile dropdown
 
 $('#profileBtn').click(function() {
     if (profileStatus == 0){
@@ -45,6 +54,8 @@ $('#profileBtn').click(function() {
     }
 });
 
+    //Code for shop dropdown
+
 $('#shopBtn').click(function() {
     if (shopStatus == 0){
         $('#shopDiv').animate({
@@ -59,19 +70,67 @@ $('#shopBtn').click(function() {
     }
 });
 
-$('.itemDiv').hover(function() {
-    if (shopStatus == 0){
-        $('#shopDiv').animate({
-            top: "38px"
-        }, 500);
-        shopStatus += 1;
-    } else if (shopStatus == 1){
-        $('#shopDiv').animate({
-            top: "-150px"
-        }, 500);
-        shopStatus = 0;
-    }
+$('#item1Btn').mouseover(function() {
+    $('#item1Btn').css({
+        backgroundColor:'grey'
+    });
 });
+
+$('#item1Btn').mouseout(function() {
+    $('#item1Btn').css({
+        backgroundColor:'white'
+    });
+});
+
+$('#item2Btn').mouseover(function() {
+    $('#item2Btn').css({
+        backgroundColor:'grey'
+    });
+});
+
+$('#item2Btn').mouseout(function() {
+    $('#item2Btn').css({
+        backgroundColor:'white'
+    });
+});
+
+$('#item3Btn').mouseover(function() {
+    $('#item3Btn').css({
+        backgroundColor:'grey'
+    });
+});
+
+$('#item3Btn').mouseout(function() {
+    $('#item3Btn').css({
+        backgroundColor:'white'
+    });
+});
+
+$('#item4Btn').mouseover(function() {
+    $('#item4Btn').css({
+        backgroundColor:'grey'
+    });
+});
+
+$('#item4Btn').mouseout(function() {
+    $('#item4Btn').css({
+        backgroundColor:'white'
+    });
+});
+
+$('#item5Btn').mouseover(function() {
+    $('#item5Btn').css({
+        backgroundColor:'grey'
+    });
+});
+
+$('#item5Btn').mouseout(function() {
+    $('#item5Btn').css({
+        backgroundColor:'white'
+    });
+});
+
+//Code for user commands
 
 $(document).keydown(function(e) {
     switch (e.which) {
@@ -167,12 +226,16 @@ function fall(){
 }
 
 function up(){
+
     var pos = box.position();
     console.log(pos.top);
-    if (pos.top <= 305.1875 && launch == true) {
+    var laneTop = parseFloat(onePercent * 40);
+    console.log(laneTop);
+
+    if (pos.top <= parseFloat(laneTop) && launch == true) {
         alert("You Fell!");
         location.reload();
-    } else if (pos.top > 305.1875 && launch == true) {
+    } else if (pos.top > laneTop && launch == true) {
         $('.box').animate({
             top: '-=22',
             left: '+=22'
@@ -190,10 +253,12 @@ function up(){
 function down(){
     var pos = box.position();
     console.log(pos.top);
-    if (pos.top >= 393.1875 && launch == true) {
+    var laneBottom = parseFloat(onePercent * 51.53);
+    console.log(laneBottom);
+    if (pos.top >= laneBottom && launch == true) {
         alert("You Fell!");
         location.reload();
-    } else if (pos.top < 393.1875 && launch == true) {
+    } else if (pos.top < laneBottom && launch == true) {
         $('.box').animate({
             top: '+=22',
             left: '-=22'
