@@ -1,0 +1,300 @@
+   .box {
+    	/*background-image: url(pcube.png);*/
+    	width: 30px;
+    	height: 30px;
+    	left: 15%;
+    	top: 40%;
+    	/*background:#ccc;*/
+    	position: absolute;
+    	z-index: +4;
+	}
+
+	#pcube{
+		width: 30px;
+		height: 30px;
+	}
+
+	#hcube{
+		width: 30px;
+		height: 30px;
+	}
+
+	.hurdle {
+		width: 30px;
+		height: 30px;
+	}
+
+	.h1z{
+		z-index: +5;
+	}
+
+	.h2z{
+		z-index: +5;
+	}
+
+	.h3z{
+		z-index: +5;
+	}
+
+	.h4z{
+		z-index: +5;
+	}
+
+	.h5z{
+		z-index: +5;
+	}
+
+	.lane{
+		width: 100%;
+		top: 41.30%;
+		border-top: 2px solid black;
+		border-bottom: 2px solid black;
+		overflow: hidden;
+		height: 122px;
+		position: absolute;
+		/*z-index: +1;*/
+	}
+
+	#ledge-block{
+		top: 40%;
+		position: absolute;
+		z-index: +2;
+		background-color: white;
+		height: 18%;
+		width: 91px;
+	}
+
+	#ledge-block2{
+		top: 39.70%;
+		position: absolute;
+		z-index: +2;
+		background-color: white;
+		height: 2%;
+		width: 202px;
+	}
+
+	#start{
+		top: 30%;
+		left: 42%;
+		position: absolute;
+		z-index: +2;
+	}
+
+	#ledge-pic{
+		top: 40%;
+		width: 400px;
+		height: 1375px;
+		position: fixed;
+		z-index: -1;
+		overflow: hidden;
+	}
+
+	.ledge-pic2{
+		width: 400px;
+		height: 1375px;
+		position: fixed;
+		z-index: -2;
+		overflow: hidden;
+	}
+
+	.drop-off{
+		z-index: -1;
+		width: 200px;
+		height: 1375px;
+		position: fixed;
+		overflow: hidden;
+	}
+
+/*	.drop-off-block{
+		z-index: +2;
+		position: fixed;
+		background-color: white;
+		width: 26.70px;
+		height: 45px;
+	}
+
+	.drop-off-block2{
+		z-index: +2;
+		position: fixed;
+		background-color: white;
+		width: 69px;
+		height: 20px;
+	}*/
+
+	#scoreDiv{
+		margin-left: 5%;
+		margin-top: 2%;
+	}
+
+/*	.title{
+		width: 10%;
+		position: relative;
+		padding: .5%;
+		color: white;
+		left: 25%;
+	}*/
+
+	#shopBtn{
+		position: absolute;
+		padding-top: 8px;
+		font-size: 20px;
+		float: left;
+		cursor: pointer;
+		left: 70%;
+		color: white;
+	}
+
+	#shopDiv{
+		position: relative;
+		left: 65.35%;
+		background-color: white;
+		top: -150px;
+		/*z-index: -1;*/
+		width: 150px;
+		height: 150px;
+		background-color: white;
+		border-right: 3px solid black;
+		border-bottom: 3px solid black;
+		border-left: 3px solid black;
+		overflow: auto;
+	}
+
+	#item1Btn{
+		width: 100%;
+		height: 27%;
+		cursor: pointer;
+	}
+
+	#item2Btn{
+		width: 100%;
+		height: 27%;
+		cursor: pointer;
+	}
+
+	#item3Btn{
+		width: 100%;
+		height: 27%;
+		cursor: pointer;
+	}
+
+	#item4Btn{
+		width: 100%;
+		height: 27%;
+		cursor: pointer;
+	}
+
+	#item5Btn{
+		width: 100%;
+		height: 27%;
+		cursor: pointer;
+	}
+
+	.itemDiv1{
+		width: 25%;
+		margin-top: 2.5%;
+		margin-left: 2.5%;
+	}
+
+	.itemDiv{
+		width: 25%;
+		margin-top: 2%;
+		margin-left: 2.5%;
+	}
+
+	.itemPic{
+		padding: 0px;
+		height: 40px;
+		width: 40px;
+		margin-bottom: 0%;
+		margin-left: 5%;
+	}
+
+	.itemPrice{
+		margin-left: 50px;
+		margin-top: -40px;
+	}
+
+	.hat{
+		margin-left: 15%;
+		margin-top: 15%;
+		height: 30px;
+		width: 30px;
+	}
+
+	#optionsBtn{
+		margin-right: 2%;
+		color: white;
+		padding-top: 8px;
+		font-size: 20px;
+		float: right;
+		cursor: pointer;
+	}
+
+	#profileNav{
+		width: 100px;
+		color: white;
+		margin-left: 2%;
+		float: left;
+	}
+
+	#profileBtn{
+		padding-top: 5px;
+		font-size: 28px;
+		float: left;
+		cursor: pointer;
+	}
+
+	#profileDiv{
+		background-color: white;
+		top: -150px;
+		/*z-index: -1;*/
+		position: absolute;
+		width: 450px;
+		height: 150px;
+		background-color: white;
+		border-right: 3px solid black;
+		border-bottom: 3px solid black;
+	}
+
+	nav{
+		position: absolute;
+		z-index: +1;
+		text-align: center;
+		width: 100%;
+		height: 38px;
+		background-color: black;
+	}
+
+	#info{
+		float: left;
+		margin-left: 5%;
+	}
+
+	#stats{
+		margin-right: 10%;
+		float: right;
+	}
+
+	#profile{
+		width: 100%;
+		text-align: center;
+		font-size: 22px;
+	}
+
+	#closet{
+		overflow: auto;
+		margin-left: 5%;
+		margin-top: 12%;
+	}
+
+	.pitem{
+		width: 45px;
+		height: 45px;
+		padding: 0%;
+		margin: 1%;
+		float: left;
+	}
+
+	.item{
+		margin: 1%;
+	}

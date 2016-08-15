@@ -310,13 +310,15 @@ function createHurdles(){
     console.log("Int5: " + interval5);
     console.log("=============");
 
+    //rate of speed per 1 second for 130% of window width /10000
+
     var newBoxPos = box.position();
 
     var newHurdle1 = setTimeout(function(){
 
         h1counter++;
 
-        $('.lane').append('<div class="h1z hurdle" id="hurdle1-' + h1counter + '" style="position:fixed;left:110%;top:40%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
+        $('.lane').append('<div class="h1z hurdle" id="hurdle1-' + h1counter + '" style="position:fixed;left:110%;top:40%;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
         
         $('#hurdle1-' + h1counter).animate({
             left: '-=120%'
@@ -343,7 +345,7 @@ function createHurdles(){
 
         h2counter++;
 
-        $('.lane').append('<div class="h2z hurdle" id="hurdle2-' + h2counter + '" style="position:fixed;left:108%;top:43%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
+        $('.lane').append('<div class="h2z hurdle" id="hurdle2-' + h2counter + '" style="position:fixed;left:108%;top:43%;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
         
         $('#hurdle2-' + h2counter).animate({
             left: '-=120%'
@@ -370,7 +372,7 @@ function createHurdles(){
 
         h3counter++;
 
-        $('.lane').append('<div class="h3z hurdle" id="hurdle3-' + h3counter + '" style="position:fixed;left:106%;top:46%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
+        $('.lane').append('<div class="h3z hurdle" id="hurdle3-' + h3counter + '" style="position:fixed;left:106%;top:46%;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
         
         $('#hurdle3-' + h3counter).animate({
             left: '-=120%'
@@ -397,7 +399,7 @@ function createHurdles(){
 
         h4counter++;
 
-        $('.lane').append('<div class="h4z hurdle" id="hurdle4-' + h4counter + '" style="position:fixed;left:104%;top:49%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
+        $('.lane').append('<div class="h4z hurdle" id="hurdle4-' + h4counter + '" style="position:fixed;left:104%;top:49%;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
         
         $('#hurdle4-' + h4counter).animate({
             left: '-=120%'
@@ -424,7 +426,7 @@ function createHurdles(){
 
         h5counter++;
 
-        $('.lane').append('<div class="h5z hurdle" id="hurdle5-' + h5counter + '" style="position:fixed;left:102%;top:52%;">' + '<img id="hcube" src="hcube.png">' + '</div>');
+        $('.lane').append('<div class="h5z hurdle" id="hurdle5-' + h5counter + '" style="position:fixed;left:102%;top:52%;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
         
         $('#hurdle5-' + h5counter).animate({
         left: '-=120%'
