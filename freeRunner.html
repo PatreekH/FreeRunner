@@ -155,9 +155,9 @@
 
 	#shopDiv{
 		position: relative;
-		left: 65.25%;
+		left: 65.35%;
 		background-color: white;
-		/*top: -150px;*/
+		top: -150px;
 		/*z-index: -1;*/
 		width: 150px;
 		height: 150px;
@@ -165,8 +165,29 @@
 		border-right: 3px solid black;
 		border-bottom: 3px solid black;
 		border-left: 3px solid black;
+		overflow: auto;
 	}
 
+	.itemDiv1{
+		width: 25%;
+		margin-top: 5%;
+		margin-left: 2.5%;
+	}
+
+	.itemDiv{
+		width: 25%;
+		margin-top: 18%;
+		margin-left: 2.5%;
+	}
+
+	.itemPic{
+		margin-left: 5%;
+	}
+
+	.itemPrice{
+		margin-left: 50px;
+		margin-top: -60px;
+	}
 
 	#optionsBtn{
 		margin-right: 2%;
@@ -234,11 +255,13 @@
 		margin-top: 12%;
 	}
 
-	.item{
+	.pitem{
 		margin: 1%;
 		float: left;
-		width: 5%;
-		height: 5%;
+	}
+
+	.item{
+		margin: 1%;
 	}
 
     </style>
@@ -277,16 +300,37 @@
 			<p>Players Defeated:</p>
 		</div>
 		<div id="closet">
-			<div class="item well"></div>
-			<div class="item well"></div>
-			<div class="item well"></div>
-			<div class="item well"></div>
-			<div class="item well"></div>
+			<div class="pitem well"></div>
+			<div class="pitem well"></div>
+			<div class="pitem well"></div>
+			<div class="pitem well"></div>
+			<div class="pitem well"></div>
 		</div>
 	</div>
 
 	<div id="shopDiv">
-
+		<!-- <div class="itemDivBtn"> -->
+			<div class="itemDiv1">
+				<div class="well itemPic"></div>
+				<div class="itemPrice">$$$</div>
+			</div>
+			<div class="itemDiv">
+				<div class="well itemPic"></div>
+				<div class="itemPrice">$$$</div>
+			</div>
+			<div class="itemDiv">
+				<div class="well itemPic"></div>
+				<div class="itemPrice">$$$</div>
+			</div>
+			<div class="itemDiv">
+				<div class="well itemPic"></div>
+				<div class="itemPrice">$$$</div>
+			</div>
+			<div class="itemDiv">
+				<div class="well itemPic"></div>
+				<div class="itemPrice">$$$</div>
+			</div>
+		<!-- </div> -->
 	</div>
 
 	<div id="start"><h1>Click 'S' to start</h1></div>

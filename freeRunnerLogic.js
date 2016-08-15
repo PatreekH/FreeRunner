@@ -17,7 +17,10 @@ var h3counter = 0;
 var h4counter = 0;
 var h5counter = 0;
 
+
+//Tracks navbar dropdowns (0 = closed, 1 = open)
 var profileStatus = 0;
+var shopStatus = 0;
 
 //after animation deleteHurdle function will add 1 to hurdle value then delete
 //100% responsive
@@ -39,6 +42,34 @@ $('#profileBtn').click(function() {
             top: "-150px"
         }, 500);
         profileStatus = 0;
+    }
+});
+
+$('#shopBtn').click(function() {
+    if (shopStatus == 0){
+        $('#shopDiv').animate({
+            top: "38px"
+        }, 500);
+        shopStatus += 1;
+    } else if (shopStatus == 1){
+        $('#shopDiv').animate({
+            top: "-150px"
+        }, 500);
+        shopStatus = 0;
+    }
+});
+
+$('.itemDiv').hover(function() {
+    if (shopStatus == 0){
+        $('#shopDiv').animate({
+            top: "38px"
+        }, 500);
+        shopStatus += 1;
+    } else if (shopStatus == 1){
+        $('#shopDiv').animate({
+            top: "-150px"
+        }, 500);
+        shopStatus = 0;
     }
 });
 
@@ -84,6 +115,11 @@ function start(){
             top: "-=150px"
         }, 500);
         profileStatus = 0;
+
+        $('#shopDiv').animate({
+            top: "-150px"
+        }, 500);
+        shopStatus = 0;
 
         var laneCheck = setInterval(function(){
             if (lane == 1){
