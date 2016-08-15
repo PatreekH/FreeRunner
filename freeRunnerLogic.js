@@ -1,6 +1,7 @@
 var box = $('.box');
 var boxPos = {width: 30, height: 30};
 var hurdlePos = {width: 30, height: 30};
+var coinPos = {width: 30, height: 30};
 
 var s = 0;
 var p = 0;
@@ -16,6 +17,9 @@ var h2counter = 0;
 var h3counter = 0;
 var h4counter = 0;
 var h5counter = 0;
+var coinCounter = 0;
+
+var coinCollected = 0;
 
 
 //Tracks navbar dropdowns (0 = closed, 1 = open)
@@ -35,6 +39,7 @@ console.log(onePercent);
 //change box catch dimensions
 //cant access any nav buttons while game is started
 //alert to refresh window after resizing
+//build algo for wall error (if int between here and here = to this and so on, pick random 2 to push back)
 
 //Code for nav
 
@@ -166,6 +171,7 @@ function start(){
         }, 3000);
 
         createHerd();
+        startCoinGenerator()
         startScore();
 
         launch = true;
@@ -283,6 +289,62 @@ function startScore(){
     }, 10);
 }
 
+//Code for Coins
+function startCoinGenerator(){
+    var coinsGenerated = 0;
+    var generateCoins = setInterval(function(){
+        coinsGenerated += 1;
+        console.log("Coins generated: " + coinsGenerated);
+        coinGenerator();
+    }, 1800); 
+}
+
+function coinGenerator(){
+    //Time until next coin
+    var nextCoin = Math.floor(Math.random() * (5000 - 2500)) + 2500;
+    console.log(nextCoin);
+
+    //Picks random lane
+    var coinLane = Math.floor(Math.random() * (5 - 1)) + 1;
+    console.log(coinLane);
+
+        var nextCoinTimer = setTimeout(function(){
+
+            coinCounter++;
+
+            if (coinLane == 1){
+                $('.lane').append('<div class="h1z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:110%;top:40%;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+            } else if (coinLane == 2){
+                $('.lane').append('<div class="h1z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:108%;top:43%;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+            } else if (coinLane == 3){
+                $('.lane').append('<div class="h1z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:106%;top:46%;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+            } else if (coinLane == 4){
+                $('.lane').append('<div class="h1z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:104%;top:49%;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+            } else if (coinLane == 5){
+                $('.lane').append('<div class="h1z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:102%;top:52%;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+            }
+            
+            $('#coin-' + coinCounter).animate({
+                left: '-=120%'
+            }, 10000, 'linear');
+
+            var coin = $('#coin-' + coinCounter);
+
+            var updateCoin = setInterval(function(){
+
+                var newCoin = coin.position();
+
+                newBoxPos = box.position();
+
+                if (newBoxPos.top < newCoin.top + coinPos.width && newBoxPos.top + boxPos.width > newCoin.top && newBoxPos.left < newCoin.left + coinPos.height && boxPos.height + newBoxPos.left > newCoin.left && lane == coinLane) {
+                    coin.remove();
+                    coinCollected += 1;
+                }
+
+            }, 1);
+        }, nextCoin);
+}
+
 //Code for Hurdles
 
 function createHerd(){
@@ -311,6 +373,7 @@ function createHurdles(){
     console.log("=============");
 
     //rate of speed per 1 second for 130% of window width /10000
+    //algo for box position from top
 
     var newBoxPos = box.position();
 
@@ -333,7 +396,7 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos1.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos1.top && newBoxPos.left < newHurdlePos1.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos1.left && lane == 1) {
-                alert("Collision! with lane 1. Score: " + score);
+                alert("Collision! with lane 1! Score: " + score + " " + "Coins Collected: " + coinCollected);
                 location.reload();
             }
 
@@ -360,7 +423,7 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos2.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos2.top && newBoxPos.left < newHurdlePos2.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos2.left && lane == 2) {
-                alert("Collision! with lane 2. Score: " + score);
+                alert("Collision! with lane 2! Score: " + score + " " + "Coins Collected: " + coinCollected);
                 location.reload();
             }
 
@@ -387,7 +450,7 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos3.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos3.top && newBoxPos.left < newHurdlePos3.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos3.left && lane == 3) {
-                alert("Collision! with lane 3. Score: " + score);
+                alert("Collision! with lane 3! Score: " + score + " " + "Coins Collected: " + coinCollected);
                 location.reload();
             }
 
@@ -414,7 +477,7 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos4.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos4.top && newBoxPos.left < newHurdlePos4.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos4.left && lane == 4) {
-                alert("Collision! with lane 4. Score: " + score);
+                alert("Collision! with lane 4! Score: " + score + " " + "Coins Collected: " + coinCollected);
                 location.reload();
             }
 
@@ -441,7 +504,7 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos5.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos5.top && newBoxPos.left < newHurdlePos5.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos5.left && lane == 5) {
-                alert("Collision! with lane 5. Score: " + score);
+                alert("Collision! with lane 5! Score: " + score + " " + "Coins Collected: " + coinCollected);
                 location.reload();
             }
 
