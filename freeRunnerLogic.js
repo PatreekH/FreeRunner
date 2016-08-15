@@ -17,10 +17,30 @@ var h3counter = 0;
 var h4counter = 0;
 var h5counter = 0;
 
+var profileStatus = 0;
+
 //after animation deleteHurdle function will add 1 to hurdle value then delete
+//100% responsive
 //lower ledge to fall too
 //add pitfalls
 //change box catch dimensions
+//cant access any nav buttons while game is started
+
+//Code for nav
+
+$('#profileBtn').click(function() {
+    if (profileStatus == 0){
+        $('#profileDiv').animate({
+            top: "38px"
+        }, 500);
+        profileStatus += 1;
+    } else if (profileStatus == 1){
+        $('#profileDiv').animate({
+            top: "-150px"
+        }, 500);
+        profileStatus = 0;
+    }
+});
 
 $(document).keydown(function(e) {
     switch (e.which) {
@@ -54,9 +74,17 @@ function start(){
         $('#ledge-block2').animate({
             left: "-=550px"
         }, 3000);
+
         createHerd();
         startScore();
+
         launch = true;
+
+        $('#profileDiv').animate({
+            top: "-=150px"
+        }, 500);
+        profileStatus = 0;
+
         var laneCheck = setInterval(function(){
             if (lane == 1){
                 $('.h1z').css("z-index", "5");
@@ -147,10 +175,10 @@ function down(){
 //Code for Score
 
 function startScore(){
-    $("#scoreDiv").html('<h3>Score: <span id="score"></span></h3>')
-    var score = setInterval(function(){
+    /*$("#scoreDiv").html('<h3>Score: <span id="score"></span></h3>')*/
+    var scoreInt = setInterval(function(){
         score += 1;
-        $('#score').html(score);
+        /*$('#score').html(score);*/
     }, 10);
 }
 
@@ -202,7 +230,7 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos1.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos1.top && newBoxPos.left < newHurdlePos1.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos1.left && lane == 1) {
-                alert("Collision! with 1");
+                alert("Collision! with lane 1. Score: " + score);
                 location.reload();
             }
 
@@ -229,7 +257,7 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos2.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos2.top && newBoxPos.left < newHurdlePos2.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos2.left && lane == 2) {
-                alert("Collision! with 2");
+                alert("Collision! with lane 2. Score: " + score);
                 location.reload();
             }
 
@@ -256,7 +284,7 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos3.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos3.top && newBoxPos.left < newHurdlePos3.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos3.left && lane == 3) {
-                alert("Collision! with 3");
+                alert("Collision! with lane 3. Score: " + score);
                 location.reload();
             }
 
@@ -283,7 +311,7 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos4.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos4.top && newBoxPos.left < newHurdlePos4.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos4.left && lane == 4) {
-                alert("Collision! with 4");
+                alert("Collision! with lane 4. Score: " + score);
                 location.reload();
             }
 
@@ -310,7 +338,7 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos5.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos5.top && newBoxPos.left < newHurdlePos5.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos5.left && lane == 5) {
-                alert("Collision! with 5");
+                alert("Collision! with lane 5. Score: " + score);
                 location.reload();
             }
 

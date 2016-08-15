@@ -2,6 +2,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Free Runner</title>
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
     <style>
@@ -82,8 +83,8 @@
 	}
 
 	#start{
-		top: 5%;
-		left: 40%;
+		top: 30%;
+		left: 42%;
 		position: absolute;
 		z-index: +2;
 	}
@@ -134,10 +135,159 @@
 		margin-top: 2%;
 	}
 
+/*	.title{
+		width: 10%;
+		position: relative;
+		padding: .5%;
+		color: white;
+		left: 25%;
+	}*/
+
+	#shopBtn{
+		position: absolute;
+		padding-top: 8px;
+		font-size: 20px;
+		float: left;
+		cursor: pointer;
+		left: 70%;
+		color: white;
+	}
+
+	#shopDiv{
+		position: relative;
+		left: 65.25%;
+		background-color: white;
+		/*top: -150px;*/
+		/*z-index: -1;*/
+		width: 150px;
+		height: 150px;
+		background-color: white;
+		border-right: 3px solid black;
+		border-bottom: 3px solid black;
+		border-left: 3px solid black;
+	}
+
+
+	#optionsBtn{
+		margin-right: 2%;
+		color: white;
+		padding-top: 8px;
+		font-size: 20px;
+		float: right;
+		cursor: pointer;
+	}
+
+	#profileNav{
+		width: 100px;
+		color: white;
+		margin-left: 2%;
+		float: left;
+	}
+
+	#profileBtn{
+		padding-top: 5px;
+		font-size: 28px;
+		float: left;
+		cursor: pointer;
+	}
+
+	#profileDiv{
+		background-color: white;
+		top: -150px;
+		/*z-index: -1;*/
+		position: absolute;
+		width: 450px;
+		height: 150px;
+		background-color: white;
+		border-right: 3px solid black;
+		border-bottom: 3px solid black;
+	}
+
+	nav{
+		position: absolute;
+		z-index: +1;
+		text-align: center;
+		width: 100%;
+		height: 38px;
+		background-color: black;
+	}
+
+	#info{
+		float: left;
+		margin-left: 5%;
+	}
+
+	#stats{
+		margin-right: 10%;
+		float: right;
+	}
+
+	#profile{
+		width: 100%;
+		text-align: center;
+		font-size: 22px;
+	}
+
+	#closet{
+		overflow: auto;
+		margin-left: 5%;
+		margin-top: 12%;
+	}
+
+	.item{
+		margin: 1%;
+		float: left;
+		width: 5%;
+		height: 5%;
+	}
+
     </style>
 </head>
 
 <body>
+
+	<nav>
+		<div id="profileNav">
+			<i id="profileBtn" class="fa fa-caret-down" aria-hidden="true"></i><!-- <div id="profileTitle"><b>Profile</b></div> -->
+		</div>
+<!-- 		<div class="title">
+			Free Runner
+		</div> -->
+		<!-- div id="navMenu"> -->
+			<i id="shopBtn" class="fa fa-usd" aria-hidden="true"></i>
+			<i id="optionsBtn" class="fa fa-cog" aria-hidden="true"></i>
+		<!-- </div> -->
+	</nav>
+
+	<div id="profileDiv">
+		<div id="profile">
+			<p><b>Profile</b></p>
+		</div>
+
+		<div id="info">
+			<!-- p>Name:</p> -->
+		<form>
+			<button id="submitComment">Submit</button>
+    		<input id="commentInput" type="text">
+  		</form>
+		</div>
+		<div id="stats">
+			<p>High Score:</p>
+			<p>Points:</p>
+			<p>Players Defeated:</p>
+		</div>
+		<div id="closet">
+			<div class="item well"></div>
+			<div class="item well"></div>
+			<div class="item well"></div>
+			<div class="item well"></div>
+			<div class="item well"></div>
+		</div>
+	</div>
+
+	<div id="shopDiv">
+
+	</div>
 
 	<div id="start"><h1>Click 'S' to start</h1></div>
 
@@ -159,6 +309,8 @@
 	</div>
 	<div class="box"><img id="pcube" src="pcube.png"></div>
 
+
+<script src="https://use.fontawesome.com/2ce3b4e69a.js"></script>
 <script type="text/javascript" src="freeRunnerLogic.js"></script>
 </body>
 </html>
