@@ -6,50 +6,19 @@ var path = require('path');
 
 module.exports = function(app, db){
 
-/*	app.get('/all', function(req, res) {
-	  db.Articles.find({}, function (err, docs) {
-	    if (err) throw err
-	    res.send(docs);
+	app.get('/highScoreData', function(req, res) {
+	  db.userdata.find().sort({score: -1}).limit(5, function (err, docs) {
+	 		/*console.log(docs);*/
+	 		var currentOverallHighScore = {
+	 			rank1: [docs[0].name, docs[0].score],
+	 			rank2: [docs[1].name, docs[1].score],
+	 			rank3: [docs[2].name, docs[2].score],
+	 			rank4: [docs[3].name, docs[3].score],
+	 			rank5: [docs[4].name, docs[4].score]
+	 		}
+	 	res.json(currentOverallHighScore);
 	  });
 	});
-
-	app.get('/scrape', function(req, res) {
-		request('http://www.nytimes.com/pages/technology/index.html?action=click&region=TopBar&pgtype=SectionFront&module=SectionsNav&version=BrowseTree&contentCollection=Tech&t=qry170', function (error, response, html) {
-
-		  	var $ = cheerio.load(html);
-
-		  	$('.story').each(function(i, element){
-
-		  		var title = $(element).find('a').text();
-		  		var link = $(element).find('a').attr('href');
-		  		var article = $(element).find('p').text();*/
-
-		    	/*var scrape = $(this).text();*/
-
-/*				db.Articles.insert({title: title, article: article, link: link, comments: []}, function(err, saved){
-					if (err) {
-				      	console.log(err);
-				    } else {
-				    	console.log(saved);
-				    }
-				});
-
-			});
-			res.send("worked");
-		});
-	});
-
-	app.post('/article', function(req, res){
-		db.Articles.find({}, function (err, docs) {
-	    	if (err) throw err
-	    	res.json(docs[req.body.counter]);
-		});
-	});*/
-
-	// app.get('/article', function(req, res){
-	// 	var counter = req.query.counter;
-	// 	console.log(counter)
-	// });
 
 	app.post('/userData', function(req, res){
 		console.log(req.body);
@@ -73,9 +42,9 @@ module.exports = function(app, db){
 
 	    	if (currentHighScore < req.body.score){
 	    		console.log("New personal best!");
-	    		newHighScore = req.body.score;
+	    		newHighScore = parseInt(req.body.score);
 	    	} else {
-	    		newHighScore = currentHighScore;
+	    		newHighScore = parseInt(currentHighScore);
 	    	}
 
 	    	var newCoinCount = parseInt(req.body.coinsCollected) + parseInt(currentCoinCount);
@@ -89,14 +58,6 @@ module.exports = function(app, db){
 
 		});
 	});
-
-/*	app.get('/article', function(req, res){
-		var counter = req.query.id || 0;
-		db.Articles.find({}, function (err, docs) {
-	    	if (err) throw err
-	    	res.json(docs[counter]);
-		});
-	});*/
 
 	/* -/-/-/-/-/-/-/-/-/-/-/-/- */
 

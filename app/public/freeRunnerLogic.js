@@ -9,6 +9,7 @@ var t = 0;
 
 var score = 0;
 
+//Testing purposes only
 var name = "Patrick";
 
 var launch = false;
@@ -41,6 +42,7 @@ console.log(onePercent);
 //cant access any nav buttons while game is started
 //alert to refresh window after resizing
 //build algo for wall error (if int between here and here = to this and so on, pick random 2 to push back)
+//send data to mongodb as all lower case, then when cross ref, setLowercase
 
 //Code for nav
 
@@ -537,13 +539,50 @@ function createHurdles(){
 
 }
 
+//routes for data
+
+    //grabs user name on page load (testing purposes)
 grabUserData(name);
+grabHighScoreData()
 
 $('#submitUserName').on("click", function(){
-    /*var name = $("#userNameInput").val().trim();*/
-    grabUserData(name);
+    var username = $("#userNameInput").val().trim();
+    grabUserData(username);
     return false;
 });
+
+
+function grabHighScoreData(){
+    $.ajax({
+
+        method: 'GET',
+
+        url: '/highScoreData',
+
+        success: function(response){
+            console.log(response);
+            $('#rank1name').html(response.rank1[0]);
+            $('#rank1score').html(response.rank1[1]);
+
+            $('#rank2name').html(response.rank2[0]);
+            $('#rank2score').html(response.rank2[1]);
+
+            $('#rank3name').html(response.rank3[0]);
+            $('#rank3score').html(response.rank3[1]);
+
+            $('#rank4name').html(response.rank4[0]);
+            $('#rank4score').html(response.rank4[1]);
+
+            $('#rank5name').html(response.rank5[0]);
+            $('#rank5score').html(response.rank5[1]);
+            /*$('#profileHs').html(response.score);
+            $('#profileCoins').html(response.coins);*/
+        }
+
+    });
+}
+
+
 
 function grabUserData(username){
     $.ajax({
@@ -574,7 +613,7 @@ function updateAfterRun(){
         data: {
             username: name,
             coinsCollected: coinsCollected,
-            score: score
+            score: parseInt(score)
         },
         success: function(response){
            /* console.log(response)*/

@@ -310,3 +310,17 @@
 	.item{
 		margin: 1%;
 	}
+
+	#highscoreDiv{
+		position: absolute;
+		left: 65%;
+		bottom: 60.50%;
+		/*border: 1px solid black;*/
+		height: 250px;
+		width: 250px;
+	}
+
+	#highscorelist{
+		margin-top: 5%;
+		margin-left: 27.50%;
+	}
