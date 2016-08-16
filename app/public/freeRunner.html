@@ -24,6 +24,19 @@
 		<!-- </div> -->
 	</nav>
 
+	<div id="loginDiv">
+			<p><b>Login:</b></p>
+			<form>
+				<label>Username</label>
+				<input id="commentInput" type="text">
+				<br>
+				<label>Password</label>
+				<input id="commentInput" type="text">
+				<br>
+				<button id="submitComment">Submit</button>
+  			</form>
+	</div>
+
 	<div id="profileDiv">
 		<div id="profile">
 			<p><b>Profile</b></p>
@@ -32,14 +45,15 @@
 		<div id="info">
 			<!-- p>Name:</p> -->
 		<form>
-			<button id="submitComment">Submit</button>
-    		<input id="commentInput" type="text">
+			<button id="submitUserName">Submit</button>
+    		<input id="userNameInput" type="text">
   		</form>
 		</div>
 		<div id="stats">
-			<p>High Score:</p>
-			<p>Points:</p>
-			<p>Players Defeated:</p>
+			<span>High Score: </span><span id="profileHs">----</span>
+			<br>
+			<span>Coins: </span><span id="profileCoins">$</span>
+			<!-- <span><p>Players Defeated:</p></span> -->
 		</div>
 		<div id="closet">
 			<div class="pitem well"></div>

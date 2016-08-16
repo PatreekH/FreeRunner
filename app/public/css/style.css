@@ -60,7 +60,7 @@
 		position: absolute;
 		z-index: +2;
 		background-color: white;
-		height: 18%;
+		height: 137.3px;
 		width: 91px;
 	}
 
@@ -70,7 +70,7 @@
 		z-index: +2;
 		background-color: white;
 		height: 2%;
-		width: 202px;
+		width: 200px;
 	}
 
 	#start{
@@ -256,6 +256,18 @@
 		border-bottom: 3px solid black;
 	}
 
+	#loginDiv{
+		background-color: white;
+		top: -150px;
+		/*z-index: -1;*/
+		position: absolute;
+		width: 450px;
+		height: 150px;
+		background-color: white;
+		border-right: 3px solid black;
+		border-bottom: 3px solid black;
+	}
+
 	nav{
 		position: absolute;
 		z-index: +1;
@@ -271,7 +283,7 @@
 	}
 
 	#stats{
-		margin-right: 10%;
+		margin-right: 5%;
 		float: right;
 	}
 

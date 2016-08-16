@@ -9,6 +9,8 @@ var t = 0;
 
 var score = 0;
 
+var name = "Patrick";
+
 var launch = false;
 var lane = 1;
 
@@ -19,7 +21,7 @@ var h4counter = 0;
 var h5counter = 0;
 var coinCounter = 0;
 
-var coinCollected = 0;
+var coinsCollected = 0;
 
 
 //Tracks navbar dropdowns (0 = closed, 1 = open)
@@ -34,7 +36,6 @@ console.log(onePercent);
 
 //after animation deleteHurdle function will add 1 to hurdle value then delete
 //100% responsive
-//lower ledge to fall too
 //add pitfalls
 //change box catch dimensions
 //cant access any nav buttons while game is started
@@ -42,6 +43,22 @@ console.log(onePercent);
 //build algo for wall error (if int between here and here = to this and so on, pick random 2 to push back)
 
 //Code for nav
+
+    //Code for login
+
+$('#loginBtn').click(function() {
+    if (loginStatus == 0){
+        $('#loginDiv').animate({
+            top: "38px"
+        }, 500);
+        loginStatus += 1;
+    } else if (profileStatus == 1){
+        $('#loginDiv').animate({
+            top: "-150px"
+        }, 500);
+        loginStatus = 0;
+    }
+});
 
     //Code for profile dropdown
 
@@ -152,7 +169,7 @@ $(document).keydown(function(e) {
         jump();
         break;
     case 80:
-        pause();
+        /*pause();*/
         break;
     }
 });
@@ -338,7 +355,8 @@ function coinGenerator(){
 
                 if (newBoxPos.top < newCoin.top + coinPos.width && newBoxPos.top + boxPos.width > newCoin.top && newBoxPos.left < newCoin.left + coinPos.height && boxPos.height + newBoxPos.left > newCoin.left && lane == coinLane) {
                     coin.remove();
-                    coinCollected += 1;
+                    coinsCollected += 1;
+                    score += 100;
                 }
 
             }, 1);
@@ -396,7 +414,8 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos1.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos1.top && newBoxPos.left < newHurdlePos1.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos1.left && lane == 1) {
-                alert("Collision! with lane 1! Score: " + score + " " + "Coins Collected: " + coinCollected);
+                alert("Collision! with lane 1! Score: " + score + " " + "Coins Collected: " + coinsCollected);
+                updateAfterRun();
                 location.reload();
             }
 
@@ -423,7 +442,8 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos2.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos2.top && newBoxPos.left < newHurdlePos2.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos2.left && lane == 2) {
-                alert("Collision! with lane 2! Score: " + score + " " + "Coins Collected: " + coinCollected);
+                alert("Collision! with lane 2! Score: " + score + " " + "Coins Collected: " + coinsCollected);
+                updateAfterRun();
                 location.reload();
             }
 
@@ -450,7 +470,8 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos3.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos3.top && newBoxPos.left < newHurdlePos3.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos3.left && lane == 3) {
-                alert("Collision! with lane 3! Score: " + score + " " + "Coins Collected: " + coinCollected);
+                alert("Collision! with lane 3! Score: " + score + " " + "Coins Collected: " + coinsCollected);
+                updateAfterRun();
                 location.reload();
             }
 
@@ -477,7 +498,8 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos4.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos4.top && newBoxPos.left < newHurdlePos4.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos4.left && lane == 4) {
-                alert("Collision! with lane 4! Score: " + score + " " + "Coins Collected: " + coinCollected);
+                alert("Collision! with lane 4! Score: " + score + " " + "Coins Collected: " + coinsCollected);
+                updateAfterRun();
                 location.reload();
             }
 
@@ -504,7 +526,8 @@ function createHurdles(){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos5.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos5.top && newBoxPos.left < newHurdlePos5.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos5.left && lane == 5) {
-                alert("Collision! with lane 5! Score: " + score + " " + "Coins Collected: " + coinCollected);
+                alert("Collision! with lane 5! Score: " + score + " " + "Coins Collected: " + coinsCollected);
+                updateAfterRun();
                 location.reload();
             }
 
@@ -512,6 +535,54 @@ function createHurdles(){
 
     }, interval5);
 
+}
+
+grabUserData(name);
+
+$('#submitUserName').on("click", function(){
+    /*var name = $("#userNameInput").val().trim();*/
+    grabUserData(name);
+    return false;
+});
+
+function grabUserData(username){
+    $.ajax({
+
+        method: 'POST',
+
+        url: '/userData',
+
+        data: {
+            username: username
+        },
+
+        success: function(response){
+            $('#profileHs').html(response.score);
+            $('#profileCoins').html(response.coins);
+        }
+
+    });
+}
+
+function updateAfterRun(){
+    $.ajax({
+
+        method: 'POST',
+
+        url: '/updateAfterRun',
+
+        data: {
+            username: name,
+            coinsCollected: coinsCollected,
+            score: score
+        },
+        success: function(response){
+           /* console.log(response)*/
+            $('#profileHs').html(response.score);
+            $('#profileCoins').html(response.coins);
+        }
+
+    });
 }
 
 
@@ -522,7 +593,7 @@ function createHurdles(){
     createDrop();
 }, 10000);*/
 
-function createDrop(){
+/*function createDrop(){
     s += 1;
     $('.lane').append(
         '<img class="drop-off" id="dropoff' + s + '" src="dropoff.png" style="top:40.75%;left:110%;"><img class="ledge-pic2" id="ledge-pic2' + s + '" src="startLedge2.png" style="top:40.50%;left:115%;">'
@@ -540,7 +611,7 @@ function moveLedge(){
     }, 15000, 'linear');
     newHurdleSection();
 }
-
+*/
 /*var deleteDropOff = setInterval(function(){
     t += 1;
     $('#dropoff' + t).remove();
