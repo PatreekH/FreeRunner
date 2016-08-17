@@ -20,6 +20,7 @@
 		</div> -->
 		<!-- div id="navMenu"> -->
 			<i id="shopBtn" class="fa fa-usd" aria-hidden="true"></i>
+			<i id="hsBtn" class="fa fa-list-ol" aria-hidden="true"></i>
 			<i id="optionsBtn" class="fa fa-cog" aria-hidden="true"></i>
 		<!-- </div> -->
 	</nav>
@@ -66,39 +67,73 @@
 	</div>
 
 	<div id="shopDiv">
+		<center><b>Shop</b></center>
 		<!-- <div class="itemDivBtn"> -->
-		<div id="item1Btn">
+		<div id="item1Btn" data-id="0">
 			<div class="itemDiv1">
-				<div class="well itemPic"><!-- <img class="hat" src="hat1.png"> --></div>
-				<div class="itemPrice">$$$</div>
+				<div class="well itemPic"><img id="item1pic" class="hat" src="css/images/hat1.png"></div>
+				<div id="price1" class="itemPrice" data-id="10">$10</div>
 			</div>
 		</div>
 		<div id="item2Btn">
 			<div class="itemDiv">
 				<div class="well itemPic"></div>
-				<div class="itemPrice">$$$</div>
+				<div id="price2" class="itemPrice">$$$</div>
 			</div>
 		</div>
 		<div id="item3Btn">
 			<div class="itemDiv">
 				<div class="well itemPic"></div>
-				<div class="itemPrice">$$$</div>
+				<div id="price3" class="itemPrice">$$$</div>
 			</div>
 		</div>
 		<div id="item4Btn">
 			<div class="itemDiv">
 				<div class="well itemPic"></div>
-				<div class="itemPrice">$$$</div>
+				<div id="price4" class="itemPrice">$$$</div>
 			</div>
 		</div>
 		<div id="item5Btn">
 			<div class="itemDiv">
-				<div class="well itemPic"></div>
-				<div class="itemPrice">$$$</div>
+				<div class="itemPic well"></div>
+				<div id="price5" class="itemPrice">$$$</div>
 			</div>
 		</div>
 		<!-- </div> -->
 	</div>
+
+	<div id="highscoreDiv">
+
+		<center><b>High Score List</b></center>
+
+		<div id="highscorelist">
+			<table>
+			<tr>
+				<td id="rank1name"><b>1.</b> </td>
+				<td id="rank1score"></td>
+			</tr>
+			<tr>
+				<td id="rank2name"><b>2.</b> </td>
+				<td id="rank2score"></td>
+			</tr>
+			<tr>
+				<td id="rank3name"><b>3.</b> </td>
+				<td id="rank3score"></td>
+			</tr>
+			<tr>
+				<td id="rank4name"><b>4.</b> </td>
+				<td id="rank4score"></td>
+			</tr>
+			<tr>
+				<td id="rank5name"><b>5.</b> </td>
+				<td id="rank5score"></td>
+			</tr>
+
+			</table>
+
+		</div>
+	</div>
+
 
 	<div id="start">
 		<h1>Click 'S' to start</h1>
@@ -111,38 +146,6 @@
 
 	<div id="scoreDiv"></div>
 
-	<div id="highscoreDiv">
-
-		<center><b>High Score List</b></center>
-
-		<div id="highscorelist">
-			<table>
-			<tr>
-				<td id="rank1name"></td>
-				<td id="rank1score"></td>
-			</tr>
-			<tr>
-				<td id="rank2name"></td>
-				<td id="rank2score"></td>
-			</tr>
-			<tr>
-				<td id="rank3name"></td>
-				<td id="rank3score"></td>
-			</tr>
-			<tr>
-				<td id="rank4name"></td>
-				<td id="rank4score"></td>
-			</tr>
-			<tr>
-				<td id="rank5name"></td>
-				<td id="rank5score"></td>
-			</tr>
-
-			</table>
-
-		</div>
-
-	</div>
 
 <!-- 		<img class="drop-off" id="dropoff" src="dropoff.png" style="top:40.75%;left:50%;">
 		<img class="ledge-pic2" id="ledge-pic2" src="startLedge2.png" style="top:40.50%;left:55%;" -->

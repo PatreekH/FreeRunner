@@ -138,15 +138,15 @@
 		position: absolute;
 		padding-top: 8px;
 		font-size: 20px;
-		float: left;
+		/*float: left;*/
 		cursor: pointer;
-		left: 70%;
+		left: 65%;
 		color: white;
 	}
 
 	#shopDiv{
 		position: relative;
-		left: 65.35%;
+		left: 60.35%;
 		background-color: white;
 		top: -150px;
 		/*z-index: -1;*/
@@ -157,6 +157,10 @@
 		border-bottom: 3px solid black;
 		border-left: 3px solid black;
 		overflow: auto;
+	}
+
+	#shopDiv b{
+		margin-left: 12%;
 	}
 
 	#item1Btn{
@@ -202,21 +206,24 @@
 	}
 
 	.itemPic{
+		float: left;
 		padding: 0px;
 		height: 40px;
 		width: 40px;
-		margin-bottom: 0%;
+		margin-bottom: 0px !important;
 		margin-left: 5%;
 	}
 
 	.itemPrice{
+		float: left;
 		margin-left: 50px;
-		margin-top: -60px;
+		margin-top: -40px;
 	}
 
 	.hat{
-		margin-left: 15%;
-		margin-top: 15%;
+		position: relative;
+	    top: -15px;
+	    left: -12px;
 		height: 30px;
 		width: 30px;
 	}
@@ -228,6 +235,16 @@
 		font-size: 20px;
 		float: right;
 		cursor: pointer;
+	}
+
+	#hsBtn{
+		position: absolute;
+		padding-top: 8px;
+		font-size: 20px;
+		/*float: left;*/
+		cursor: pointer;
+		left: 81%;
+		color: white;
 	}
 
 	#profileNav{
@@ -312,15 +329,31 @@
 	}
 
 	#highscoreDiv{
+		background-color: white;
+		border: 3px solid black;
+		border-top: none;
 		position: absolute;
-		left: 65%;
-		bottom: 60.50%;
+		left: 73.50%;
+		top: -150px;
 		/*border: 1px solid black;*/
-		height: 250px;
+		height: 150px;
 		width: 250px;
 	}
 
+	.hsUsername{
+		float: left;
+	}
+
 	#highscorelist{
+		margin-left: 14.50%;
+		width: 75%;
 		margin-top: 5%;
-		margin-left: 27.50%;
+	}
+
+/*	#highscorelist td{
+		float: left;
+	}*/
+
+	#highscorelist table{
+		width: 100%;
 	}

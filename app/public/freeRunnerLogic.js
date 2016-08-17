@@ -9,6 +9,8 @@ var t = 0;
 
 var score = 0;
 
+/*$('#highscoreDiv').hide();*/
+
 //Testing purposes only
 var name = "Patrick";
 
@@ -49,48 +51,72 @@ console.log(onePercent);
     //Code for login
 
 $('#loginBtn').click(function() {
-    if (loginStatus == 0){
+    if (loginStatus == 0 && launch == false){
         $('#loginDiv').animate({
             top: "38px"
         }, 500);
         loginStatus += 1;
-    } else if (profileStatus == 1){
+    } else if (profileStatus == 1 && launch == false){
         $('#loginDiv').animate({
             top: "-150px"
         }, 500);
         loginStatus = 0;
+    } else if (launch == true){
+        console.log("Game has already started");
     }
 });
 
     //Code for profile dropdown
 
 $('#profileBtn').click(function() {
-    if (profileStatus == 0){
+    if (profileStatus == 0 && launch == false){
         $('#profileDiv').animate({
             top: "38px"
         }, 500);
         profileStatus += 1;
-    } else if (profileStatus == 1){
+    } else if (profileStatus == 1 && launch == false){
         $('#profileDiv').animate({
             top: "-150px"
         }, 500);
         profileStatus = 0;
+    } else if (launch == true){
+        console.log("Game has already started");
+    }
+});
+
+    //Code for High Score dropdown
+
+$('#hsBtn').click(function() {
+    if (profileStatus == 0 && launch == false){
+        $('#highscoreDiv').animate({
+            top: "38px"
+        }, 500);
+        profileStatus += 1;
+    } else if (profileStatus == 1 && launch == false){
+        $('#highscoreDiv').animate({
+            top: "-150px"
+        }, 500);
+        profileStatus = 0;
+    } else if (launch == true){
+        console.log("Game has already started");
     }
 });
 
     //Code for shop dropdown
 
 $('#shopBtn').click(function() {
-    if (shopStatus == 0){
+    if (shopStatus == 0 && launch == false){
         $('#shopDiv').animate({
             top: "38px"
         }, 500);
         shopStatus += 1;
-    } else if (shopStatus == 1){
+    } else if (shopStatus == 1 && launch == false){
         $('#shopDiv').animate({
             top: "-150px"
         }, 500);
         shopStatus = 0;
+    } else if (launch == true){
+        console.log("Game has already started");
     }
 });
 
@@ -154,6 +180,17 @@ $('#item5Btn').mouseout(function() {
     });
 });
 
+$('#item1Btn').on('click', function(){
+    var itemId = $(this).attr('data-id');
+    var cost = $('#price1').attr('data-id');
+    itemUpdate(itemId, cost);
+});
+
+/*$('#item1Btn').on('click', function(){
+    var itemId = $(this).attr('data-id');
+    itemUpdate(itemId);
+});*/
+
 //Code for user commands
 
 $(document).keydown(function(e) {
@@ -190,8 +227,9 @@ function start(){
         }, 3000);
 
         createHerd();
-        startCoinGenerator()
+        startCoinGenerator();
         startScore();
+        /*grabHighScoreData();*/
 
         launch = true;
 
@@ -251,7 +289,6 @@ function fall(){
 }
 
 function up(){
-
     var pos = box.position();
     console.log(pos.top);
     var laneTop = parseFloat(onePercent * 40);
@@ -309,6 +346,7 @@ function startScore(){
 }
 
 //Code for Coins
+
 function startCoinGenerator(){
     var coinsGenerated = 0;
     var generateCoins = setInterval(function(){
@@ -543,7 +581,7 @@ function createHurdles(){
 
     //grabs user name on page load (testing purposes)
 grabUserData(name);
-grabHighScoreData()
+grabHighScoreData();
 
 $('#submitUserName').on("click", function(){
     var username = $("#userNameInput").val().trim();
@@ -561,19 +599,20 @@ function grabHighScoreData(){
 
         success: function(response){
             console.log(response);
-            $('#rank1name').html(response.rank1[0]);
+
+            $('#rank1name').append(response.rank1[0]);
             $('#rank1score').html(response.rank1[1]);
 
-            $('#rank2name').html(response.rank2[0]);
+            $('#rank2name').append(response.rank2[0]);
             $('#rank2score').html(response.rank2[1]);
 
-            $('#rank3name').html(response.rank3[0]);
+            $('#rank3name').append(response.rank3[0]);
             $('#rank3score').html(response.rank3[1]);
 
-            $('#rank4name').html(response.rank4[0]);
+            $('#rank4name').append(response.rank4[0]);
             $('#rank4score').html(response.rank4[1]);
 
-            $('#rank5name').html(response.rank5[0]);
+            $('#rank5name').append(response.rank5[0]);
             $('#rank5score').html(response.rank5[1]);
             /*$('#profileHs').html(response.score);
             $('#profileCoins').html(response.coins);*/
@@ -619,6 +658,53 @@ function updateAfterRun(){
            /* console.log(response)*/
             $('#profileHs').html(response.score);
             $('#profileCoins').html(response.coins);
+        }
+
+    });
+}
+
+function itemUpdate(itemId, cost){
+    $.ajax({
+
+        method: 'POST',
+
+        url: '/itemUpdate',
+
+        data: {
+            itemId: itemId,
+            cost: cost,
+            username: name
+        },
+
+        success: function(response){
+            if (response.ok == 1){
+                updateShop();
+            }
+        }
+
+    });
+}
+
+function updateShop(){
+    $.ajax({
+
+        method: 'GET',
+
+        url: '/userData',
+
+        data: {
+            username: name
+        },
+//YOU LEFT OFF HERE WHY DOESNT COINS UPDATE
+        success: function(response){
+            console.log(response);
+            $('#profileCoins').html(response.coins);
+            for (i = 0; i < response.items.length; i++){
+               if (response.items[i] == true){
+
+               }
+            }
+
         }
 
     });
