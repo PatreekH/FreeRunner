@@ -6,29 +6,39 @@ var path = require('path');
 
 module.exports = function(app, db){
 
-	app.post('/itemUpdate', function(req, res){
+	app.post('/makePurchase', function(req, res){
 		db.userdata.find({name: req.body.username}, function (err, docs) {
-    		// the update is complete
+    		
     		console.log("Making purchase..");
     		if (err) throw err
 
     		var itemsArray = docs[0].items
-    		/*console.log(itemsArray);*/
+    		
     		itemsArray[req.body.itemId] = true;
-    		/*console.log(itemsArray);*/
 
     		var userCoinCount = docs[0].coins;
-    		/*console.log(userCoinCount);*/
-    		var purchased = parseInt(userCoinCount) - parseInt(req.body.cost);
-    		/*console.log(purchased)*/
 
-    		db.userdata.update({name: req.body.username}, {$set: {items: itemsArray, coins: purchased}}, function (err, docs) {
-	    		// the update is complete
-	    		console.log("Purchase Made!");
-	    		if (err) throw err
-	    		console.log(docs)
-	    		res.json(docs[0]);
-    		});
+    		if (userCoinCount < req.body.cost){
+    			console.log("Purchase Failed!");
+    			var purchaseConfirm = {
+    				confirmed: false
+    			};
+    			res.json(purchaseConfirm);
+    		} else {
+    			var purchased;
+
+    			itemsArray[req.body.itemId] = true;
+    			purchased = parseInt(userCoinCount) - parseInt(req.body.cost);
+
+    			db.userdata.update({name: req.body.username}, {$set: {items: itemsArray, coins: purchased}}, function (err, docs) {
+		    		
+		    		console.log("Purchase Made!");
+		    		if (err) throw err
+		    		res.json(docs);
+    			});
+    		}
+    		
+
     	});
 	});
 
@@ -56,6 +66,17 @@ module.exports = function(app, db){
     		res.json(docs[0]);
     	});
 	});
+
+/*	app.get('/userData', function(req, res){
+		console.log(req.body);
+    	db.userdata.find({name: req.body.username}, function (err, docs) {
+    		// the update is complete
+    		console.log("Grabbed user data");
+    		if (err) throw err
+    		console.log(docs);
+    		res.json(docs[0]);
+    	});
+	});*/
 
 	app.post('/updateAfterRun', function(req, res){
 		console.log(req.body);

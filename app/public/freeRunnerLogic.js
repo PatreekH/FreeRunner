@@ -12,7 +12,7 @@ var score = 0;
 /*$('#highscoreDiv').hide();*/
 
 //Testing purposes only
-var name = "Patrick";
+var name = "todd";
 
 var launch = false;
 var lane = 1;
@@ -120,6 +120,18 @@ $('#shopBtn').click(function() {
     }
 });
 
+$('#item0Btn').mouseover(function() {
+    $('#item0Btn').css({
+        backgroundColor:'grey'
+    });
+});
+
+$('#item0Btn').mouseout(function() {
+    $('#item0Btn').css({
+        backgroundColor:'white'
+    });
+});
+
 $('#item1Btn').mouseover(function() {
     $('#item1Btn').css({
         backgroundColor:'grey'
@@ -168,22 +180,34 @@ $('#item4Btn').mouseout(function() {
     });
 });
 
-$('#item5Btn').mouseover(function() {
-    $('#item5Btn').css({
-        backgroundColor:'grey'
-    });
-});
-
-$('#item5Btn').mouseout(function() {
-    $('#item5Btn').css({
-        backgroundColor:'white'
-    });
+$('#item0Btn').on('click', function(){
+    var itemId = $(this).attr('data-id');
+    var cost = $('#price1').attr('data-id');
+    makePurchase(itemId, cost);
 });
 
 $('#item1Btn').on('click', function(){
     var itemId = $(this).attr('data-id');
-    var cost = $('#price1').attr('data-id');
-    itemUpdate(itemId, cost);
+    var cost = $('#price2').attr('data-id');
+    makePurchase(itemId, cost);
+});
+
+$('#item2Btn').on('click', function(){
+    var itemId = $(this).attr('data-id');
+    var cost = $('#price3').attr('data-id');
+    makePurchase(itemId, cost);
+});
+
+$('#item3Btn').on('click', function(){
+    var itemId = $(this).attr('data-id');
+    var cost = $('#price4').attr('data-id');
+    makePurchase(itemId, cost);
+});
+
+$('#item4Btn').on('click', function(){
+    var itemId = $(this).attr('data-id');
+    var cost = $('#price5').attr('data-id');
+    makePurchase(itemId, cost);
 });
 
 /*$('#item1Btn').on('click', function(){
@@ -614,8 +638,6 @@ function grabHighScoreData(){
 
             $('#rank5name').append(response.rank5[0]);
             $('#rank5score').html(response.rank5[1]);
-            /*$('#profileHs').html(response.score);
-            $('#profileCoins').html(response.coins);*/
         }
 
     });
@@ -637,6 +659,17 @@ function grabUserData(username){
         success: function(response){
             $('#profileHs').html(response.score);
             $('#profileCoins').html(response.coins);
+
+            for (i = 0; i < response.items.length; i++){
+
+               if (response.items[i] == true){
+                $("#spot" + i).html("<img id='item" + i + "pic' class='hat' src='css/images/hat" + i + ".png'>")
+               } else if (response.items[i] == false) {
+                $("#spot" + i).empty();
+                console.log('Not purchased yet');
+               }
+
+            }
         }
 
     });
@@ -663,12 +696,12 @@ function updateAfterRun(){
     });
 }
 
-function itemUpdate(itemId, cost){
+function makePurchase(itemId, cost){
     $.ajax({
 
         method: 'POST',
 
-        url: '/itemUpdate',
+        url: '/makePurchase',
 
         data: {
             itemId: itemId,
@@ -678,31 +711,37 @@ function itemUpdate(itemId, cost){
 
         success: function(response){
             if (response.ok == 1){
-                updateShop();
+                updateAllItemData();
+            } else if (response.confirmed == false){
+                alert('Not enough coins');
             }
         }
 
     });
 }
 
-function updateShop(){
+function updateAllItemData(){
     $.ajax({
 
-        method: 'GET',
+        method: 'POST',
 
         url: '/userData',
 
         data: {
             username: name
         },
-//YOU LEFT OFF HERE WHY DOESNT COINS UPDATE
-        success: function(response){
-            console.log(response);
-            $('#profileCoins').html(response.coins);
-            for (i = 0; i < response.items.length; i++){
-               if (response.items[i] == true){
 
+        success: function(response){
+            $('#profileCoins').html(response.coins);
+
+            for (i = 0; i < response.items.length; i++){
+
+               if (response.items[i] == true){
+                $("#spot" + i).html("<img id='item" + i + "pic' class='hat' src='css/images/hat" + i + ".png'>")
+               } else {
+                console.log('Not purchased yet');
                }
+
             }
 
         }
