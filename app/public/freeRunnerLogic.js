@@ -1,3 +1,6 @@
+//FREE RUNNER
+//by Patrick Hernandez
+
 var box = $('.box');
 var boxPos = {width: 30, height: 30};
 var hurdlePos = {width: 30, height: 30};
@@ -12,7 +15,14 @@ var score = 0;
 /*$('#highscoreDiv').hide();*/
 
 //Testing purposes only
-var name = "todd";
+var name = "patrick";
+
+//Tracks the hurdle to delete when animation is complete
+var lane1hurdlesPassed = 0;
+var lane2hurdlesPassed = 0;
+var lane3hurdlesPassed = 0;
+var lane4hurdlesPassed = 0;
+var lane5hurdlesPassed = 0;
 
 var launch = false;
 var lane = 1;
@@ -37,14 +47,17 @@ console.log(windowSize);
 var onePercent = windowSize / 100;
 console.log(onePercent);
 
-//after animation deleteHurdle function will add 1 to hurdle value then delete
+//after animation deleteHurdle function will add 1 to hurdle value then delete -- done
 //100% responsive
 //add pitfalls
-//change box catch dimensions
-//cant access any nav buttons while game is started
+//change box catch dimensions -- see prototype
+//cant access any nav buttons while game is started -- done
 //alert to refresh window after resizing
 //build algo for wall error (if int between here and here = to this and so on, pick random 2 to push back)
-//send data to mongodb as all lower case, then when cross ref, setLowercase
+//send data to mongodb as is, then when cross ref, setLowercase
+//selected hat stays on character after run
+//seperate pages and code for login and session
+//function startLaneDetection for lane collision check to avoid overflow
 
 //Code for nav
 
@@ -66,16 +79,24 @@ $('#loginBtn').click(function() {
     }
 });
 
-    //Code for profile dropdown
+$("#submitLoginInfo").on("click", function(){
+    var usernameInput = $("#usernameInput").val().trim();
+    var passwordInput = $("#passwordInput").val().trim();
+    console.log(usernameInput + " " + passwordInput);
+    loginAttempt(usernameInput, passwordInput);
+    return false;
+});
 
+    //Code for profile dropdown
+//LOGINDIV HERE FOR TESTING PURPOSES
 $('#profileBtn').click(function() {
     if (profileStatus == 0 && launch == false){
-        $('#profileDiv').animate({
+        $('#loginDiv').animate({
             top: "38px"
         }, 500);
         profileStatus += 1;
     } else if (profileStatus == 1 && launch == false){
-        $('#profileDiv').animate({
+        $('#loginDiv').animate({
             top: "-150px"
         }, 500);
         profileStatus = 0;
@@ -210,11 +231,6 @@ $('#item4Btn').on('click', function(){
     makePurchase(itemId, cost);
 });
 
-/*$('#item1Btn').on('click', function(){
-    var itemId = $(this).attr('data-id');
-    itemUpdate(itemId);
-});*/
-
 //Code for user commands
 
 $(document).keydown(function(e) {
@@ -253,7 +269,6 @@ function start(){
         createHerd();
         startCoinGenerator();
         startScore();
-        /*grabHighScoreData();*/
 
         launch = true;
 
@@ -318,7 +333,7 @@ function up(){
     var laneTop = parseFloat(onePercent * 40);
     console.log(laneTop);
 
-    if (pos.top <= parseFloat(laneTop) && launch == true) {
+    if (pos.top <= parseFloat(laneTop) && launch == true && lane == 1) {
         alert("You Fell!");
         location.reload();
     } else if (pos.top > laneTop && launch == true) {
@@ -332,7 +347,7 @@ function up(){
         console.log("Fall");
     } else {
         lane--;
-        console.log(lane);
+        console.log("lane: " + lane);
     }
 }
 
@@ -341,7 +356,7 @@ function down(){
     console.log(pos.top);
     var laneBottom = parseFloat(onePercent * 51.53);
     console.log(laneBottom);
-    if (pos.top >= laneBottom && launch == true) {
+    if (pos.top >= laneBottom && launch == true && lane == 5) {
         alert("You Fell!");
         location.reload();
     } else if (pos.top < laneBottom && launch == true) {
@@ -355,7 +370,7 @@ function down(){
         console.log("Fall");
     } else {
         lane++;
-        console.log(lane);
+        console.log("lane: " + lane);
     }
 }
 
@@ -439,6 +454,13 @@ function createHerd(){
     }, 1800); 
 }
 
+function deleteHurdles(){
+    var deleteHurdle = 
+            lane1thurdlesPassed++;
+            $('#hurdle1-' + hurdlesPassed).remove();
+            console.log("#hurdle1-" + hurdlesPassed + " is gone!");
+}
+
 function createHurdles(){
 
     var interval1 = Math.floor(Math.random() * (3700 - 1500)) + 1200;
@@ -467,7 +489,11 @@ function createHurdles(){
         
         $('#hurdle1-' + h1counter).animate({
             left: '-=120%'
-        }, 10000, 'linear');
+        }, 10000, 'linear', function(){
+            lane1hurdlesPassed++;
+            $('#hurdle1-' + lane1hurdlesPassed).remove();
+            console.log("#hurdle1-" + lane1hurdlesPassed + " is gone!");
+        });
 
         var hurdle1 = $('#hurdle1-' + h1counter);
 
@@ -495,7 +521,11 @@ function createHurdles(){
         
         $('#hurdle2-' + h2counter).animate({
             left: '-=120%'
-        }, 10000, 'linear');
+        }, 10000, 'linear', function(){
+            lane2hurdlesPassed++;
+            $('#hurdle2-' + lane2hurdlesPassed).remove();
+            console.log("#hurdle2-" + lane2hurdlesPassed + " is gone!");
+        });
 
         var hurdle2 = $('#hurdle2-' + h2counter);
 
@@ -523,7 +553,11 @@ function createHurdles(){
         
         $('#hurdle3-' + h3counter).animate({
             left: '-=120%'
-        }, 10000, 'linear');
+        }, 10000, 'linear', function(){
+            lane3hurdlesPassed++;
+            $('#hurdle3-' + lane3hurdlesPassed).remove();
+            console.log("#hurdle3-" + lane3hurdlesPassed + " is gone!");
+        });
 
         var hurdle3 = $('#hurdle3-' + h3counter);
 
@@ -551,7 +585,11 @@ function createHurdles(){
         
         $('#hurdle4-' + h4counter).animate({
             left: '-=120%'
-        }, 10000, 'linear');
+        }, 10000, 'linear', function(){
+            lane4hurdlesPassed++;
+            $('#hurdle4-' + lane4hurdlesPassed).remove();
+            console.log("#hurdle4-" + lane4hurdlesPassed + " is gone!");
+        });
 
         var hurdle4 = $('#hurdle4-' + h4counter);
 
@@ -579,7 +617,11 @@ function createHurdles(){
         
         $('#hurdle5-' + h5counter).animate({
         left: '-=120%'
-        }, 10000, 'linear');
+        }, 10000, 'linear', function(){
+            lane5hurdlesPassed++;
+            $('#hurdle5-' + lane5hurdlesPassed).remove();
+            console.log("#hurdle5-" + lane5hurdlesPassed + " is gone!");
+        });
 
         var hurdle5 = $('#hurdle5-' + h5counter);
 
@@ -608,11 +650,28 @@ grabUserData(name);
 grabHighScoreData();
 
 $('#submitUserName').on("click", function(){
-    var username = $("#userNameInput").val().trim();
+    var username = $("#userNameTest").val().trim();
     grabUserData(username);
     return false;
 });
 
+function loginAttempt(username, password){
+    $.ajax({
+
+        method: 'POST',
+
+        url: '/loginAttempt',
+
+        data: {
+            user: username,
+            pass: password
+        },
+        success: function(response){
+            console.log(response)
+        }
+
+    });
+}
 
 function grabHighScoreData(){
     $.ajax({
@@ -642,8 +701,6 @@ function grabHighScoreData(){
 
     });
 }
-
-
 
 function grabUserData(username){
     $.ajax({

@@ -8,6 +8,14 @@ var request = require('request');
 var cheerio = require('cheerio');
 var bodyParser = require('body-parser');
 
+// express session for user authentication
+session = require('express-session');
+app.use(session({
+    secret: 'no secret',
+    resave: true,
+    saveUninitialized: true
+}));
+
 // uses any static files required by the html files
 app.use(express.static('app/public/'));
 
@@ -27,8 +35,6 @@ var db = mongojs(databaseUrl, collections);
 db.on('error', function(err) {
   console.log('Database Error:', err);
 });
-
-
 
 // ROUTES
 require('./app/routes/data-routes/data-routes.js')(app, db);

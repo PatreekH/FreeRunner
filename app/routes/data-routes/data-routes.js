@@ -6,11 +6,32 @@ var path = require('path');
 
 module.exports = function(app, db){
 
+	app.post('/loginAttempt', function(req, res){
+		console.log("Backend login attempt: " + req.body.user + " " + req.body.pass);
+		var accepted;
+		//Idea, search for username: and password: db param then error handle from there
+		db.userdata.find({}, function (err, docs) {
+    		if (err) throw err
+    		console.log("Grabbing all user data for login attempt");
+    	//FOR LOOP KEEPS GRABBING ALL CHECKS AND SENDING JSON MORE THAN ONCE
+    		for (i = 0; i < docs.length; i++){
+    			if(req.body.user == docs[i].username && req.body.pass == docs[i].password){
+    				req.session.user = req.body.user;
+  					req.session.admin = true;
+  					res.json('success');
+  					accepted = true;
+    			} else {
+    				res.json('invalid');
+    			}
+    		}
+    	});
+	});
+
 	app.post('/makePurchase', function(req, res){
 		db.userdata.find({name: req.body.username}, function (err, docs) {
-    		
-    		console.log("Making purchase..");
     		if (err) throw err
+
+    		console.log("Making purchase..");
 
     		var itemsArray = docs[0].items
     		
@@ -31,9 +52,10 @@ module.exports = function(app, db){
     			purchased = parseInt(userCoinCount) - parseInt(req.body.cost);
 
     			db.userdata.update({name: req.body.username}, {$set: {items: itemsArray, coins: purchased}}, function (err, docs) {
-		    		
-		    		console.log("Purchase Made!");
 		    		if (err) throw err
+
+		    		console.log("Purchase Made!");
+
 		    		res.json(docs);
     			});
     		}
@@ -44,6 +66,7 @@ module.exports = function(app, db){
 
 	app.get('/highScoreData', function(req, res) {
 	  db.userdata.find().sort({score: -1}).limit(5, function (err, docs) {
+	  	if (err) throw err
 	 		/*console.log(docs);*/
 	 		var currentOverallHighScore = {
 	 			rank1: [docs[0].name, docs[0].score],
@@ -60,9 +83,9 @@ module.exports = function(app, db){
 	app.post('/userData', function(req, res){
 		console.log(req.body);
     	db.userdata.find({name: req.body.username}, function (err, docs) {
+    		if (err) throw err
     		// the update is complete
     		console.log("Grabbed user data");
-    		if (err) throw err
     		res.json(docs[0]);
     	});
 	});
@@ -78,6 +101,9 @@ module.exports = function(app, db){
     	});
 	});*/
 
+
+//DOES COIN UPDATE IN THE DOM AFTER RUN?
+//yes because the page refreshes
 	app.post('/updateAfterRun', function(req, res){
 		console.log(req.body);
 		db.userdata.find({name: req.body.username}, function (err, docs) {
