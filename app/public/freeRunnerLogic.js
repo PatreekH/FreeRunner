@@ -7,10 +7,13 @@ var hurdlePos = {width: 30, height: 30};
 var coinPos = {width: 30, height: 30};
 
 //Window measurments for responsive gameplay
-var windowSize = $(window).height();
-console.log(windowSize);
-var onePercent = windowSize / 100;
-console.log(onePercent);
+var windowHeightSize = $(window).height();
+var windowWidthSize = $(window).width();
+console.log(windowHeightSize + " " + windowWidthSize);
+var onePercentH = windowHeightSize / 100;
+var onePercentW = windowWidthSize / 100;
+console.log(onePercentH + " " + onePercentW);
+console.log((232.35 / onePercentW));
 
 var score = 0;
 
@@ -26,8 +29,8 @@ var lane5hurdlesPassed = 0;
 
 var launch = false;
 var lane = 1;
-var laneTop = parseFloat(onePercent * 40);
-var laneBottom = parseFloat(onePercent * 51.53);
+var laneTop = parseFloat(onePercentH * 40);
+var laneBottom = parseFloat(onePercentH * 51.53);
 
 var h1counter = 0;
 var h2counter = 0;
@@ -52,17 +55,32 @@ var shopStatus = 0;
 
 
 //after animation deleteHurdle function will add 1 to hurdle value then delete -- done
+//function startLaneDetection for lane collision check to avoid over movement -- done
+//cant access any nav buttons while game is started -- done
+
+//change box catch dimensions -- see prototype
+//build algo for wall error -- see prototype
+//build algo to stop coin and hurdle collision -- attempted
+    //--combine hurdle and coin generator to make chain of events, pitfalls as well
+
 //100% responsive
 //add pitfalls
-//change box catch dimensions -- see prototype
-//cant access any nav buttons while game is started -- done
 //alert to refresh window after resizing
-//build algo for wall error (if int between here and here = to this and so on, pick random 2 to push back)
 //send data to mongodb as is, then when cross ref, setLowercase
 //selected hat stays on character after run
+//finish user authentication
+//
 //seperate pages and code for login and session
-//function startLaneDetection for lane collision check to avoid over movement
 //increase in difficulty?
+
+
+
+$(document).ready(function(){
+    var cubeLeft = 232.35 / parseFloat(onePercentW);
+    console.log(cubeLeft);
+    $(".box").css("left", cubeLeft + "%");
+});
+
 
 //Function to grab difference between two numbers
 function diff(a,b){return Math.abs(a-b);};
@@ -713,20 +731,20 @@ function grabHighScoreData(){
         success: function(response){
             console.log(response);
 
-            $('#rank1name').append(response.rank1[0]);
-            $('#rank1score').html(response.rank1[1]);
+            $('.rank1name').append(response.rank1[0]);
+            $('.rank1score').html(response.rank1[1]);
 
-            $('#rank2name').append(response.rank2[0]);
-            $('#rank2score').html(response.rank2[1]);
+            $('.rank2name').append(response.rank2[0]);
+            $('.rank2score').html(response.rank2[1]);
 
-            $('#rank3name').append(response.rank3[0]);
-            $('#rank3score').html(response.rank3[1]);
+            $('.rank3name').append(response.rank3[0]);
+            $('.rank3score').html(response.rank3[1]);
 
-            $('#rank4name').append(response.rank4[0]);
-            $('#rank4score').html(response.rank4[1]);
+            $('.rank4name').append(response.rank4[0]);
+            $('.rank4score').html(response.rank4[1]);
 
-            $('#rank5name').append(response.rank5[0]);
-            $('#rank5score').html(response.rank5[1]);
+            $('.rank5name').append(response.rank5[0]);
+            $('.rank5score').html(response.rank5[1]);
         }
 
     });
