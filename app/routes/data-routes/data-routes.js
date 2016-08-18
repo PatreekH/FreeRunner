@@ -7,28 +7,44 @@ var path = require('path');
 module.exports = function(app, db){
 
 	app.post('/loginAttempt', function(req, res){
-		console.log("Backend login attempt: " + req.body.user + " " + req.body.pass);
+		console.log("login attempt! username: " + req.body.user + " password: " + req.body.pass);
 		var accepted;
 		//Idea, search for username: and password: db param then error handle from there
 		db.userdata.find({}, function (err, docs) {
     		if (err) throw err
-    		console.log("Grabbing all user data for login attempt");
-    	//FOR LOOP KEEPS GRABBING ALL CHECKS AND SENDING JSON MORE THAN ONCE
+    		console.log("attempting login...");
+    		var login;
     		for (i = 0; i < docs.length; i++){
-    			if(req.body.user == docs[i].username && req.body.pass == docs[i].password){
+    			if (req.body.user == docs[i].username && req.body.pass == docs[i].password){
     				req.session.user = req.body.user;
-  					req.session.admin = true;
-  					res.json('success');
-  					accepted = true;
+  					req.session.isAuth = true;
+  					login = true;
+  					i = docs.length;
     			} else {
-    				res.json('invalid');
+    				login = false;
     			}
     		}
+
+			if (login == true){
+				res.send('success');
+				console.log("login successful!");
+			} else if (login == false){
+				res.send('invalid');
+				console.log("login failed!");
+			}
     	});
 	});
 
+	var auth = function(req, res, next) {
+  // verifing that the session properties are valid
+  		if (req.session && req.session.admin == true)
+    		return next();
+  		else 
+    		return res.sendStatus(401) ;
+	};
+
 	app.post('/makePurchase', function(req, res){
-		db.userdata.find({name: req.body.username}, function (err, docs) {
+		db.userdata.find({username: req.body.username}, function (err, docs) {
     		if (err) throw err
 
     		console.log("Making purchase..");
@@ -51,7 +67,7 @@ module.exports = function(app, db){
     			itemsArray[req.body.itemId] = true;
     			purchased = parseInt(userCoinCount) - parseInt(req.body.cost);
 
-    			db.userdata.update({name: req.body.username}, {$set: {items: itemsArray, coins: purchased}}, function (err, docs) {
+    			db.userdata.update({username: req.body.username}, {$set: {items: itemsArray, coins: purchased}}, function (err, docs) {
 		    		if (err) throw err
 
 		    		console.log("Purchase Made!");
@@ -69,11 +85,11 @@ module.exports = function(app, db){
 	  	if (err) throw err
 	 		/*console.log(docs);*/
 	 		var currentOverallHighScore = {
-	 			rank1: [docs[0].name, docs[0].score],
-	 			rank2: [docs[1].name, docs[1].score],
-	 			rank3: [docs[2].name, docs[2].score],
-	 			rank4: [docs[3].name, docs[3].score],
-	 			rank5: [docs[4].name, docs[4].score]
+	 			rank1: [docs[0].username, docs[0].score],
+	 			rank2: [docs[1].username, docs[1].score],
+	 			rank3: [docs[2].username, docs[2].score],
+	 			rank4: [docs[3].username, docs[3].score],
+	 			rank5: [docs[4].username, docs[4].score]
 	 		}
 	 	res.json(currentOverallHighScore);
 	  });
@@ -82,7 +98,7 @@ module.exports = function(app, db){
 //will be used to grab unique user data
 	app.post('/userData', function(req, res){
 		console.log(req.body);
-    	db.userdata.find({name: req.body.username}, function (err, docs) {
+    	db.userdata.find({username: req.body.username}, function (err, docs) {
     		if (err) throw err
     		// the update is complete
     		console.log("Grabbed user data");
@@ -106,10 +122,10 @@ module.exports = function(app, db){
 //yes because the page refreshes
 	app.post('/updateAfterRun', function(req, res){
 		console.log(req.body);
-		db.userdata.find({name: req.body.username}, function (err, docs) {
+		db.userdata.find({username: req.body.username}, function (err, docs) {
 	    	if (err) throw err
 	    	/*res.json(docs[0]);*/
-	    	var username = docs[0].name;
+	    	var username = docs[0].username;
 	    	var currentHighScore = docs[0].score;
 	    	var currentCoinCount = docs[0].coins;
 	    	var newHighScore;
@@ -123,7 +139,7 @@ module.exports = function(app, db){
 
 	    	var newCoinCount = parseInt(req.body.coinsCollected) + parseInt(currentCoinCount);
 
-			db.userdata.update({name: username}, {$set: {score: newHighScore, coins: newCoinCount}}, function (err, docs) {
+			db.userdata.update({username: username}, {$set: {score: newHighScore, coins: newCoinCount}}, function (err, docs) {
 	    		// the update is complete
 	    		console.log("Updated user data");
 	    		if (err) throw err
