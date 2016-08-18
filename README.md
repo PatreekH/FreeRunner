@@ -1,2 +1,3 @@
 # FreeRunner
-A free runner game built using jQuery
+A free runner game built using jQuery and node
+
