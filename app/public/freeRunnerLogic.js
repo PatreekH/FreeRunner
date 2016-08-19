@@ -31,6 +31,7 @@ var lane5hurdlesPassed = 0;
 var launch = false;
 var lane = 1;
 
+var name;
 
 //Global counters to track each hurdle that is produced (lanes 1 - 5)
 //
@@ -128,8 +129,11 @@ $("#submitLoginInfo").on("click", function(){
     return false;
 });
 
+$("#loginAccept").on("click", function(){
+	location.reload();
+});
+
     //Code for profile dropdown
-//LOGINDIV HERE FOR TESTING PURPOSES
 $(document).on('click', '#profileBtn', function(){
     if (profileStatus == 0 && launch == false){
         $('#profileDiv').animate({
@@ -164,7 +168,7 @@ $('#hsBtn').on('click',  function() {
     }
 });
 
-    //Code for shop dropdown
+    //Code for shop modal
 
 $('#shopBtn').on('click', function() {
     if (shopStatus == 0 && launch == false){
@@ -180,10 +184,8 @@ $('#shopBtn').on('click', function() {
 
 var nextSlide = 2;
 var currentSlide = 1;
+var itemDataId = 1;
 var previousSlide = 0;
-/*var notSelected1 = 2;
-var notSelected2 = 3;
-var notSelected3 = 4;*/
 
 function itemSlide(){
     $('#item' + currentSlide + "pic").addClass('currentItem');
@@ -201,12 +203,11 @@ $('#shopSelectRight').on('click', function(){
         $('.itemDiv').animate({
             marginLeft: "+=135"
         }, 250);
+        itemDataId -= 1;
+        $("#purcahseItem").attr("data-id", itemDataId);
         currentSlide -= 1;
         previousSlide -= 1;
         nextSlide -= 1;
-    /*    console.log("currentItem" + currentSlide);
-        console.log("previousSlide" + previousSlide);
-        console.log("nextSlide" + nextSlide);*/
         itemSlide();
     }
 
@@ -219,109 +220,18 @@ if (currentSlide == 4){
         $('.itemDiv').animate({
             marginLeft: "-=135"
         }, 250);
+        itemDataId += 1;
+        $("#purcahseItem").attr("data-id", itemDataId);
         currentSlide += 1;
         previousSlide += 1;
         nextSlide += 1;
-    /*    console.log("currentItem" + currentSlide);
-        console.log("previousSlide" + previousSlide);
-        console.log("nextSlide" + nextSlide);*/
         itemSlide();
     }
 });
 
-$('#move').on('click', function(){
-    $('.itemDiv').animate({
-            right: "50px"
-        }, 500);
-});
-
-$('#item0Btn').mouseover(function() {
-    $('#item0Btn').css({
-        backgroundColor:'grey'
-    });
-});
-
-$('#item0Btn').mouseout(function() {
-    $('#item0Btn').css({
-        backgroundColor:'white'
-    });
-});
-
-$('#item1Btn').mouseover(function() {
-    $('#item1Btn').css({
-        backgroundColor:'grey'
-    });
-});
-
-$('#item1Btn').mouseout(function() {
-    $('#item1Btn').css({
-        backgroundColor:'white'
-    });
-});
-
-$('#item2Btn').mouseover(function() {
-    $('#item2Btn').css({
-        backgroundColor:'grey'
-    });
-});
-
-$('#item2Btn').mouseout(function() {
-    $('#item2Btn').css({
-        backgroundColor:'white'
-    });
-});
-
-$('#item3Btn').mouseover(function() {
-    $('#item3Btn').css({
-        backgroundColor:'grey'
-    });
-});
-
-$('#item3Btn').mouseout(function() {
-    $('#item3Btn').css({
-        backgroundColor:'white'
-    });
-});
-
-$('#item4Btn').mouseover(function() {
-    $('#item4Btn').css({
-        backgroundColor:'grey'
-    });
-});
-
-$('#item4Btn').mouseout(function() {
-    $('#item4Btn').css({
-        backgroundColor:'white'
-    });
-});
-
-$('#item0Btn').on('click', function(){
+$('#purcahseItem').on('click', function(){
     var itemId = $(this).attr('data-id');
-    var cost = $('#price1').attr('data-id');
-    makePurchase(itemId, cost);
-});
-
-$('#item1Btn').on('click', function(){
-    var itemId = $(this).attr('data-id');
-    var cost = $('#price2').attr('data-id');
-    makePurchase(itemId, cost);
-});
-
-$('#item2Btn').on('click', function(){
-    var itemId = $(this).attr('data-id');
-    var cost = $('#price3').attr('data-id');
-    makePurchase(itemId, cost);
-});
-
-$('#item3Btn').on('click', function(){
-    var itemId = $(this).attr('data-id');
-    var cost = $('#price4').attr('data-id');
-    makePurchase(itemId, cost);
-});
-
-$('#item4Btn').on('click', function(){
-    var itemId = $(this).attr('data-id');
-    var cost = $('#price5').attr('data-id');
+    var cost = $('#price' + itemDataId).attr('data-id');
     makePurchase(itemId, cost);
 });
 
@@ -762,9 +672,40 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 //routes for data
 
     //grabs user name on page load (testing purposes)
+
 isAuthenticated();
-/*grabUserData(name);*/
-/*grabHighScoreData();*/
+grabHighScoreData();
+
+
+function isAuthenticated(){
+    $.ajax({
+
+        method: 'GET',
+
+        url: '/isAuthenticated',
+
+        success: function(response){
+            console.log(response);
+            //user is not signed in
+            if (response == "invalid"){
+                $(".homeBtn").attr("id","loginBtn");
+                $("#shopBtn").hide();
+                $("#hsBtn").hide();
+                $("#optionsBtn").hide();
+
+            } else {
+                console.log(response);
+                name = response.user
+                grabUserData(name);
+                $(".homeBtn").attr("id","profileBtn");
+                $("#shopBtn").show();
+                $("#hsBtn").show();
+                $("#optionsBtn").show();
+            }
+        }
+
+    });
+}
 
 function loginAttempt(username, password){
     $.ajax({
@@ -786,28 +727,6 @@ function loginAttempt(username, password){
             }
             
             //if response success reload page
-        }
-
-    });
-}
-
-function isAuthenticated(){
-    $.ajax({
-
-        method: 'GET',
-
-        url: '/isAuthenticated',
-
-        success: function(response){
-            console.log(response);
-            //user is not signed in
-            if (response == "invalid"){
-                $(".homeBtn").attr("id","loginBtn");
-            } else {
-                console.log(response);
-                /*name = response.user;*/
-                $(".homeBtn").attr("id","profileBtn");
-            }
         }
 
     });
@@ -854,7 +773,7 @@ function grabUserData(username){
         },
 
         success: function(response){
-            console.log("HERE" + response)
+            /*console.log("HERE" + response)*/
             $('#profileHs').html(response.score);
             $('#profileCoins').html(response.coins);
             $('#userName').html(response.username);
@@ -862,7 +781,7 @@ function grabUserData(username){
             for (i = 0; i < response.items.length; i++){
 
                if (response.items[i] == true){
-                $("#spot" + i).html("<img id='item" + i + "pic' class='hat' src='css/images/hat" + i + ".png'>")
+                $("#spot" + i).html("<img id='itemProfile" + i + "pic' class='hatProfile' src='css/images/hat" + i + ".png'>")
                } else if (response.items[i] == false) {
                 $("#spot" + i).empty();
                 console.log('Not purchased yet');
@@ -896,6 +815,7 @@ function updateAfterRun(){
 }
 
 function makePurchase(itemId, cost){
+    console.log(cost);
     $.ajax({
 
         method: 'POST',
@@ -936,7 +856,7 @@ function updateAllItemData(){
             for (i = 0; i < response.items.length; i++){
 
                if (response.items[i] == true){
-                $("#spot" + i).html("<img id='item" + i + "pic' class='hat' src='css/images/hat" + i + ".png'>")
+                $("#spot" + i).html("<img id='itemProfile" + i + "pic' class='hatProfile' src='css/images/hat" + i + ".png'>");
                } else {
                 console.log('Not purchased yet');
                }

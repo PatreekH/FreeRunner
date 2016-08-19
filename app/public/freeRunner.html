@@ -129,11 +129,8 @@
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		        <h4 class="modal-title" id="myModalLabel">Login Successful!</h4>
 		      </div>
-		      <div class="modal-body">
-		        <h2><span class="glyphicon glyphicon-check"></span></h2> <h4>Click Okay to go to the your User Page</h4>
-		      </div>
 		      <div class="modal-footer">
-		        <a href="/admin"><button type="button" class="btn btn-default" >OKAY</button></a>
+		        <!-- <a href="/admin"> --><button id="loginAccept" type="button" class="btn btn-default" >OKAY</button><!-- </a> -->
 		      </div>
 		    </div>
 		  </div>
@@ -174,24 +171,27 @@
 				<div class="itemDiv">
 					<div class="itemInfo">
 						<div class="well itemPic"><img id="item0pic" class="hat notSelected" src="css/images/hat0.png"></div>
-					
+						<div id="price0" class="itemPrice" data-id="10">$10</div>
 					</div>
 					<div class="itemInfo">
 						<div class="well itemPic"><img id="item1pic" class="hat currentItem" src="css/images/hat1.png"></div>
-						
+						<div id="price1" class="itemPrice" data-id="20">$20</div>
 					</div>
 					<div class="itemInfo">
 						<div class="well itemPic"><img id="item2pic" class="hat notSelected" src="css/images/hat2.png"></div>
-						
+						<div id="price2" class="itemPrice" data-id="30">$30</div>
 					</div>
 					<div class="itemInfo">
 						<div class="well itemPic"><img id="item3pic" class="hat notSelected" src="css/images/hat3.png"></div>
-						
+						<div id="price3" class="itemPrice" data-id="40">$40</div>
 					</div>
 					<div class="itemInfo">
 						<div class="itemPic well"><img id="item4pic" class="hat notSelected" src="css/images/hat4.png"></div>
+						<div id="price4" class="itemPrice" data-id="50">$50</div>
 					</div>
 				</div>
+
+				<button id="purcahseItem" data-id="1">Purchase</button>
 
 				<!-- <div class="itemDivBtn"> -->
 <!-- 				<div id="item0Btn" data-id="0">
