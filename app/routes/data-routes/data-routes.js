@@ -8,7 +8,6 @@ module.exports = function(app, db){
 
 	app.post('/loginAttempt', function(req, res){
 		console.log("login attempt! username: " + req.body.user + " password: " + req.body.pass);
-		var accepted;
 		//Idea, search for username: and password: db param then error handle from there
 		db.userdata.find({}, function (err, docs) {
     		if (err) throw err
@@ -16,32 +15,35 @@ module.exports = function(app, db){
     		var login;
     		for (i = 0; i < docs.length; i++){
     			if (req.body.user == docs[i].username && req.body.pass == docs[i].password){
-    				req.session.user = req.body.user;
+    				req.session.userInfo = {
+    					user: req.body.user,
+    					userCoins: docs[i].coins,
+    					userBest: docs[i].score
+    				}
   					req.session.isAuth = true;
-  					login = true;
   					i = docs.length;
     			} else {
-    				login = false;
+    				req.session.isAuth = false;
     			}
     		}
 
-			if (login == true){
+			if (req.session.isAuth == true){
 				res.send('success');
 				console.log("login successful!");
-			} else if (login == false){
+			} else if (req.session.isAuth == false){
 				res.send('invalid');
 				console.log("login failed!");
 			}
     	});
 	});
 
-	var auth = function(req, res, next) {
-  // verifing that the session properties are valid
-  		if (req.session && req.session.admin == true)
-    		return next();
-  		else 
-    		return res.sendStatus(401) ;
-	};
+	app.get('/isAuthenticated', function(req, res){
+		if (req.session.isAuth == true){
+			res.json(req.session.userInfo);
+		} else {
+			res.json('invalid');
+		}
+	});
 
 	app.post('/makePurchase', function(req, res){
 		db.userdata.find({username: req.body.username}, function (err, docs) {

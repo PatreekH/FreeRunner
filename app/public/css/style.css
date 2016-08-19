@@ -224,23 +224,58 @@
 		color: white;
 	}
 
-	#shopDiv{
-		position: relative;
-		left: 60.35%;
-		background-color: white;
-		top: -150px;
-		/*z-index: -1;*/
-		width: 150px;
-		height: 150px;
-		background-color: white;
-		border-right: 3px solid black;
-		border-bottom: 3px solid black;
-		border-left: 3px solid black;
-		overflow: auto;
+	#loginFailedModal .modal-dialog{
+		width: 5%;
+		height: 5%;
 	}
 
-	#shopDiv b{
-		margin-left: 12%;
+	#loginSuccessModal .modal-dialog{
+		width: 25%;
+		height: 25%;
+	}
+
+	.modal-content{
+		/*overflow: hidden;*/
+	}
+
+
+
+	/*clean css*/
+
+	#shopDiv{
+		/*z-index: -1;*/
+		overflow: hidden;
+		width: 298px;
+		height: 175px;
+		background-color: white;
+		text-align: center;
+	}
+
+	#shopSelectLeft{
+		top: 35%;
+		position: absolute;
+		z-index: +1;
+		margin-left: -8%;
+		vertical-align: middle;
+		/*float: left;*/
+		font-size: 90px;
+		cursor: pointer;
+	}
+
+	#shopSelectRight{
+		left: 290px;
+		top: 35%;
+		position: absolute;
+		z-index: +1;
+		margin-right: -8%;
+		vertical-align: middle;
+		/*float: right;*/
+		font-size: 90px;
+		cursor: pointer;
+	}
+
+	#shopDiv i{
+		margin-top: 10%;
 	}
 
 	#item0Btn{
@@ -273,37 +308,46 @@
 		cursor: pointer;
 	}
 
-	.itemDiv1{
-		width: 25%;
-		margin-top: 2.5%;
-		margin-left: 2.5%;
+	.currentItem{
+
 	}
 
+	.notSelected{
+		opacity: 0.5;
+	}
+
+
 	.itemDiv{
-		width: 25%;
-		margin-top: 2%;
-		margin-left: 2.5%;
+		/*overflow: hidden;*/
+
+		width: 750px;
+		margin-left: -28%;
+		margin-top: 2.5%;
+	}
+
+	.itemInfo{
+		float: left;
+		margin-top: 2.5%;
+		margin-left: 5%;
 	}
 
 	.itemPic{
 		float: left;
 		padding: 0px;
-		height: 40px;
-		width: 40px;
+		height: 100px;
+		width: 100px;
 		margin-bottom: 0px !important;
 		margin-left: 5%;
 	}
 
-	.itemPrice{
+/*	.itemPrice{
 		float: left;
 		margin-left: 50px;
 		margin-top: -40px;
-	}
+	}*/
 
 	.hat{
 		position: relative;
-	    top: -15px;
-	    left: -12px;
 		height: 30px;
 		width: 30px;
 	}
@@ -328,18 +372,25 @@
 	}
 
 	#profileNav{
+		font-size: 28px;
 		width: 100px;
 		color: white;
 		margin-left: 2%;
 		float: left;
 	}
 
-	#profileBtn{
+	.homeBtn{
+		padding-top: 5px;
+		float: left;
+		cursor: pointer;
+	}
+
+/*	#loginBtn{
 		padding-top: 5px;
 		font-size: 28px;
 		float: left;
 		cursor: pointer;
-	}
+	}*/
 
 	#profileDiv{
 		background-color: white;

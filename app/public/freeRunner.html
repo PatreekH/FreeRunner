@@ -7,14 +7,16 @@
   	<link rel="stylesheet" type="text/css" href="css/style.css">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+    <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
 	<nav>
 		<div id="profileNav">
-			<i id="profileBtn" class="fa fa-caret-down" aria-hidden="true"></i><!-- <div id="profileTitle"><b>Profile</b></div> -->
+			<!-- <div id="profileTitle"><b>Profile</b></div> -->
+			<i class='homeBtn fa fa-caret-down' aria-hidden='true'></i>
 		</div>
 <!-- 		<div class="title">
 			Free Runner
@@ -46,10 +48,7 @@
 
 		<div id="info">
 			<!-- p>Name:</p> -->
-		<form>
-			<button id="submitUserName">Submit</button>
-    		<input id="userNameTest" type="text">
-  		</form>
+			<span>Name: </span><span id="userName"></span>
 		</div>
 		<div id="stats">
 			<span>Personal Best: </span><span id="profileHs">----</span>
@@ -65,42 +64,6 @@
 			<div id="spot4" class="pitem well"></div>
 		</div>
 		<!-- add logout -->
-	</div>
-
-	<div id="shopDiv">
-		<center><b>Shop</b></center>
-		<!-- <div class="itemDivBtn"> -->
-		<div id="item0Btn" data-id="0">
-			<div class="itemDiv1">
-				<div class="well itemPic"><img id="item0pic" class="hat" src="css/images/hat0.png"></div>
-				<div id="price1" class="itemPrice" data-id="10">$10</div>
-			</div>
-		</div>
-		<div id="item1Btn" data-id="1">
-			<div class="itemDiv">
-				<div class="well itemPic"><img id="item1pic" class="hat" src="css/images/hat1.png"></div>
-				<div id="price2" class="itemPrice" data-id="20">$20</div>
-			</div>
-		</div>
-		<div id="item2Btn" data-id="2">
-			<div class="itemDiv">
-				<div class="well itemPic"><img id="item2pic" class="hat" src="css/images/hat2.png"></div>
-				<div id="price3" class="itemPrice" data-id="30">$30</div>
-			</div>
-		</div>
-		<div id="item3Btn" data-id="3">
-			<div class="itemDiv">
-				<div class="well itemPic"><img id="item3pic" class="hat" src="css/images/hat3.png"></div>
-				<div id="price4" class="itemPrice" data-id="40">$40</div>
-			</div>
-		</div>
-		<div id="item4Btn" data-id="4">
-			<div class="itemDiv">
-				<div class="itemPic well"><img id="item4pic" class="hat" src="css/images/hat4.png"></div>
-				<div id="price5" class="itemPrice" data-id="50">$50</div>
-			</div>
-		</div>
-		<!-- </div> -->
 	</div>
 
 	<div id="highscoreDiv">
@@ -145,21 +108,129 @@
 	
 	<img id="ledge-pic" src="css/images/startLedge3.png">
 
-	<div id="scoreDiv"></div>
+	<<!-- div id="scoreDiv"></div> -->
 
 
 <!-- 		<img class="drop-off" id="dropoff" src="dropoff.png" style="top:40.75%;left:50%;">
 		<img class="ledge-pic2" id="ledge-pic2" src="startLedge2.png" style="top:40.50%;left:55%;" -->
 
 	<div class="lane">
-<!-- 		<div class="hurdle"  style="position:fixed;left:20%;top:40%;z-index:+5;"><img id="hcube" src="hcube.png"></div>
-		<div class="hurdle"  style="position:fixed;left:18%;top:43%;"><img id="hcube" src="hcube.png"></div>
-		<div class="hurdle"  style="position:fixed;left:16%;top:46%;"><img id="hcube" src="hcube.png"></div>
-		<div class="hurdle"  style="position:fixed;left:14%;top:49%;"><img id="hcube" src="hcube.png"></div>
-		<div class="hurdle"  style="position:fixed;left:12%;top:52%;"><img id="hcube" src="hcube.png"></div> -->
+
 	</div>
 
 	<div class="box"><img id="pcube" src="css/images/pcube.png"></div>
+
+
+				<!-- success Modal -->
+	<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div id="loginSuccessModal" class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Login Successful!</h4>
+		      </div>
+		      <div class="modal-body">
+		        <h2><span class="glyphicon glyphicon-check"></span></h2> <h4>Click Okay to go to the your User Page</h4>
+		      </div>
+		      <div class="modal-footer">
+		        <a href="/admin"><button type="button" class="btn btn-default" >OKAY</button></a>
+		      </div>
+		    </div>
+		  </div>
+	</div>
+
+		<!-- !success modal -->
+	<div class="modal fade" id="unsuccessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div id="loginFailedModal" class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Username or password were invalid</h4>
+		      </div>
+		      <div class="modal-body">
+		        <h2><span class="glyphicon glyphicon-ban-circle"></span></h2> <h4>Try Again</h4>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal" >CLOSE</button>
+		      </div>
+		    </div>
+		  </div>
+	</div>
+
+		<!-- shop modal -->
+	<div class="modal fade bs-example-modal-sm" id="shopModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	  <div class="modal-dialog modal-sm" role="document">
+	    <div class="modal-content">
+	    	<div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Shop</h4>
+		    </div>
+
+
+		     <i id="shopSelectLeft" class="fa fa-caret-left" aria-hidden="true"></i>
+			<div id="shopDiv">
+
+
+				<div class="itemDiv">
+					<div class="itemInfo">
+						<div class="well itemPic"><img id="item0pic" class="hat notSelected" src="css/images/hat0.png"></div>
+					
+					</div>
+					<div class="itemInfo">
+						<div class="well itemPic"><img id="item1pic" class="hat currentItem" src="css/images/hat1.png"></div>
+						
+					</div>
+					<div class="itemInfo">
+						<div class="well itemPic"><img id="item2pic" class="hat notSelected" src="css/images/hat2.png"></div>
+						
+					</div>
+					<div class="itemInfo">
+						<div class="well itemPic"><img id="item3pic" class="hat notSelected" src="css/images/hat3.png"></div>
+						
+					</div>
+					<div class="itemInfo">
+						<div class="itemPic well"><img id="item4pic" class="hat notSelected" src="css/images/hat4.png"></div>
+					</div>
+				</div>
+
+				<!-- <div class="itemDivBtn"> -->
+<!-- 				<div id="item0Btn" data-id="0">
+					<div class="itemDiv">
+						<div class="well itemPic"><img id="item0pic" class="hat" src="css/images/hat0.png"></div>
+						<div id="price1" class="itemPrice" data-id="10">$10</div>
+					</div>
+				</div>
+				<div id="item1Btn" data-id="1">
+					<div class="itemDiv">
+						<div class="well itemPic"><img id="item1pic" class="hat" src="css/images/hat1.png"></div>
+						<div id="price2" class="itemPrice" data-id="20">$20</div>
+					</div>
+				</div>
+				<div id="item2Btn" data-id="2">
+					<div class="itemDiv">
+						<div class="well itemPic"><img id="item2pic" class="hat" src="css/images/hat2.png"></div>
+						<div id="price3" class="itemPrice" data-id="30">$30</div>
+					</div>
+				</div>
+				<div id="item3Btn" data-id="3">
+					<div class="itemDiv">
+						<div class="well itemPic"><img id="item3pic" class="hat" src="css/images/hat3.png"></div>
+						<div id="price4" class="itemPrice" data-id="40">$40</div>
+					</div>
+				</div>
+				<div id="item4Btn" data-id="4">
+					<div class="itemDiv">
+						<div class="itemPic well"><img id="item4pic" class="hat" src="css/images/hat4.png"></div>
+						<div id="price5" class="itemPrice" data-id="50">$50</div>
+					</div>
+				</div> -->
+				<!-- </div> -->
+			</div>
+			<i id="shopSelectRight" class="fa fa-caret-right" aria-hidden="true"></i>
+
+	    </div>
+	  </div>
+	</div>
 
 
 <script src="https://use.fontawesome.com/2ce3b4e69a.js"></script>

@@ -10,15 +10,16 @@ var coinPos = {width: 30, height: 30};
 var windowHeightSize = $(window).height();
 var windowWidthSize = $(window).width();
 console.log(windowHeightSize + " " + windowWidthSize);
+
+//1% of the height and width of the on load browser size
 var onePercentH = windowHeightSize / 100;
 var onePercentW = windowWidthSize / 100;
-console.log(onePercentH + " " + onePercentW);
-console.log((232.35 / onePercentW));
+
+//Top and Bottom lane measurements based on screen size
+var laneTop = parseFloat(onePercentH * 40);
+var laneBottom = parseFloat(onePercentH * 51.53);
 
 var score = 0;
-
-//Testing purposes only
-var name = "patrick";
 
 //Tracks the hurdle to delete when animation is complete
 var lane1hurdlesPassed = 0;
@@ -29,41 +30,55 @@ var lane5hurdlesPassed = 0;
 
 var launch = false;
 var lane = 1;
-var laneTop = parseFloat(onePercentH * 40);
-var laneBottom = parseFloat(onePercentH * 51.53);
 
+
+//Global counters to track each hurdle that is produced (lanes 1 - 5)
+//
 var h1counter = 0;
 var h2counter = 0;
 var h3counter = 0;
 var h4counter = 0;
 var h5counter = 0;
-var coinCounter = 0;
 
+//tracks the coins generated counter and coins collected during gameplay
+var coinCounter = 0;
 var coinsCollected = 0;
 
-//Intervals for obsticales made global for checking purposes
+//Intervals for obsticales, global for placement comparison
 var interval1;
 var interval2;
 var interval3;
 var interval4;
 var interval5;
 
-
 //Tracks navbar dropdowns (0 = closed, 1 = open)
 var profileStatus = 0;
 var shopStatus = 0;
+var loginStatus = 0;
 
 
+
+//=======TODO LIST:
 //after animation deleteHurdle function will add 1 to hurdle value then delete -- done
 //function startLaneDetection for lane collision check to avoid over movement -- done
 //cant access any nav buttons while game is started -- done
 
 //change box catch dimensions -- see prototype
+    //media query box top
 //build algo for wall error -- see prototype
 //build algo to stop coin and hurdle collision -- attempted
     //--combine hurdle and coin generator to make chain of events, pitfalls as well
 
 //100% responsive
+    //--Lane is responsive, make entire logic reponsive as well, updates real time to avoid browser hack
+
+
+//modal for nav bar options
+//setup store/profile/signup modal and login div
+//clear out junk ajax calls, use sessions to get data where it needs to be
+//look into background ideas
+
+
 //add pitfalls
 //alert to refresh window after resizing
 //send data to mongodb as is, then when cross ref, setLowercase
@@ -73,7 +88,7 @@ var shopStatus = 0;
 //seperate pages and code for login and session
 //increase in difficulty?
 
-
+//==========
 
 $(document).ready(function(){
     var cubeLeft = 232.35 / parseFloat(onePercentW);
@@ -89,13 +104,13 @@ function diff(a,b){return Math.abs(a-b);};
 
     //Code for login
 
-$('#loginBtn').click(function() {
+$(document).on('click', '#loginBtn', function() {
     if (loginStatus == 0 && launch == false){
         $('#loginDiv').animate({
             top: "38px"
         }, 500);
         loginStatus += 1;
-    } else if (profileStatus == 1 && launch == false){
+    } else if (loginStatus == 1 && launch == false){
         $('#loginDiv').animate({
             top: "-150px"
         }, 500);
@@ -115,14 +130,14 @@ $("#submitLoginInfo").on("click", function(){
 
     //Code for profile dropdown
 //LOGINDIV HERE FOR TESTING PURPOSES
-$('#profileBtn').click(function() {
+$(document).on('click', '#profileBtn', function(){
     if (profileStatus == 0 && launch == false){
-        $('#loginDiv').animate({
+        $('#profileDiv').animate({
             top: "38px"
         }, 500);
         profileStatus += 1;
     } else if (profileStatus == 1 && launch == false){
-        $('#loginDiv').animate({
+        $('#profileDiv').animate({
             top: "-150px"
         }, 500);
         profileStatus = 0;
@@ -133,7 +148,7 @@ $('#profileBtn').click(function() {
 
     //Code for High Score dropdown
 
-$('#hsBtn').click(function() {
+$('#hsBtn').on('click',  function() {
     if (profileStatus == 0 && launch == false){
         $('#highscoreDiv').animate({
             top: "38px"
@@ -151,20 +166,73 @@ $('#hsBtn').click(function() {
 
     //Code for shop dropdown
 
-$('#shopBtn').click(function() {
+$('#shopBtn').on('click', function() {
     if (shopStatus == 0 && launch == false){
-        $('#shopDiv').animate({
-            top: "38px"
-        }, 500);
+        $('#shopModal').modal('show');
         shopStatus += 1;
     } else if (shopStatus == 1 && launch == false){
-        $('#shopDiv').animate({
-            top: "-150px"
-        }, 500);
+        $('#shopModal').modal('hide');
         shopStatus = 0;
     } else if (launch == true){
         console.log("Game has already started");
     }
+});
+
+var nextSlide = 2;
+var currentSlide = 1;
+var previousSlide = 0;
+/*var notSelected1 = 2;
+var notSelected2 = 3;
+var notSelected3 = 4;*/
+
+function itemSlide(){
+    $('#item' + currentSlide + "pic").addClass('currentItem');
+    $('#item' + currentSlide + "pic").removeClass('notSelected');
+    $('#item' + previousSlide + "pic").addClass('notSelected');
+    $('#item' + previousSlide + "pic").removeClass('currentItem');
+    $('#item' + nextSlide + "pic").addClass('notSelected');
+    $('#item' + nextSlide + "pic").removeClass('currentItem');
+};
+
+$('#shopSelectRight').on('click', function(){
+    if (currentSlide == 0){
+        console.log('no more items left!');
+    } else {
+        $('.itemDiv').animate({
+            marginLeft: "+=135"
+        }, 250);
+        currentSlide -= 1;
+        previousSlide -= 1;
+        nextSlide -= 1;
+    /*    console.log("currentItem" + currentSlide);
+        console.log("previousSlide" + previousSlide);
+        console.log("nextSlide" + nextSlide);*/
+        itemSlide();
+    }
+
+});
+
+$('#shopSelectLeft').on('click', function(){
+if (currentSlide == 4){
+        console.log('no more items left!');
+    } else {
+        $('.itemDiv').animate({
+            marginLeft: "-=135"
+        }, 250);
+        currentSlide += 1;
+        previousSlide += 1;
+        nextSlide += 1;
+    /*    console.log("currentItem" + currentSlide);
+        console.log("previousSlide" + previousSlide);
+        console.log("nextSlide" + nextSlide);*/
+        itemSlide();
+    }
+});
+
+$('#move').on('click', function(){
+    $('.itemDiv').animate({
+            right: "50px"
+        }, 500);
 });
 
 $('#item0Btn').mouseover(function() {
@@ -274,7 +342,7 @@ $(document).keydown(function(e) {
         jump();
         break;
     case 80:
-        pause();
+        /*pause();*/
         break;
     }
 });
@@ -694,14 +762,9 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 //routes for data
 
     //grabs user name on page load (testing purposes)
-grabUserData(name);
-grabHighScoreData();
-
-$('#submitUserName').on("click", function(){
-    var username = $("#userNameTest").val().trim();
-    grabUserData(username);
-    return false;
-});
+isAuthenticated();
+/*grabUserData(name);*/
+/*grabHighScoreData();*/
 
 function loginAttempt(username, password){
     $.ajax({
@@ -716,6 +779,35 @@ function loginAttempt(username, password){
         },
         success: function(response){
             console.log(response)
+            if (response == 'success'){
+                $('#successModal').modal('show');
+            } else if (response == 'invalid'){
+                $('#unsuccessModal').modal('show');
+            }
+            
+            //if response success reload page
+        }
+
+    });
+}
+
+function isAuthenticated(){
+    $.ajax({
+
+        method: 'GET',
+
+        url: '/isAuthenticated',
+
+        success: function(response){
+            console.log(response);
+            //user is not signed in
+            if (response == "invalid"){
+                $(".homeBtn").attr("id","loginBtn");
+            } else {
+                console.log(response);
+                /*name = response.user;*/
+                $(".homeBtn").attr("id","profileBtn");
+            }
         }
 
     });
@@ -762,8 +854,10 @@ function grabUserData(username){
         },
 
         success: function(response){
+            console.log("HERE" + response)
             $('#profileHs').html(response.score);
             $('#profileCoins').html(response.coins);
+            $('#userName').html(response.username);
 
             for (i = 0; i < response.items.length; i++){
 
