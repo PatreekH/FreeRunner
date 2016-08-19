@@ -6,6 +6,14 @@ var path = require('path');
 
 module.exports = function(app, db){
 
+	app.get('/isAuthenticated', function(req, res){
+		if (req.session.isAuth == true){
+			res.json(req.session.userInfo);
+		} else {
+			res.json('invalid');
+		}
+	});
+
 	app.post('/loginAttempt', function(req, res){
 		console.log("login attempt! username: " + req.body.user + " password: " + req.body.pass);
 		//Idea, search for username: and password: db param then error handle from there
@@ -37,12 +45,10 @@ module.exports = function(app, db){
     	});
 	});
 
-	app.get('/isAuthenticated', function(req, res){
-		if (req.session.isAuth == true){
-			res.json(req.session.userInfo);
-		} else {
-			res.json('invalid');
-		}
+	app.get('/logout', function(req, res){
+		req.session.destroy();
+		console.log('successfully logged out.');
+		res.send('success');
 	});
 
 	app.post('/makePurchase', function(req, res){

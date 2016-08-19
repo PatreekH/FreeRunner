@@ -69,8 +69,8 @@
 		position: absolute;
 		z-index: +2;
 		background-color: white;
-		height: 2.50%;
-		width: 200px;
+		height: 2.15%;
+		width: 201px;
 	}
 
 	#start{
@@ -231,9 +231,6 @@
 		height: 25%;
 	}
 
-	.modal-content{
-		/*overflow: hidden;*/
-	}
 
 
 
@@ -344,7 +341,7 @@
 
 	#profileNav{
 		font-size: 28px;
-		width: 100px;
+		width: 120px;
 		color: white;
 		margin-left: 2%;
 		float: left;
@@ -356,23 +353,25 @@
 		cursor: pointer;
 	}
 
-/*	#loginBtn{
-		padding-top: 5px;
-		font-size: 28px;
-		float: left;
-		cursor: pointer;
-	}*/
-
 	#profileDiv{
 		background-color: white;
 		top: -150px;
-		/*z-index: -1;*/
 		position: absolute;
 		width: 450px;
 		height: 150px;
 		background-color: white;
 		border-right: 3px solid black;
 		border-bottom: 3px solid black;
+	}
+
+	#loginBtn{
+		color: white;
+		padding-top: 8px;
+		font-size: 15px;
+		float: left;
+		cursor: pointer;
+        /*font-weight: 180;*/
+        font-family: 'Poppins', sans-serif;
 	}
 
 	#loginDiv{

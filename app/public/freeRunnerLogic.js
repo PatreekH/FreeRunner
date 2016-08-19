@@ -21,6 +21,8 @@ var laneBottom = parseFloat(onePercentH * 51.53);
 
 var score = 0;
 
+var loggedIn;
+
 //Tracks the hurdle to delete when animation is complete
 var lane1hurdlesPassed = 0;
 var lane2hurdlesPassed = 0;
@@ -63,6 +65,7 @@ var loginStatus = 0;
 //after animation deleteHurdle function will add 1 to hurdle value then delete -- done
 //function startLaneDetection for lane collision check to avoid over movement -- done
 //cant access any nav buttons while game is started -- done
+//user authentication --done
 
 //change box catch dimensions -- see prototype
     //media query box top
@@ -74,17 +77,17 @@ var loginStatus = 0;
     //--Lane is responsive, make entire logic reponsive as well, updates real time to avoid browser hack
 
 
-//modal for nav bar options
-//setup store/profile/signup modal and login div
-//clear out junk ajax calls, use sessions to get data where it needs to be
-//look into background ideas
 
+//put hat on character
+//selected hat stays on character after run
+//sign up working correctly
+//setup store/profile/signup modal and login div
+//look into background ideas
+//add intructions for non mem and mem
 
 //add pitfalls
 //alert to refresh window after resizing
-//send data to mongodb as is, then when cross ref, setLowercase
-//selected hat stays on character after run
-//finish user authentication
+//send user name to mongodb as is, then when cross ref, setLowercase
 //
 //seperate pages and code for login and session
 //increase in difficulty?
@@ -133,6 +136,29 @@ $("#loginAccept").on("click", function(){
 	location.reload();
 });
 
+$("#logOutRequest").on("click", function(){
+	$('#logOutModal').modal('show');
+});
+
+$("#logOutConfirm").on("click", function(){
+	$.ajax({
+
+        method: 'GET',
+
+        url: '/logout',
+
+        success: function(response){
+        	if (response == "success"){
+        		alert("You have logged out");
+        		location.reload();
+        	}
+        }
+
+    });
+});
+
+
+/*$('#successModal').modal('show');*/
     //Code for profile dropdown
 $(document).on('click', '#profileBtn', function(){
     if (profileStatus == 0 && launch == false){
@@ -197,24 +223,7 @@ function itemSlide(){
 };
 
 $('#shopSelectRight').on('click', function(){
-    if (currentSlide == 0){
-        console.log('no more items left!');
-    } else {
-        $('.itemDiv').animate({
-            marginLeft: "+=135"
-        }, 250);
-        itemDataId -= 1;
-        $("#purcahseItem").attr("data-id", itemDataId);
-        currentSlide -= 1;
-        previousSlide -= 1;
-        nextSlide -= 1;
-        itemSlide();
-    }
-
-});
-
-$('#shopSelectLeft').on('click', function(){
-if (currentSlide == 4){
+    if (currentSlide == 4){
         console.log('no more items left!');
     } else {
         $('.itemDiv').animate({
@@ -225,6 +234,23 @@ if (currentSlide == 4){
         currentSlide += 1;
         previousSlide += 1;
         nextSlide += 1;
+        itemSlide();
+    }
+
+});
+
+$('#shopSelectLeft').on('click', function(){
+if (currentSlide == 0){
+        console.log('no more items left!');
+    } else {
+        $('.itemDiv').animate({
+            marginLeft: "+=135"
+        }, 250);
+        itemDataId -= 1;
+        $("#purcahseItem").attr("data-id", itemDataId);
+        currentSlide -= 1;
+        previousSlide -= 1;
+        nextSlide -= 1;
         itemSlide();
     }
 });
@@ -271,7 +297,9 @@ function start(){
         }, 3000);
 
         createHerd();
-        startCoinGenerator();
+        if (loggedIn == true){
+        	startCoinGenerator();
+        }
         startScore();
 
         launch = true;
@@ -280,6 +308,11 @@ function start(){
             top: "-=150px"
         }, 500);
         profileStatus = 0;
+
+        $('#loginDiv').animate({
+            top: "-=150px"
+        }, 500);
+        loginStatus = 0;
 
         $('#shopDiv').animate({
             top: "-150px"
@@ -534,6 +567,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos1.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos1.top && newBoxPos.left < newHurdlePos1.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos1.left && lane == 1) {
+            	removeHurdles(h1counter, 1);
                 alert("Collision! with lane 1! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 1-" + h1counter);
                 updateAfterRun();
                 location.reload();
@@ -565,6 +599,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos2.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos2.top && newBoxPos.left < newHurdlePos2.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos2.left && lane == 2) {
+            	removeHurdles(h2counter, 2);
                 alert("Collision! with lane 2! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 2-" + h2counter);
                 updateAfterRun();
                 location.reload();
@@ -596,6 +631,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos3.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos3.top && newBoxPos.left < newHurdlePos3.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos3.left && lane == 3) {
+                removeHurdles(h3counter, 3);
                 alert("Collision! with lane 3! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 3-" + h3counter);
                 updateAfterRun();
                 location.reload();
@@ -627,6 +663,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos4.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos4.top && newBoxPos.left < newHurdlePos4.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos4.left && lane == 4) {
+                removeHurdles(h4counter, 4);
                 alert("Collision! with lane 4! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 4-" + h4counter);
                 updateAfterRun();
                 location.reload();
@@ -658,6 +695,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos5.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos5.top && newBoxPos.left < newHurdlePos5.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos5.left && lane == 5) {
+               	removeHurdles(h5counter, 5);
                 alert("Collision! with lane 5! Score: " + score + " " + "Coins Collected: " + coinsCollected + " hurdle: 5-" + h5counter);
                 updateAfterRun();
                 location.reload();
@@ -669,13 +707,18 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
 }
 
+//Removes all hurdles on collision to avoid double or endless collisions
+function removeHurdles(counter, lane){
+	for (i = 0; i < counter; i++){
+		$('#hurdle' + lane + '-' + i).remove();	
+	}
+}
+
 //routes for data
 
     //grabs user name on page load (testing purposes)
 
 isAuthenticated();
-grabHighScoreData();
-
 
 function isAuthenticated(){
     $.ajax({
@@ -688,16 +731,20 @@ function isAuthenticated(){
             console.log(response);
             //user is not signed in
             if (response == "invalid"){
-                $(".homeBtn").attr("id","loginBtn");
+            	$(".homeBtn").hide();
+                /*$(".homeBtn").attr("id","loginBtn");*/
                 $("#shopBtn").hide();
                 $("#hsBtn").hide();
                 $("#optionsBtn").hide();
 
             } else {
                 console.log(response);
+                loggedIn = true;
                 name = response.user
                 grabUserData(name);
-                $(".homeBtn").attr("id","profileBtn");
+                grabHighScoreData();
+                $("#loginBtn").hide();
+                $(".homeBtn").show();
                 $("#shopBtn").show();
                 $("#hsBtn").show();
                 $("#optionsBtn").show();

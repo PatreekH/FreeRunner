@@ -7,6 +7,7 @@
   	<link rel="stylesheet" type="text/css" href="css/style.css">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
@@ -16,7 +17,8 @@
 	<nav>
 		<div id="profileNav">
 			<!-- <div id="profileTitle"><b>Profile</b></div> -->
-			<i class='homeBtn fa fa-caret-down' aria-hidden='true'></i>
+			<div id="loginBtn"><p>Login | Sign up</p></div>
+			<i id="profileBtn" class='homeBtn fa fa-caret-down' aria-hidden='true'></i>
 		</div>
 <!-- 		<div class="title">
 			Free Runner
@@ -39,6 +41,7 @@
 				<br>
 				<button id="submitLoginInfo">Submit</button>
   			</form>
+  			<div>Don't have an account? <button id="signUp">Sign up!</button></div>
 	</div>
 
 	<div id="profileDiv">
@@ -55,6 +58,8 @@
 			<br>
 			<span>Coins: </span><span id="profileCoins">$</span>
 			<!-- <span><p>Players Defeated:</p></span> -->
+			<br>
+			<span><button id="logOutRequest">Logout</button></span>
 		</div>
 		<div id="closet">
 			<div id="spot0" class="pitem well"></div>
@@ -192,44 +197,30 @@
 				</div>
 
 				<button id="purcahseItem" data-id="1">Purchase</button>
-
-				<!-- <div class="itemDivBtn"> -->
-<!-- 				<div id="item0Btn" data-id="0">
-					<div class="itemDiv">
-						<div class="well itemPic"><img id="item0pic" class="hat" src="css/images/hat0.png"></div>
-						<div id="price1" class="itemPrice" data-id="10">$10</div>
-					</div>
-				</div>
-				<div id="item1Btn" data-id="1">
-					<div class="itemDiv">
-						<div class="well itemPic"><img id="item1pic" class="hat" src="css/images/hat1.png"></div>
-						<div id="price2" class="itemPrice" data-id="20">$20</div>
-					</div>
-				</div>
-				<div id="item2Btn" data-id="2">
-					<div class="itemDiv">
-						<div class="well itemPic"><img id="item2pic" class="hat" src="css/images/hat2.png"></div>
-						<div id="price3" class="itemPrice" data-id="30">$30</div>
-					</div>
-				</div>
-				<div id="item3Btn" data-id="3">
-					<div class="itemDiv">
-						<div class="well itemPic"><img id="item3pic" class="hat" src="css/images/hat3.png"></div>
-						<div id="price4" class="itemPrice" data-id="40">$40</div>
-					</div>
-				</div>
-				<div id="item4Btn" data-id="4">
-					<div class="itemDiv">
-						<div class="itemPic well"><img id="item4pic" class="hat" src="css/images/hat4.png"></div>
-						<div id="price5" class="itemPrice" data-id="50">$50</div>
-					</div>
-				</div> -->
-				<!-- </div> -->
 			</div>
 			<i id="shopSelectRight" class="fa fa-caret-right" aria-hidden="true"></i>
 
 	    </div>
 	  </div>
+	</div>
+
+			<!-- signout modal -->
+	<div class="modal fade" id="logOutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div id="loginFailedModal" class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Are you sure you want to log out?</h4>
+		      </div>
+<!-- 		      <div class="modal-body">
+		        <h2><span class="glyphicon glyphicon-ban-circle"></span></h2> <h4>Try Again</h4>
+		      </div> -->
+		      <div class="modal-footer">
+		      	<button type="button" class="btn btn-default" id="logOutConfirm" >Yes</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal" >No</button>
+		      </div>
+		    </div>
+		  </div>
 	</div>
 
 
