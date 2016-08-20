@@ -45,6 +45,13 @@ module.exports = function(app, db){
     	});
 	});
 
+	app.post('/submitNewUser', function(req, res){
+		db.userdata.insert({"username": req.body.newUser, "password": req.body.newPass, "coins": 0, "score": 0, "items": [false, false, false, false, false]}, function(err, docs){
+			if (err) throw err
+			res.send('success');
+		});
+	});
+
 	app.get('/logout', function(req, res){
 		req.session.destroy();
 		console.log('successfully logged out.');

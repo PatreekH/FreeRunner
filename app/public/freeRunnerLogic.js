@@ -58,6 +58,8 @@ var interval5;
 var profileStatus = 0;
 var shopStatus = 0;
 var loginStatus = 0;
+var logOutStatus = 0;
+var signUpStatus = 0;
 
 
 
@@ -132,11 +134,44 @@ $("#submitLoginInfo").on("click", function(){
     return false;
 });
 
+$("#submitNewUser").on("click", function(){
+	var usernameSignUp = $("#signupUserName").val().trim();
+    var passwordSignUp = $("#signupPassword").val().trim();
+	$.ajax({
+
+        method: 'POST',
+
+        url: '/submitNewUser',
+
+        data: {
+            newUser: usernameSignUp,
+            newPass: passwordSignUp
+        },
+
+        success: function(response){
+	        console.log(response);
+	        if (response == 'success'){
+	        	alert('successfully signed up!');
+	        	location.reload();
+	        } else {
+	        	alert('Error');
+	        }
+        }
+
+    });
+});
+
+$("#signUp").on("click", function(){
+	signUpStatus += 1;
+	$('#signUpModal').modal('show');
+});
+
 $("#loginAccept").on("click", function(){
 	location.reload();
 });
 
 $("#logOutRequest").on("click", function(){
+	logOutStatus += 1;
 	$('#logOutModal').modal('show');
 });
 
@@ -272,7 +307,11 @@ $(document).keydown(function(e) {
         up();
         break;
     case 83:
-        start();
+   		if (profileStatus == 1 || shopStatus == 1 || loginStatus == 1 || logOutStatus == 1 || signUpStatus == 1){
+   			console.log("Can't start while in modal");
+    	} else {
+    		start();
+    	}
         break;
     case 32:
         jump();

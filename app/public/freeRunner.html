@@ -127,8 +127,8 @@
 
 
 				<!-- success Modal -->
-	<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div id="loginSuccessModal" class="modal-dialog" role="document">
+<div class="modal fade bs-example-modal-sm" id="successModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	  <div class="modal-dialog modal-sm" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -142,12 +142,12 @@
 	</div>
 
 		<!-- !success modal -->
-	<div class="modal fade" id="unsuccessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div id="loginFailedModal" class="modal-dialog" role="document">
+	<div class="modal fade bs-example-modal-sm" id="unsuccessModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	  <div class="modal-dialog modal-sm" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Username or password were invalid</h4>
+		        <h4 class="modal-title" id="myModalLabel">Invalid username or password</h4>
 		      </div>
 		      <div class="modal-body">
 		        <h2><span class="glyphicon glyphicon-ban-circle"></span></h2> <h4>Try Again</h4>
@@ -205,8 +205,8 @@
 	</div>
 
 			<!-- signout modal -->
-	<div class="modal fade" id="logOutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div id="loginFailedModal" class="modal-dialog" role="document">
+	<div class="modal fade bs-example-modal-sm" id="logOutModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	  <div class="modal-dialog modal-sm" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -216,8 +216,35 @@
 		        <h2><span class="glyphicon glyphicon-ban-circle"></span></h2> <h4>Try Again</h4>
 		      </div> -->
 		      <div class="modal-footer">
-		      	<button type="button" class="btn btn-default" id="logOutConfirm" >Yes</button>
-		        <button type="button" class="btn btn-default" data-dismiss="modal" >No</button>
+		      	<button type="button" class="btn btn-default" id="logOutConfirm">Yes</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+		      </div>
+		    </div>
+		  </div>
+	</div>
+
+	<div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div id="loginFailedModal" class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Sign up:</h4>
+		      </div>
+		      <div class="modal-body">
+			    <form>
+					<label>Enter your desired username and password:</label>
+					<br>
+					<label>username - </label>
+					<input id="signupUserName" type="text">
+					<br>
+					<label>password - </label>
+					<input id="signupPassword" type="text">
+					<br>
+	  			</form>
+		      </div>
+		      <div class="modal-footer">
+		      	<button type="button" class="btn btn-default" id="submitNewUser">Submit</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 		      </div>
 		    </div>
 		  </div>
