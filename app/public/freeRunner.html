@@ -31,17 +31,19 @@
 	</nav>
 
 	<div id="loginDiv">
-			<p><b>Login:</b></p>
+			<!-- <p><b>Login:</b></p> -->
 			<form>
-				<label>username</label>
-				<input id="usernameInput" type="text">
+				<p id="loginTitle"><b>Login:</b></p>
+				<label>Username:</label>
+				<input id="usernameInput" type="text" required>
 				<br>
-				<label>password</label>
-				<input id="passwordInput" type="text">
+				<label>Password:</label>
+				<input id="passwordInput" type="password" required>
 				<br>
-				<button id="submitLoginInfo">Submit</button>
+				<button id="submitLoginInfo">Login</button>
   			</form>
-  			<div>Don't have an account? <button id="signUp">Sign up!</button></div>
+  			<div class="hr">&nbsp;</div>
+  			<div id="signUpDiv">Don't have an account? <br><button id="signUp">Sign up!</button></div>
 	</div>
 
 	<div id="profileDiv">
@@ -105,7 +107,7 @@
 
 
 	<div id="start">
-		<h1>Press 'S' to start</h1>
+		<h1>Press 'Shift' + 'S' to start</h1>
 	</div>
 
 	<div id="ledge-block"></div>
@@ -135,7 +137,7 @@
 		        <h4 class="modal-title" id="myModalLabel">Login Successful!</h4>
 		      </div>
 		      <div class="modal-footer">
-		        <!-- <a href="/admin"> --><button id="loginAccept" type="button" class="btn btn-default" >OKAY</button><!-- </a> -->
+		        <!-- <a href="/admin"> --><button id="loginAccept" type="button" class="btn btn-default" >Okay</button><!-- </a> -->
 		      </div>
 		    </div>
 		  </div>
@@ -153,7 +155,7 @@
 		        <h2><span class="glyphicon glyphicon-ban-circle"></span></h2> <h4>Try Again</h4>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal" >CLOSE</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 		      </div>
 		    </div>
 		  </div>
@@ -210,7 +212,7 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Are you sure you want to log out?</h4>
+		        <h5 class="modal-title" id="myModalLabel">Are you sure you want to log out?</h5>
 		      </div>
 <!-- 		      <div class="modal-body">
 		        <h2><span class="glyphicon glyphicon-ban-circle"></span></h2> <h4>Try Again</h4>
@@ -235,15 +237,19 @@
 					<label>Enter your desired username and password:</label>
 					<br>
 					<label>username - </label>
-					<input id="signupUserName" type="text">
+					<input id="signupUserName" type="text" required>
 					<br>
 					<label>password - </label>
-					<input id="signupPassword" type="text">
+					<input id="signupPassword" type="password" required>
+					<br>
+					<br>
+					<label>re-type password - </label>
+					<input id="signupPasswordCheck" type="password" required>
 					<br>
 	  			</form>
 		      </div>
 		      <div class="modal-footer">
-		      	<button type="button" class="btn btn-default" id="submitNewUser">Submit</button>
+		      	<input type="submit" class="btn btn-default" id="submitNewUser">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 		      </div>
 		    </div>

@@ -65,21 +65,20 @@ module.exports = function(app, db){
     		console.log("Making purchase..");
 
     		var itemsArray = docs[0].items
-    		
-    		itemsArray[req.body.itemId] = true;
 
     		var userCoinCount = docs[0].coins;
 
     		if (userCoinCount < req.body.cost){
     			console.log("Purchase Failed!");
-    			var purchaseConfirm = {
-    				confirmed: false
-    			};
-    			res.json(purchaseConfirm);
+    			res.json('insufficient');
+    		} else if (itemsArray[req.body.itemId] == true){
+    			console.log("Item already purchased!");
+    			res.json('owned');
     		} else {
     			var purchased;
 
     			itemsArray[req.body.itemId] = true;
+
     			purchased = parseInt(userCoinCount) - parseInt(req.body.cost);
 
     			db.userdata.update({username: req.body.username}, {$set: {items: itemsArray, coins: purchased}}, function (err, docs) {
@@ -90,8 +89,6 @@ module.exports = function(app, db){
 		    		res.json(docs);
     			});
     		}
-    		
-
     	});
 	});
 

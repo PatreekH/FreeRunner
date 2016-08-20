@@ -364,6 +364,8 @@
 		border-bottom: 3px solid black;
 	}
 
+	.hr {float:left;margin-top:5%;margin-left:2%;width:1px;height:100px;background-color:#000000;}
+
 	#loginBtn{
 		color: white;
 		padding-top: 8px;
@@ -372,6 +374,19 @@
 		cursor: pointer;
         /*font-weight: 180;*/
         font-family: 'Poppins', sans-serif;
+	}
+
+	#signUpDiv{
+		float: left;
+		margin-top: 10%;
+		margin-left: 3%;
+		margin-right: 2%;
+	}
+
+	#loginDiv form{
+		float: left;
+		margin-top: 2%;
+		margin-left: 2%;
 	}
 
 	#loginDiv{
@@ -384,6 +399,10 @@
 		background-color: white;
 		border-right: 3px solid black;
 		border-bottom: 3px solid black;
+	}
+
+	#loginTitle{
+		font-size: 20px;
 	}
 
 	nav{

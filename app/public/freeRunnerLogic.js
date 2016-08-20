@@ -58,8 +58,8 @@ var interval5;
 var profileStatus = 0;
 var shopStatus = 0;
 var loginStatus = 0;
-var logOutStatus = 0;
-var signUpStatus = 0;
+/*var logOutStatus = 0;
+var signUpStatus = 0;*/
 
 
 
@@ -68,6 +68,8 @@ var signUpStatus = 0;
 //function startLaneDetection for lane collision check to avoid over movement -- done
 //cant access any nav buttons while game is started -- done
 //user authentication --done
+//sign up working correctly -- done
+//setup store/profile/signup modal and login div -- done
 
 //change box catch dimensions -- see prototype
     //media query box top
@@ -82,8 +84,6 @@ var signUpStatus = 0;
 
 //put hat on character
 //selected hat stays on character after run
-//sign up working correctly
-//setup store/profile/signup modal and login div
 //look into background ideas
 //add intructions for non mem and mem
 
@@ -134,36 +134,46 @@ $("#submitLoginInfo").on("click", function(){
     return false;
 });
 
+$("#signUp").on("click", function(){
+	/*signUpStatus += 1;*/
+	$('#signUpModal').modal('show');
+});
+
 $("#submitNewUser").on("click", function(){
 	var usernameSignUp = $("#signupUserName").val().trim();
     var passwordSignUp = $("#signupPassword").val().trim();
-	$.ajax({
+    var passwordCheck = $("#signupPasswordCheck").val().trim();
+    var usernameCharCountCheck = $.trim($("#signupUserName").val());
+    var passwordCharCountCheck = $.trim($("#signupPassword").val());
+    /*console.log("HERE  " + usernameCharCountCheck + "PS" + passwordCharCountCheck);*/
+    if (usernameCharCountCheck <= 0 || passwordCharCountCheck <= 0){
+    	alert('Please fill out both forms');
+    } else if (passwordSignUp != passwordCheck){
+    	alert('Passwords do not match')
+    } else {
+	    $.ajax({
 
-        method: 'POST',
+	        method: 'POST',
 
-        url: '/submitNewUser',
+	        url: '/submitNewUser',
 
-        data: {
-            newUser: usernameSignUp,
-            newPass: passwordSignUp
-        },
+	        data: {
+	            newUser: usernameSignUp,
+	            newPass: passwordSignUp
+	        },
 
-        success: function(response){
-	        console.log(response);
-	        if (response == 'success'){
-	        	alert('successfully signed up!');
-	        	location.reload();
-	        } else {
-	        	alert('Error');
+	        success: function(response){
+		        console.log(response);
+		        if (response == 'success'){
+		        	alert('Successfully signed up! You may now login!');
+		        	location.reload();
+		        } else {
+		        	alert('Error');
+		        }
 	        }
-        }
 
-    });
-});
-
-$("#signUp").on("click", function(){
-	signUpStatus += 1;
-	$('#signUpModal').modal('show');
+	    });
+    }
 });
 
 $("#loginAccept").on("click", function(){
@@ -171,7 +181,7 @@ $("#loginAccept").on("click", function(){
 });
 
 $("#logOutRequest").on("click", function(){
-	logOutStatus += 1;
+	/*logOutStatus += 1;*/
 	$('#logOutModal').modal('show');
 });
 
@@ -232,12 +242,8 @@ $('#hsBtn').on('click',  function() {
     //Code for shop modal
 
 $('#shopBtn').on('click', function() {
-    if (shopStatus == 0 && launch == false){
+    if (launch == false){
         $('#shopModal').modal('show');
-        shopStatus += 1;
-    } else if (shopStatus == 1 && launch == false){
-        $('#shopModal').modal('hide');
-        shopStatus = 0;
     } else if (launch == true){
         console.log("Game has already started");
     }
@@ -306,19 +312,30 @@ $(document).keydown(function(e) {
     case 38:
         up();
         break;
-    case 83:
-   		if (profileStatus == 1 || shopStatus == 1 || loginStatus == 1 || logOutStatus == 1 || signUpStatus == 1){
-   			console.log("Can't start while in modal");
-    	} else {
-    		start();
-    	}
-        break;
     case 32:
         jump();
         break;
     case 80:
         /*pause();*/
         break;
+    }
+});
+
+var map = {16: false, 83: false};
+$(document).keydown(function(e) {
+    if (e.keyCode in map) {
+        map[e.keyCode] = true;
+        if (map[16] && map[83]) {
+	        if (loginStatus == 1){
+	   			console.log("Can't start while tabs are open");
+	    	} else {
+	    		start();
+	    	}
+        }
+    }
+}).keyup(function(e) {
+    if (e.keyCode in map) {
+        map[e.keyCode] = false;
     }
 });
 
@@ -352,11 +369,6 @@ function start(){
             top: "-=150px"
         }, 500);
         loginStatus = 0;
-
-        $('#shopDiv').animate({
-            top: "-150px"
-        }, 500);
-        shopStatus = 0;
 
         var laneCheck = setInterval(function(){
             if (lane == 1){
@@ -916,9 +928,12 @@ function makePurchase(itemId, cost){
 
         success: function(response){
             if (response.ok == 1){
+            	alert('Successfully purchased item!')
                 updateAllItemData();
-            } else if (response.confirmed == false){
+            } else if (response == 'insufficient'){
                 alert('Not enough coins');
+            } else if (response == 'owned'){
+            	alert('You already own that item!');
             }
         }
 
