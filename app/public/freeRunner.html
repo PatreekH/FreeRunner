@@ -8,6 +8,7 @@
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
     <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
@@ -64,11 +65,11 @@
 			<span><button id="logOutRequest">Logout</button></span>
 		</div>
 		<div id="closet">
-			<div id="spot0" class="pitem well"></div>
-			<div id="spot1" class="pitem well"></div>
-			<div id="spot2" class="pitem well"></div>
-			<div id="spot3" class="pitem well"></div>
-			<div id="spot4" class="pitem well"></div>
+			<div id="spot0" data-id="0" class="pitem well"></div>
+			<div id="spot1" data-id="1" class="pitem well"></div>
+			<div id="spot2" data-id="2" class="pitem well"></div>
+			<div id="spot3" data-id="3" class="pitem well"></div>
+			<div id="spot4" data-id="4" class="pitem well"></div>
 		</div>
 		<!-- add logout -->
 	</div>
@@ -125,7 +126,10 @@
 
 	</div>
 
-	<div class="box"><img id="pcube" src="css/images/pcube.png"></div>
+	<div class="box">
+		<img id="pcube" src="css/images/pcube.png">
+		<!-- <img id="currentHat" class="hat" src="css/images/hat1.png"> -->
+	</div>
 
 
 				<!-- success Modal -->
@@ -177,23 +181,23 @@
 
 				<div class="itemDiv">
 					<div class="itemInfo">
-						<div class="well itemPic"><img id="item0pic" class="hat notSelected" src="css/images/hat0.png"></div>
+						<div class="well itemPic"><img id="item0pic" class="hatStore notSelected" src="css/images/hat0.png"></div>
 						<div id="price0" class="itemPrice" data-id="10">$10</div>
 					</div>
 					<div class="itemInfo">
-						<div class="well itemPic"><img id="item1pic" class="hat currentItem" src="css/images/hat1.png"></div>
+						<div class="well itemPic"><img id="item1pic" class="hatStore currentItem" src="css/images/hat1.png"></div>
 						<div id="price1" class="itemPrice" data-id="20">$20</div>
 					</div>
 					<div class="itemInfo">
-						<div class="well itemPic"><img id="item2pic" class="hat notSelected" src="css/images/hat2.png"></div>
+						<div class="well itemPic"><img id="item2pic" class="hatStore notSelected" src="css/images/hat2.png"></div>
 						<div id="price2" class="itemPrice" data-id="30">$30</div>
 					</div>
 					<div class="itemInfo">
-						<div class="well itemPic"><img id="item3pic" class="hat notSelected" src="css/images/hat3.png"></div>
+						<div class="well itemPic"><img id="item3pic" class="hatStore notSelected" src="css/images/hat3.png"></div>
 						<div id="price3" class="itemPrice" data-id="40">$40</div>
 					</div>
 					<div class="itemInfo">
-						<div class="itemPic well"><img id="item4pic" class="hat notSelected" src="css/images/hat4.png"></div>
+						<div class="itemPic well"><img id="item4pic" class="hatStore notSelected" src="css/images/hat4.png"></div>
 						<div id="price4" class="itemPrice" data-id="50">$50</div>
 					</div>
 				</div>
@@ -243,7 +247,7 @@
 					<input id="signupPassword" type="password" required>
 					<br>
 					<br>
-					<label>re-type password - </label>
+					<label>verify password - </label>
 					<input id="signupPasswordCheck" type="password" required>
 					<br>
 	  			</form>

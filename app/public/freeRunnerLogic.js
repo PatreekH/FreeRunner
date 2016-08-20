@@ -80,16 +80,15 @@ var signUpStatus = 0;*/
 //100% responsive
     //--Lane is responsive, make entire logic reponsive as well, updates real time to avoid browser hack
 
-
-
 //put hat on character
 //selected hat stays on character after run
 //look into background ideas
 //add intructions for non mem and mem
+//send user name to mongodb as is, then when cross ref, setLowercase
 
+//onkeydown, if counter >= 5, stop animation
 //add pitfalls
 //alert to refresh window after resizing
-//send user name to mongodb as is, then when cross ref, setLowercase
 //
 //seperate pages and code for login and session
 //increase in difficulty?
@@ -110,7 +109,7 @@ function diff(a,b){return Math.abs(a-b);};
 
     //Code for login
 
-$(document).on('click', '#loginBtn', function() {
+$('#loginBtn').on('click', function() {
     if (loginStatus == 0 && launch == false){
         $('#loginDiv').animate({
             top: "38px"
@@ -202,10 +201,8 @@ $("#logOutConfirm").on("click", function(){
     });
 });
 
-
-/*$('#successModal').modal('show');*/
     //Code for profile dropdown
-$(document).on('click', '#profileBtn', function(){
+$('#profileBtn').on('click', function(){
     if (profileStatus == 0 && launch == false){
         $('#profileDiv').animate({
             top: "38px"
@@ -220,6 +217,31 @@ $(document).on('click', '#profileBtn', function(){
         console.log("Game has already started");
     }
 });
+
+$('.pItem').on('click', function(){
+//add something that lets computer track which hat is currently on on reload
+	var hatId = $(this).attr('data-id');
+	var purchasedCheck = $('#itemProfile' + hatId + 'pic').attr('data-id');
+
+	if (purchasedCheck != 1){
+		console.log("You don't have this hat!");
+	} else {
+		if (currentHat != null){
+			$('#spot' + currentHat).html("<img data-id='1' id='itemProfile" + currentHat + "pic' class='hatProfile' src='css/images/hat" + currentHat + ".png'>");
+		}
+		selectHat(hatId);
+	}
+});
+
+var currentHat;
+
+function selectHat(itemId){
+	currentHat = itemId;
+	$('#currentHat').remove();
+	$('#spot' + itemId).empty();
+	$('#spot' + itemId).html("ON");
+	$('.box').append("<img id='currentHat' class='hat' src='css/images/hat" + itemId + ".png'>");
+}
 
     //Code for High Score dropdown
 
@@ -353,10 +375,11 @@ function start(){
         }, 3000);
 
         createHerd();
+        startScore();
+
         if (loggedIn == true){
         	startCoinGenerator();
         }
-        startScore();
 
         launch = true;
 
@@ -365,10 +388,10 @@ function start(){
         }, 500);
         profileStatus = 0;
 
-        $('#loginDiv').animate({
+/*        $('#loginDiv').animate({
             top: "-=150px"
         }, 500);
-        loginStatus = 0;
+        loginStatus = 0;*/
 
         var laneCheck = setInterval(function(){
             if (lane == 1){
@@ -411,7 +434,7 @@ function start(){
 }
 
 function pause(){
-    alert("PAUSE")
+    alert("PAUSE");
 }
 
 function jump(){
@@ -497,7 +520,7 @@ function coinCheck(){
         diff(nextCoin, interval4) < 400 && coinLane == 4 ||
         diff(nextCoin, interval5) < 400 && coinLane == 5){
         console.log("ERROR coin was delayed due to unauthorized placement");
-        nextCoin += 300;
+        nextCoin += 150;
         coinGenerator(nextCoin, coinLane);
         console.log("Coin interval: " + nextCoin);
     } else {
@@ -879,7 +902,7 @@ function grabUserData(username){
             for (i = 0; i < response.items.length; i++){
 
                if (response.items[i] == true){
-                $("#spot" + i).html("<img id='itemProfile" + i + "pic' class='hatProfile' src='css/images/hat" + i + ".png'>")
+                $("#spot" + i).html("<img data-id='1' id='itemProfile" + i + "pic' class='hatProfile' src='css/images/hat" + i + ".png'>")
                } else if (response.items[i] == false) {
                 $("#spot" + i).empty();
                 console.log('Not purchased yet');
@@ -957,7 +980,7 @@ function updateAllItemData(){
             for (i = 0; i < response.items.length; i++){
 
                if (response.items[i] == true){
-                $("#spot" + i).html("<img id='itemProfile" + i + "pic' class='hatProfile' src='css/images/hat" + i + ".png'>");
+                $("#spot" + i).html("<img data-id='1' id='itemProfile" + i + "pic' class='hatProfile' src='css/images/hat" + i + ".png'>");
                } else {
                 console.log('Not purchased yet');
                }

@@ -75,9 +75,11 @@
 
 	#start{
 		top: 30%;
-		left: 42%;
+		left: 35%;
 		position: absolute;
 		z-index: +2;
+		font-weight: bold; 
+		font-family: 'Poppins', sans-serif;
 	}
 
 	#ledge-pic{
@@ -306,7 +308,21 @@
 		margin-top: -40px;
 	}*/
 
+	#currentHat{
+		top: -50px;
+		left: -4px;
+		position: relative;
+		z-index: +5;
+		width: 37px;
+	}
+
 	.hat{
+		position: relative;
+		height: 30px;
+		width: 30px;
+	}
+
+	.hatStore{
 		position: relative;
 		height: 30px;
 		width: 30px;
@@ -362,6 +378,10 @@
 		background-color: white;
 		border-right: 3px solid black;
 		border-bottom: 3px solid black;
+	}
+
+	#spot0, #spot1, #spot2, #spot3, #spot4{
+		cursor: pointer;
 	}
 
 	.hr {float:left;margin-top:5%;margin-left:2%;width:1px;height:100px;background-color:#000000;}
