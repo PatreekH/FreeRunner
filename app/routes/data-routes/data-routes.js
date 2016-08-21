@@ -16,11 +16,9 @@ module.exports = function(app, db){
 
 	app.post('/loginAttempt', function(req, res){
 		console.log("login attempt! username: " + req.body.user + " password: " + req.body.pass);
-		//Idea, search for username: and password: db param then error handle from there
 		db.userdata.find({}, function (err, docs) {
     		if (err) throw err
     		console.log("attempting login...");
-    		var login;
     		for (i = 0; i < docs.length; i++){
     			if (req.body.user == docs[i].username && req.body.pass == docs[i].password){
     				req.session.userInfo = {
@@ -118,6 +116,30 @@ module.exports = function(app, db){
     	});
 	});
 
+	app.post('/updateCurrentHat', function(req, res){
+		console.log(req.body);
+		db.userdata.find({username: req.body.currentUser}, function (err, docs) {
+    		if (err) throw err
+    		// the update is complete
+    		console.log("Grabbed user data");
+    		console.log(docs[0]);
+    		var currentItems = docs[0].items
+    		for (i = 0; i < currentItems.length; i++){
+	    		if (currentItems[i] == 'active'){
+	    			currentItems[i] = true;
+	    		}
+    		}
+    		currentItems[req.body.currentHat] = 'active'
+    		/*res.json(docs[0]);*/
+			db.userdata.update({username: docs[0].username}, {$set: {items: currentItems}}, function (err, docs) {
+	    		// the update is complete
+	    		console.log("Updated active hat");
+	    		if (err) throw err
+	    		res.json(docs);
+			});
+		});
+	});
+
 /*	app.get('/userData', function(req, res){
 		console.log(req.body);
     	db.userdata.find({name: req.body.username}, function (err, docs) {
@@ -130,8 +152,6 @@ module.exports = function(app, db){
 	});*/
 
 
-//DOES COIN UPDATE IN THE DOM AFTER RUN?
-//yes because the page refreshes
 	app.post('/updateAfterRun', function(req, res){
 		console.log(req.body);
 		db.userdata.find({username: req.body.username}, function (err, docs) {

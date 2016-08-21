@@ -1,5 +1,5 @@
 //FREE RUNNER
-//by Patrick Hernandez
+//b Hernandez
 
 var box = $('.box');
 var boxPos = {width: 30, height: 30};
@@ -70,6 +70,8 @@ var signUpStatus = 0;*/
 //user authentication --done
 //sign up working correctly -- done
 //setup store/profile/signup modal and login div -- done
+//put hat on character -- done
+//selected hat stays on character after run and on login -- done
 
 //change box catch dimensions -- see prototype
     //media query box top
@@ -80,17 +82,16 @@ var signUpStatus = 0;*/
 //100% responsive
     //--Lane is responsive, make entire logic reponsive as well, updates real time to avoid browser hack
 
-//put hat on character
-//selected hat stays on character after run
+
+//responsive gameplay
 //look into background ideas
 //add intructions for non mem and mem
 //send user name to mongodb as is, then when cross ref, setLowercase
-
 //onkeydown, if counter >= 5, stop animation
+//look into websockets
+
 //add pitfalls
 //alert to refresh window after resizing
-//
-//seperate pages and code for login and session
 //increase in difficulty?
 
 //==========
@@ -107,7 +108,7 @@ function diff(a,b){return Math.abs(a-b);};
 
 //Code for nav
 
-    //Code for login
+    //Code for login dropdown
 
 $('#loginBtn').on('click', function() {
     if (loginStatus == 0 && launch == false){
@@ -165,7 +166,8 @@ $("#submitNewUser").on("click", function(){
 		        console.log(response);
 		        if (response == 'success'){
 		        	alert('Successfully signed up! You may now login!');
-		        	location.reload();
+		        	/*location.reload();*/
+                    $('#signUpModal').modal('hide');
 		        } else {
 		        	alert('Error');
 		        }
@@ -201,7 +203,11 @@ $("#logOutConfirm").on("click", function(){
     });
 });
 
+    //==================
+
+
     //Code for profile dropdown
+
 $('#profileBtn').on('click', function(){
     if (profileStatus == 0 && launch == false){
         $('#profileDiv').animate({
@@ -241,7 +247,29 @@ function selectHat(itemId){
 	$('#spot' + itemId).empty();
 	$('#spot' + itemId).html("ON");
 	$('.box').append("<img id='currentHat' class='hat' src='css/images/hat" + itemId + ".png'>");
+    currentHatUpdate(itemId);
 }
+
+function currentHatUpdate(itemId){
+    $.ajax({
+
+        method: 'POST',
+
+        url: '/updateCurrentHat',
+
+        data: {
+                currentUser: name,
+                currentHat: itemId
+        },
+
+        success: function(response){
+            console.log(response + "what is this")
+        }
+
+    });
+}
+
+    //==================
 
     //Code for High Score dropdown
 
@@ -260,6 +288,8 @@ $('#hsBtn').on('click',  function() {
         console.log("Game has already started");
     }
 });
+
+    //==================
 
     //Code for shop modal
 
@@ -324,7 +354,9 @@ $('#purcahseItem').on('click', function(){
     makePurchase(itemId, cost);
 });
 
-//Code for user commands
+    //==================
+
+    //Code for user commands
 
 $(document).keydown(function(e) {
     switch (e.which) {
@@ -379,6 +411,11 @@ function start(){
 
         if (loggedIn == true){
         	startCoinGenerator();
+        } else {
+            $('#loginDiv').animate({
+                top: "-=150px"
+            }, 500);
+            loginStatus = 0;    
         }
 
         launch = true;
@@ -387,11 +424,6 @@ function start(){
             top: "-=150px"
         }, 500);
         profileStatus = 0;
-
-/*        $('#loginDiv').animate({
-            top: "-=150px"
-        }, 500);
-        loginStatus = 0;*/
 
         var laneCheck = setInterval(function(){
             if (lane == 1){
@@ -906,6 +938,10 @@ function grabUserData(username){
                } else if (response.items[i] == false) {
                 $("#spot" + i).empty();
                 console.log('Not purchased yet');
+               } else if (response.items[i] == 'active'){
+                $('.box').append("<img id='currentHat' class='hat' src='css/images/hat" + i + ".png'>");
+                $('#spot' + i).html("ON");
+                currentHat = i;
                }
 
             }
@@ -978,10 +1014,15 @@ function updateAllItemData(){
             $('#profileCoins').html(response.coins);
 
             for (i = 0; i < response.items.length; i++){
-
+                console.log(response.items[i]);
                if (response.items[i] == true){
                 $("#spot" + i).html("<img data-id='1' id='itemProfile" + i + "pic' class='hatProfile' src='css/images/hat" + i + ".png'>");
-               } else {
+               } /*else if (response.items[i] == 'active'){
+                $('.box').append("<img id='currentHat' class='hat' src='css/images/hat" + i + ".png'>");
+                $('#spot' + i).html("ON");
+                currentHat = i;
+               }*/
+               else {
                 console.log('Not purchased yet');
                }
 
