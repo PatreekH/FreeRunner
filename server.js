@@ -44,11 +44,11 @@ db.on('error', function(err) {
 });
 
 // Use connect method to connect to the Server
-MongoClient.connect(databseUrl, function (err, db) {
+MongoClient.connect(databaseUrl, function (err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
-    console.log('Connection established to', databseUrl);
+    console.log('Connection established to', databaseUrl);
 
     // do some work here with the database.
 
