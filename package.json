@@ -17,5 +17,8 @@
     "mongodb": "^2.2.7",
     "mongojs": "^2.3.0",
     "request": "^2.69.0"
+  },
+  "engines":{
+    "node": "4.4.5"
   }
 }
