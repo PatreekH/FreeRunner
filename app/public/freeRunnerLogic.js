@@ -87,6 +87,7 @@ var signUpStatus = 0;*/
 //setup store/profile/signup modal and login div -- done
 //put hat on character -- done
 //selected hat stays on character after run and on login -- done
+//responsive gameplay --done
 
 //change box catch dimensions -- see prototype
     //media query box top
@@ -94,11 +95,6 @@ var signUpStatus = 0;*/
 //build algo to stop coin and hurdle collision -- attempted
     //--combine hurdle and coin generator to make chain of events, pitfalls as well
 
-//100% responsive
-    //--Lane is responsive, make entire logic reponsive as well, updates real time to avoid browser hack
-
-
-//responsive gameplay
 //look into background ideas
 //add intructions for non mem and mem
 //send user name to mongodb as is, then when cross ref, setLowercase
@@ -329,10 +325,10 @@ $('#shopSelectRight').on('click', function(){
         console.log('no more items left!');
     } else {
         $('.itemDiv').animate({
-            marginLeft: "-=135"
+            marginLeft: "-=138"
         }, 250);
         itemDataId += 1;
-        $("#purcahseItem").attr("data-id", itemDataId);
+        $("#purchaseItem").attr("data-id", itemDataId);
         currentSlide += 1;
         previousSlide += 1;
         nextSlide += 1;
@@ -346,10 +342,10 @@ if (currentSlide == 0){
         console.log('no more items left!');
     } else {
         $('.itemDiv').animate({
-            marginLeft: "+=135"
+            marginLeft: "+=138"
         }, 250);
         itemDataId -= 1;
-        $("#purcahseItem").attr("data-id", itemDataId);
+        $("#purchaseItem").attr("data-id", itemDataId);
         currentSlide -= 1;
         previousSlide -= 1;
         nextSlide -= 1;
@@ -357,7 +353,7 @@ if (currentSlide == 0){
     }
 });
 
-$('#purcahseItem').on('click', function(){
+$('#purchaseItem').on('click', function(){
     var itemId = $(this).attr('data-id');
     var cost = $('#price' + itemDataId).attr('data-id');
     makePurchase(itemId, cost);
@@ -367,7 +363,7 @@ $('#purcahseItem').on('click', function(){
 
     //Code for user commands
 
-$(document).keydown(function(e) {
+$(document).keyup(function(e) {
     switch (e.which) {
     case 40:
         down();
@@ -495,7 +491,9 @@ function up(){
     var pos = box.position();
     console.log(pos.top + " " + laneTop);
 
-    if (pos.top > laneTop /*&& launch == true*/) {
+    if (pos.top <= parseFloat(laneTop) && lane == 1){
+        console.log("Fall");
+    } else if (pos.top > laneTop /*&& launch == true*/) {
         $('.box').animate({
             top: '-=22',
             left: '+=22'
@@ -513,8 +511,9 @@ function up(){
 function down(){
     var pos = box.position();
     console.log(pos.top + " " + laneBottom)
-
-    if (pos.top < laneBottom /*&& launch == true*/) {
+    if (pos.top >= parseFloat(laneBottom) && lane == 5){
+        console.log("Fall");
+    } else if (pos.top < laneBottom /*&& launch == true*/) {
         $('.box').animate({
             top: '+=22',
             left: '-=22'
@@ -579,15 +578,15 @@ function coinGenerator(nextCoin, coinLane){
             coinCounter++;
 
             if (coinLane == 1){
-                $('.lane').append('<div class="h1z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:110%;top:40%;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+                $('.lane').append('<div class="h1z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:110%;top:168.5px;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
             } else if (coinLane == 2){
-                $('.lane').append('<div class="h2z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:108%;top:43%;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+                $('.lane').append('<div class="h2z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:108%;top:191.4px;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
             } else if (coinLane == 3){
-                $('.lane').append('<div class="h3z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:106%;top:46%;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+                $('.lane').append('<div class="h3z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:106%;top:214.3px;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
             } else if (coinLane == 4){
-                $('.lane').append('<div class="h4z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:104%;top:49%;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+                $('.lane').append('<div class="h4z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:104%;top:237.2px;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
             } else if (coinLane == 5){
-                $('.lane').append('<div class="h5z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:102%;top:52%;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+                $('.lane').append('<div class="h5z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
             }
             
             $('#coin-' + coinCounter).animate({
@@ -700,7 +699,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
         h2counter++;
 
-        $('.lane').append('<div class="h2z hurdle" id="hurdle2-' + h2counter + '" style="position:fixed;left:108%;top:190.5px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane').append('<div class="h2z hurdle" id="hurdle2-' + h2counter + '" style="position:fixed;left:108%;top:191.4px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
         
         $('#hurdle2-' + h2counter).animate({
             left: '-=120%'
@@ -734,7 +733,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
         h3counter++;
 
-        $('.lane').append('<div class="h3z hurdle" id="hurdle3-' + h3counter + '" style="position:fixed;left:106%;top:212.5px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane').append('<div class="h3z hurdle" id="hurdle3-' + h3counter + '" style="position:fixed;left:106%;top:214.3px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
         
         $('#hurdle3-' + h3counter).animate({
             left: '-=120%'
@@ -768,7 +767,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
         h4counter++;
 
-        $('.lane').append('<div class="h4z hurdle" id="hurdle4-' + h4counter + '" style="position:fixed;left:104%;top:234.5px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane').append('<div class="h4z hurdle" id="hurdle4-' + h4counter + '" style="position:fixed;left:104%;top:237.2px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
         
         $('#hurdle4-' + h4counter).animate({
             left: '-=120%'
@@ -802,7 +801,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
         h5counter++;
 
-        $('.lane').append('<div class="h5z hurdle" id="hurdle5-' + h5counter + '" style="position:fixed;left:102%;top:256.5px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane').append('<div class="h5z hurdle" id="hurdle5-' + h5counter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
         
         $('#hurdle5-' + h5counter).animate({
         left: '-=120%'
