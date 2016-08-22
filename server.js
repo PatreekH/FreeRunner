@@ -29,7 +29,6 @@ app.use(bodyParser.json({type:'application/vnd.api+json'}));
 var mongojs = require('mongojs');
 var databaseUrl = "mongodb://heroku_rs91s41p:1pad3lb01as7t262d8lalqif7l@ds013486.mlab.com:13486/heroku_rs91s41p";
 var collections = ["userdata"];
-var ObjectId = require('mongodb').ObjectId;
 
 // Hook mongojs configuration to the db variable
 var db = mongojs(databaseUrl, collections);
