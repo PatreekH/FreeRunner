@@ -8,6 +8,10 @@ var request = require('request');
 var cheerio = require('cheerio');
 var bodyParser = require('body-parser');
 
+
+var mongodb = require('mongodb');
+var MongoClient = mongodb.MongoClient;
+
 // express session for user authentication
 session = require('express-session');
 app.use(session({
@@ -25,15 +29,31 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
 app.use(bodyParser.json({type:'application/vnd.api+json'}));
 
+
+
 // Database configuration
 var mongojs = require('mongojs');
-var databaseUrl = "mongodb://heroku_rs91s41p:1pad3lb01as7t262d8lalqif7l@ds013486.mlab.com:13486/heroku_rs91s41p";
-var collections = ["userdata"];
+var databaseUrl = process.env.MONGOLAB_URI;
+/*var url = "mongodb://patrickh:newave12@ds013486.mlab.com:13486/freerunner";*/
+/*var collections = ["userdata"];*/
 
 // Hook mongojs configuration to the db variable
-var db = mongojs(databaseUrl, collections);
+var db = mongojs(databaseUrl, ["userdata"]);
 db.on('error', function(err) {
   console.log('Database Error:', err);
+});
+
+// Use connect method to connect to the Server
+MongoClient.connect(databseUrl, function (err, db) {
+  if (err) {
+    console.log('Unable to connect to the mongoDB server. Error:', err);
+  } else {
+    console.log('Connection established to', databseUrl);
+
+    // do some work here with the database.
+
+    //Close connection
+  }
 });
 
 // ROUTES
