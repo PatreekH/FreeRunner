@@ -372,7 +372,7 @@ $(document).keyup(function(e) {
         up();
         break;
     case 32:
-        jump();
+        /*jump();*/
         break;
     case 80:
         /*pause();*/
