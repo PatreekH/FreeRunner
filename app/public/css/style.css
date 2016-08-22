@@ -1,11 +1,15 @@
+	body{
+		overflow: hidden;
+	}
 
    .box {
     	/*background-image: url(pcube.png);*/
     	width: 30px;
     	height: 30px;
-    	top: 40%;
+    	top: 168.5px;
+    	left: 233px;
     	/*background:#ccc;*/
-    	position: absolute;
+    	position: fixed;
     	z-index: +4;
 	}
 
@@ -44,9 +48,22 @@
 		z-index: +5;
 	}
 
+	.laneWrapper{
+		overflow: hidden;
+		position: relative;
+		z-index: -1;
+		top: 15%;
+		height: 85%;
+	    -webkit-transform: rotate(0deg);
+	    -moz-transform: rotate(0deg);
+	    -ms-transform: rotate(0deg);
+	    -o-transform: rotate(0deg);
+	    transform: rotate(0deg);
+	}
+
 	.lane{
 		width: 100%;
-		top: 41.30%;
+		top: 178px;
 		border-top: 2px solid black;
 		border-bottom: 2px solid black;
 		overflow: hidden;
@@ -56,7 +73,7 @@
 	}
 
 	#ledge-block{
-		top: 40%;
+		top: 170px;
 		position: absolute;
 		z-index: +2;
 		background-color: white;
@@ -65,16 +82,16 @@
 	}
 
 	#ledge-block2{
-		top: 39.70%;
+		top: 171px;
 		position: absolute;
 		z-index: +2;
 		background-color: white;
-		height: 2.15%;
+		height: 9px;
 		width: 201px;
 	}
 
 	#start{
-		top: 30%;
+		top: 20%;
 		left: 35%;
 		position: absolute;
 		z-index: +2;
@@ -83,7 +100,7 @@
 	}
 
 	#ledge-pic{
-		top: 40%;
+		top: 168px;
 		width: 400px;
 		height: 1375px;
 		position: fixed;
@@ -91,7 +108,7 @@
 		overflow: hidden;
 	}
 
-	@media only screen and (max-height: 700px) {
+/*	@media only screen and (max-height: 700px) {
   		#ledge-pic {
     		top: 39.65%;
     		width: 400px;
@@ -166,7 +183,7 @@
 			z-index: -1;
 			overflow: hidden;
   		}
-	}
+	}*/
 
 	.ledge-pic2{
 		width: 400px;
