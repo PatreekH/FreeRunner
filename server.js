@@ -41,6 +41,6 @@ require('./app/routes/data-routes/data-routes.js')(app, db);
 require('./app/routes/html-routes/html-routes.js')(app, db);
 
 // listen on port 3000
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, function() {
   console.log('App running on port 3000!');
 });
