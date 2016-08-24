@@ -217,8 +217,9 @@ $("#logOutConfirm").on("click", function(){
 
     //Code for battle button
 $('#battleBtn').on('click', function(){
-
+    $('#lobbyModal').modal('show');
 });
+
 
     //==================
 
@@ -874,6 +875,7 @@ function isAuthenticated(){
             	$(".homeBtn").hide();
                 /*$(".homeBtn").attr("id","loginBtn");*/
                 $("#battleBtn").hide();
+                $("#battleBtn2").hide();
                 $("#shopBtn").hide();
                 $("#hsBtn").hide();
                 $("#optionsBtn").hide();
@@ -887,6 +889,7 @@ function isAuthenticated(){
                 $("#loginBtn").hide();
                 $(".homeBtn").show();
                 $("#battleBtn").show();
+                $("#battleBtn2").show();
                 $("#shopBtn").show();
                 $("#hsBtn").show();
                 $("#optionsBtn").show();

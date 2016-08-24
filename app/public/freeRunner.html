@@ -25,7 +25,7 @@
 			Free Runner
 		</div> -->
 		<!-- div id="navMenu"> -->
-			<a href="/multiplayer"><i id="battleBtn" class="fa fa-cube" aria-hidden="true"></i></a>
+			<!-- <a href="/multiplayer"> --><div id="battleBtn"><i id="battleBtnPic" class="fa fa-cube" aria-hidden="true"></i><i id="battleBtnPic2" class="fa fa-cube" aria-hidden="true"></i></div><!-- </a> -->
 			<i id="shopBtn" class="fa fa-usd" aria-hidden="true"></i>
 			<i id="hsBtn" class="fa fa-list-ol" aria-hidden="true"></i>
 			<i id="optionsBtn" class="fa fa-cog" aria-hidden="true"></i>
@@ -270,6 +270,53 @@
 		      </div>
 		      <div class="modal-footer">
 		      	<input type="submit" class="btn btn-default" id="submitNewUser">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		      </div>
+		    </div>
+		  </div>
+	</div>
+
+	<div class="modal fade" id="lobbyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Multiplayer Lobby:</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<h3>Welcome to Multiplayer!</h3>
+		      	<h5>Double click on an open lobby to join or create lobby to host your own!</h5>
+		      	<a href="/multiplayer"><button type="button" class="btn btn-default" data-dismiss="modal">Create Lobby</button></a>
+			    <table id='gameLobby'>
+			    	<tr id='game1'>
+			    		<th>Lobby name:</th>
+			    		<th>Players:</th>
+			    		<th>Status:</th>
+			    	</tr>
+					<tr>
+						<td>1. test lobby</td>
+						<td>1/2</td>
+						<td>Open</td>
+					</tr>
+					<tr>
+						<td>2. test lobby</td>
+						<td>1/2</td>
+						<td>Open</td>
+					</tr>
+					<tr>
+						<td>3. test lobby</td>
+						<td>1/2</td>
+						<td>Open</td>
+					</tr>
+					<tr>
+						<td>4. test lobby</td>
+						<td>2/2</td>
+						<td>Closed</td>
+					</tr>
+				</table>
+
+		      </div>
+		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 		      </div>
 		    </div>
