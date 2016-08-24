@@ -33,7 +33,9 @@ app.use(bodyParser.json({type:'application/vnd.api+json'}));
 
 // Database configuration
 var mongojs = require('mongojs');
-var databaseUrl = process.env.MONGOLAB_URI;
+var databaseUrl = "mongodb://patrickh:newave12@ds013486.mlab.com:13486/freerunner";
+
+/*process.env.MONGOLAB_URI;*/
 
 // Hook mongojs configuration to the db variable
 var db = mongojs(databaseUrl, ["userdata"]);

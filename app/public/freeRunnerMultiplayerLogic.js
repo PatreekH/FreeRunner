@@ -2,6 +2,7 @@
 //b Hernandez
 
 var box = $('.box');
+var box2 = $('.box2');
 var boxPos = {width: 30, height: 30};
 var hurdlePos = {width: 30, height: 30};
 var coinPos = {width: 30, height: 30};
@@ -20,8 +21,10 @@ var onePercentW = windowWidthSize / 100;
 
 //Top and Bottom lane measurements based on screen size
 var percent15 = parseFloat(onePercentH * 15); 
-var laneTop = (percent15 + 191);
-var laneBottom = (percent15 + 276);
+var laneTop = (percent15 + 169);
+var laneBottom = (percent15 + 256);
+var lane2Top = (percent15 + 51);
+var lane2Bottom = (percent15 + 117);
 
 //Determines the speed of obsticales based on screen width
 //184.32 a second
@@ -45,8 +48,15 @@ var lane3hurdlesPassed = 0;
 var lane4hurdlesPassed = 0;
 var lane5hurdlesPassed = 0;
 
+var lane2_1hurdlesPassed = 0;
+var lane2_2hurdlesPassed = 0;
+var lane2_3hurdlesPassed = 0;
+var lane2_4hurdlesPassed = 0;
+var lane2_5hurdlesPassed = 0;
+
 var launch = false;
 var lane = 1;
+var lane2 = 1;
 
 var name;
 
@@ -380,10 +390,20 @@ $('#purchaseItem').on('click', function(){
 $(document).keyup(function(e) {
     switch (e.which) {
     case 40:
-        down();
+        var box1Pos = box.position();
+        down(box1Pos, '.box', laneBottom, 1);
         break;
     case 38:
-        up();
+        var box1Pos = box.position();
+        up(box1Pos,'.box', laneTop, 1);
+        break;
+    case 87:
+        var box2Pos = box2.position();
+        up(box2Pos,'.box2', lane2Top, 2);
+        break;
+    case 83:
+        var box2Pos = box2.position();
+        down(box2Pos,'.box2', lane2Bottom, 2);
         break;
     case 32:
         /*jump();*/
@@ -415,14 +435,24 @@ $(document).keydown(function(e) {
 function start(){
     if (launch == false){
         $('#start').remove();
-        $('#ledge-pic').animate({
-            left: "-=550px"
+        $('.ledge-pic').animate({
+            left: "-=650px"
         }, 3000);
-        $('#ledge-block').animate({
-            left: "-=550px"
+        $('.ledge-block').animate({
+            left: "-=650px"
         }, 3000);
-        $('#ledge-block2').animate({
-            left: "-=550px"
+        $('.ledge-block2').animate({
+            left: "-=650px"
+        }, 3000);
+
+        $('.ledge-pic2').animate({
+            left: "-=650px"
+        }, 3000);
+        $('.ledge-block1-2').animate({
+            left: "-=650px"
+        }, 3000);
+        $('.ledge-block2-2').animate({
+            left: "-=650px"
         }, 3000);
 
         createHerd();
@@ -467,6 +497,28 @@ function start(){
                 $('.h4z').css("z-index", "3");
                 $('.h5z').css("z-index", "5");
             }
+            if (lane2 == 1){
+                $('.h1z').css("z-index", "5");
+                $('.h2z').css("z-index", "5");
+            } else if (lane2 == 2){
+                $('.h1z').css("z-index", "3");
+                $('.h2z').css("z-index", "5");
+                $('.h3z').css("z-index", "5");
+            } else if (lane2 == 3){
+                $('.h1z').css("z-index", "2");
+                $('.h2z').css("z-index", "3");
+                $('.h3z').css("z-index", "4");
+                $('.h4z').css("z-index", "5");
+            } else if (lane2 == 4){
+                $('.h1z').css("z-index", "1");
+                $('.h2z').css("z-index", "2");
+                $('.h3z').css("z-index", "3");
+                $('.h4z').css("z-index", "4");
+                $('.h5z').css("z-index", "5");
+            } else if (lane2 == 5){
+                $('.h4z').css("z-index", "3");
+                $('.h5z').css("z-index", "5");
+            }
         }, 1);
 
         var barrierCheck = setInterval(function(){
@@ -501,44 +553,62 @@ function fall(){
     }, 1100); 
 }
 
-function up(){
-    var pos = box.position();
+function up(pos, box, laneTop, boxlane){
+/*    var pos = box.position();*/
     console.log(pos.top + " " + laneTop);
 
-    if (pos.top <= parseFloat(laneTop) && lane == 1){
+    if (pos.top <= parseFloat(laneTop)){
         console.log("Fall");
-    } else if (pos.top > laneTop && launch == true) {
-        $('.box').animate({
+    } else if (pos.top > laneTop /*&& launch == true*/) {
+        $(box).animate({
             top: '-=22',
             left: '+=22'
         }, 150, 'linear'); 
     }
 
-    if (lane <= 1){
-        console.log("Fall");
-    } else {
-        lane--;
-        console.log("lane: " + lane);
+    if (boxlane == 1){
+        if (lane <= 1){
+            console.log("Fall");
+        } else {
+            lane--;
+            console.log("lane: " + lane);
+        }
+    } else if (boxlane == 2){
+        if (lane2 <= 1){
+            console.log("Fall");
+        } else {
+            lane2--;
+            console.log("lane: " + lane2);
+        }  
     }
 }
 
-function down(){
-    var pos = box.position();
+function down(pos, box, laneBottom, boxlane){
+/*    var pos = box.position();*/
     console.log(pos.top + " " + laneBottom)
-    if (pos.top >= parseFloat(laneBottom) && lane == 5){
+    if (pos.top >= parseFloat(laneBottom)){
         console.log("Fall");
-    } else if (pos.top < laneBottom && launch == true) {
-        $('.box').animate({
+    } else if (pos.top < laneBottom /*&& launch == true*/) {
+        $(box).animate({
             top: '+=22',
             left: '-=22'
         }, 150, 'linear'); 
     }
 
-    if (lane >= 5){
-        console.log("Fall");
-    } else {
-        lane++;
-        console.log("lane: " + lane);
+    if (boxlane == 1){
+        if (lane >= 5){
+            console.log("Fall");
+        } else {
+            lane++;
+            console.log("lane: " + lane);
+        }
+    } else if (boxlane == 2){
+        if (lane2 >= 5){
+            console.log("Fall");
+        } else {
+            lane2++;
+            console.log("lane: " + lane2);
+        }  
     }
 }
 
@@ -649,21 +719,23 @@ function createIntervals(){
         console.log("#ERROR: WALL CREATED#");
         interval1 += 700;
         interval3 += 700;
-        console.log("Int1: " + interval1 + " +700 delay");
+/*        console.log("Int1: " + interval1 + " +700 delay");
         console.log("Int2: " + interval2);
         console.log("Int3: " + interval3 + " +700 delay");
         console.log("Int4: " + interval4);
         console.log("Int5: " + interval5);
-        console.log("=====Wall Fixed=====");
+        console.log("=====Wall Fixed=====");*/
         createHurdles(interval1, interval2, interval3, interval4, interval5);
+        createHurdles2(interval1, interval2, interval3, interval4, interval5);
     } else {
         createHurdles(interval1, interval2, interval3, interval4, interval5);
-        console.log("Int1: " + interval1);
+        createHurdles2(interval1, interval2, interval3, interval4, interval5);
+/*        console.log("Int1: " + interval1);
         console.log("Int2: " + interval2);
         console.log("Int3: " + interval3);
         console.log("Int4: " + interval4);
         console.log("Int5: " + interval5);
-        console.log("====================");
+        console.log("====================");*/
     }
 
 }
@@ -847,11 +919,205 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
 }
 
+
+
+
+
+//======================================================================================
+
+
+
+
+
+
+function createHurdles2(interval1, interval2, interval3, interval4, interval5){
+
+    var newBox2Pos = box2.position();
+
+    var newHurdle2_1 = setTimeout(function(){
+
+        h1counter++;
+
+        $('.lane2').append('<div class="h1z hurdle" id="hurdle2_1-' + h1counter + '" style="position:fixed;left:110%;top:168.5px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        
+        $('#hurdle2_1-' + h1counter).animate({
+            left: '-=120%'
+        }, speed, 'linear', function(){
+            lane2_1hurdlesPassed++;
+            $('#hurdle2_1-' + lane1hurdlesPassed).remove();
+        });
+
+        var hurdle2_1 = $('#hurdle2_1-' + h1counter);
+
+        var update2_1 = setInterval(function(){
+
+            var newHurdlePos2_1 = hurdle2_1.position();
+
+            newBox2Pos = box2.position();
+
+            if (newBox2Pos.top < newHurdlePos2_1.top + hurdlePos.width && newBox2Pos.top + boxPos.width > newHurdlePos2_1.top && newBox2Pos.left < newHurdlePos2_1.left + hurdlePos.height && boxPos.height + newBox2Pos.left > newHurdlePos2_1.left && lane == 1) {
+                removeHurdles(h1counter, 1, 2);
+                alert("Collision! with box 2 lane 1! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 1-" + h1counter);
+                if (loggedIn == true){
+                    updateAfterRun();
+                }
+                location.reload();
+            }
+
+        }, 1);
+
+    }, interval1);
+
+    var newHurdle2_2 = setTimeout(function(){
+
+        h2counter++;
+
+        $('.lane2').append('<div class="h2z hurdle" id="hurdle2_2-' + h2counter + '" style="position:fixed;left:108%;top:191.4px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        
+        $('#hurdle2_2-' + h2counter).animate({
+            left: '-=120%'
+        }, speed, 'linear', function(){
+            lane2_2hurdlesPassed++;
+            $('#hurdle2_2-' + lane2hurdlesPassed).remove();
+        });
+
+        var hurdle2_2 = $('#hurdle2_2-' + h2counter);
+
+        var update2_2 = setInterval(function(){
+
+            var newHurdlePos2_2 = hurdle2_2.position();
+
+            newBox2Pos = box2.position();
+
+            if (newBox2Pos.top < newHurdlePos2_2.top + hurdlePos.width && newBox2Pos.top + boxPos.width > newHurdlePos2_2.top && newBox2Pos.left < newHurdlePos2_2.left + hurdlePos.height && boxPos.height + newBox2Pos.left > newHurdlePos2_2.left && lane == 2) {
+                removeHurdles(h2counter, 2, 2);
+                alert("Collision! with box 2 lane 2! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 2-" + h2counter);
+                if (loggedIn == true){
+                    updateAfterRun();
+                }
+                location.reload();
+            }
+
+        }, 1);
+
+    }, interval2);
+
+    var newHurdle2_3 = setTimeout(function(){
+
+        h3counter++;
+
+        $('.lane2').append('<div class="h3z hurdle" id="hurdle2_3-' + h3counter + '" style="position:fixed;left:106%;top:214.3px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        
+        $('#hurdle2_3-' + h3counter).animate({
+            left: '-=120%'
+        }, speed, 'linear', function(){
+            lane2_3hurdlesPassed++;
+            $('#hurdle2_3-' + lane3hurdlesPassed).remove();
+        });
+
+        var hurdle2_3 = $('#hurdle2_3-' + h3counter);
+
+        var update2_3 = setInterval(function(){
+
+            var newHurdlePos2_3 = hurdle2_3.position();
+
+            newBox2Pos = box2.position();
+
+            if (newBox2Pos.top < newHurdlePos2_3.top + hurdlePos.width && newBox2Pos.top + boxPos.width > newHurdlePos2_3.top && newBox2Pos.left < newHurdlePos2_3.left + hurdlePos.height && boxPos.height + newBox2Pos.left > newHurdlePos2_3.left && lane == 3) {
+                removeHurdles(h3counter, 3, 2);
+                alert("Collision! with box 2 lane 3! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 3-" + h3counter);
+                if (loggedIn == true){
+                    updateAfterRun();
+                }
+                location.reload();
+            }
+
+        }, 1);
+
+    }, interval3);
+
+    var newHurdle2_4 = setTimeout(function(){
+
+        h4counter++;
+
+        $('.lane2').append('<div class="h4z hurdle" id="hurdle2_4-' + h4counter + '" style="position:fixed;left:104%;top:237.2px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        
+        $('#hurdle2_4-' + h4counter).animate({
+            left: '-=120%'
+        }, speed, 'linear', function(){
+            lane2_4hurdlesPassed++;
+            $('#hurdle2_4-' + lane4hurdlesPassed).remove();
+        });
+
+        var hurdle2_4 = $('#hurdle2_4-' + h4counter);
+
+        var update2_4 = setInterval(function(){
+
+            var newHurdlePos2_4 = hurdle2_4.position();
+
+            newBox2Pos = box2.position();
+
+            if (newBox2Pos.top < newHurdlePos2_4.top + hurdlePos.width && newBox2Pos.top + boxPos.width > newHurdlePos2_4.top && newBox2Pos.left < newHurdlePos2_4.left + hurdlePos.height && boxPos.height + newBox2Pos.left > newHurdlePos2_4.left && lane == 4) {
+                removeHurdles(h4counter, 4, 2);
+                alert("Collision! with box 2 lane 4! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 4-" + h4counter);
+                if (loggedIn == true){
+                    updateAfterRun();
+                }
+                location.reload();
+            }
+
+        }, 1);
+
+    }, interval4);
+
+    var newHurdle2_5 = setTimeout(function(){
+
+        h5counter++;
+
+        $('.lane2').append('<div class="h5z hurdle" id="hurdle2_5-' + h5counter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        
+        $('#hurdle2_5-' + h5counter).animate({
+        left: '-=120%'
+        }, speed, 'linear', function(){
+            lane2_5hurdlesPassed++;
+            $('#hurdle2_5-' + lane5hurdlesPassed).remove();
+        });
+
+        var hurdle2_5 = $('#hurdle2_5-' + h5counter);
+
+        var update2_5 = setInterval(function(){
+
+            var newHurdlePos2_5 = hurdle2_5.position();
+
+            newBox2Pos = box.position();
+
+            if (newBox2Pos.top < newHurdlePos2_5.top + hurdlePos.width && newBox2Pos.top + boxPos.width > newHurdlePos2_5.top && newBox2Pos.left < newHurdlePos2_5.left + hurdlePos.height && boxPos.height + newBox2Pos.left > newHurdlePos2_5.left && lane == 5) {
+                removeHurdles(h5counter, 5, 2);
+                alert("Collision! with box 2 lane 5! Score: " + score + " " + "Coins Collected: " + coinsCollected + " hurdle: 5-" + h5counter);
+                if (loggedIn == true){
+                    updateAfterRun();
+                }
+                location.reload();
+            }
+
+        }, 1);
+
+    }, interval5);
+
+}
+
 //Removes all hurdles on collision to avoid double or endless collisions
-function removeHurdles(counter, lane){
-	for (i = 0; i < counter; i++){
-		$('#hurdle' + lane + '-' + i).remove();	
-	}
+function removeHurdles(counter, lane, box){
+    if (box == 1){
+        for (i = 0; i < counter; i++){
+            $('#hurdle' + lane + '-' + i).remove(); 
+        }  
+    } else if (box == 2){
+        for (i = 0; i < counter; i++){
+            $('#hurdle2_' + lane + '-' + i).remove(); 
+        }  
+    }
+
 }
 
 //routes for data

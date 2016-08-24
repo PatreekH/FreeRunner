@@ -1,10 +1,10 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Free Runner</title>
+    <title>Free Runner Multiplayer</title>
     <link href='http://fonts.googleapis.com/css?family=Coda' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/reset.css">
-  	<link rel="stylesheet" type="text/css" href="css/style.css">
+  	<link rel="stylesheet" type="text/css" href="css/styleMultiplayer.css">
     <!-- <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
@@ -26,8 +26,8 @@
 		</div> -->
 		<!-- div id="navMenu"> -->
 			<a href="/multiplayer"><i id="battleBtn" class="fa fa-cube" aria-hidden="true"></i></a>
-			<i id="shopBtn" class="fa fa-usd" aria-hidden="true"></i>
-			<i id="hsBtn" class="fa fa-list-ol" aria-hidden="true"></i>
+<!-- 			<i id="shopBtn" class="fa fa-usd" aria-hidden="true"></i>
+			<i id="hsBtn" class="fa fa-list-ol" aria-hidden="true"></i> -->
 			<i id="optionsBtn" class="fa fa-cog" aria-hidden="true"></i>
 		<!-- </div> -->
 	</nav>
@@ -110,10 +110,10 @@
 
 
 		<div id="start">
-			<h1>Press 'Shift' + 'S' to start</h1>
+			<p>Press 'Shift' + 'S' to start</p>
 		</div>
 
-	<<!-- div id="scoreDiv"></div> -->
+	<!-- div id="scoreDiv"></div> -->
 
 
 <!-- 		<img class="drop-off" id="dropoff" src="dropoff.png" style="top:40.75%;left:50%;">
@@ -121,25 +121,47 @@
 
 	<div class="laneWrapper">
 
-		<div id="ledge-block"></div>
-		<div id="ledge-block2"></div>
+		<div class="ledge-block"></div>
+		<div class="ledge-block2"></div>
 		
-		<img id="ledge-pic" src="css/images/startLedge3.png">
+		<img class="ledge-pic" src="css/images/startLedge3.png">
 
-			<div id="lane-top-block"></div>
+			<div class="lane-top-block"></div>
 
-		<div id="ledge-side-block"></div>
+		<div class="ledge-side-block"></div>
 
 
 		<div class="lane">
-<!-- <div class="h1z hurdle" id="hurdle1" style="position:fixed;left:17%;top:168.5px;"><img id="hcube" src="css/images/hcube.png"></div>
-<div class="h2z hurdle" id="hurdle2" style="position:fixed;left:17%;top:191.4px;"><img id="hcube" src="css/images/hcube.png"></div>
-<div class="h3z hurdle" id="hurdle3" style="position:fixed;left:17%;top:214.3px;"><img id="hcube" src="css/images/hcube.png"></div>
-<div class="h4z hurdle" id="hurdle4" style="position:fixed;left:17%;top:237.2px;"><img id="hcube" src="css/images/hcube.png"></div>
-<div class="h5z hurdle" id="hurdle5" style="position:fixed;left:17%;top:260.1px"><img id="hcube" src="css/images/hcube.png"></div> -->
 		</div>
 
 		<div class="box">
+			<img id="pcube" src="css/images/pcube.png">
+			<!-- <img id="currentHat" class="hat" src="css/images/hat1.png"> -->
+		</div>
+
+	</div>
+
+	<div class="laneWrapper2">
+
+		<div class="ledge-block1-2"></div>
+		<div class="ledge-block2-2"></div>
+		
+		<img class="ledge-pic2" src="css/images/startLedge3.png">
+
+			<div class="lane-top-block"></div>
+
+
+
+		<div class="lane2">
+<!-- 		    <div class="h1z hurdle" id="hurdle2_1-" style="position:fixed;left:50%;top:168.5px;"><img id="hcube" src="css/images/hcube.png"></div>
+		    <div class="h2z hurdle" id="hurdle2_2-" style="position:fixed;left:48%;top:191.4px;"><img id="hcube" src="css/images/hcube.png"></div>
+		    <div class="h3z hurdle" id="hurdle2_3-" style="position:fixed;left:46%;top:214.3px;"><img id="hcube" src="css/images/hcube.png"></div>
+		    <div class="h4z hurdle" id="hurdle2_4-" style="position:fixed;left:44%;top:237.2px;"><img id="hcube" src="css/images/hcube.png"></div>
+		    <div class="h5z hurdle" id="hurdle2_5-" style="position:fixed;left:42%;top:260.1px;"><img id="hcube" src="css/images/hcube.png"></div> -->
+
+		</div>
+
+		<div class="box2">
 			<img id="pcube" src="css/images/pcube.png">
 			<!-- <img id="currentHat" class="hat" src="css/images/hat1.png"> -->
 		</div>
@@ -278,6 +300,6 @@
 
 
 <script src="https://use.fontawesome.com/2ce3b4e69a.js"></script>
-<script type="text/javascript" src="freeRunnerLogic.js"></script>
+<script type="text/javascript" src="freeRunnerMultiplayerLogic.js"></script>
 </body>
 </html>
