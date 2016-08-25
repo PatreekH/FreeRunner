@@ -1,5 +1,6 @@
 //FREE RUNNER
-//b Hernandez
+//Patrick Hernandez
+
 
 var box = $('.box');
 var box2 = $('.box2');

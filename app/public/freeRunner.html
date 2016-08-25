@@ -25,7 +25,7 @@
 			Free Runner
 		</div> -->
 		<!-- div id="navMenu"> -->
-			<!-- <a href="/multiplayer"> --><div id="battleBtn"><i id="battleBtnPic" class="fa fa-cube" aria-hidden="true"></i><i id="battleBtnPic2" class="fa fa-cube" aria-hidden="true"></i></div><!-- </a> -->
+			<!-- <a href="/multiplayer"> --><div id="multiplayerBtn"><i id="battleBtnPic" class="fa fa-cube" aria-hidden="true"></i><i id="battleBtnPic2" class="fa fa-cube" aria-hidden="true"></i></div><!-- </a> -->
 			<i id="shopBtn" class="fa fa-usd" aria-hidden="true"></i>
 			<i id="hsBtn" class="fa fa-list-ol" aria-hidden="true"></i>
 			<i id="optionsBtn" class="fa fa-cog" aria-hidden="true"></i>
@@ -281,39 +281,28 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Multiplayer Lobby:</h4>
+		        <div class="modal-title" id="myModalLabel">
+		        <center>
+			      	<i id="lobbyPic1" class="lobbyPics fa fa-cube" aria-hidden="true"></i>
+			      	<i id="lobbyPic2" class="lobbyPics fa fa-cube" aria-hidden="true"></i>
+			    </center>
+		      	</div>
+
 		      </div>
 		      <div class="modal-body">
-		      	<h3>Welcome to Multiplayer!</h3>
+		      	<span id='lobbyWelcome'>Welcome to Multiplayer!</span>
 		      	<h5>Double click on an open lobby to join or create lobby to host your own!</h5>
-		      	<a href="/multiplayer"><button type="button" class="btn btn-default" data-dismiss="modal">Create Lobby</button></a>
-			    <table id='gameLobby'>
-			    	<tr id='game1'>
-			    		<th>Lobby name:</th>
-			    		<th>Players:</th>
-			    		<th>Status:</th>
-			    	</tr>
-					<tr>
-						<td>1. test lobby</td>
-						<td>1/2</td>
-						<td>Open</td>
-					</tr>
-					<tr>
-						<td>2. test lobby</td>
-						<td>1/2</td>
-						<td>Open</td>
-					</tr>
-					<tr>
-						<td>3. test lobby</td>
-						<td>1/2</td>
-						<td>Open</td>
-					</tr>
-					<tr>
-						<td>4. test lobby</td>
-						<td>2/2</td>
-						<td>Closed</td>
-					</tr>
-				</table>
+		      	<button id="createLobby" type="button" class="btn btn-default">Create Lobby</button>
+			    <div id='gameLobby'>
+					<div id='lobbyBoardTitles'>
+						<b>#<span>Lobby Name:</span><span>Players:</span><span>Status:</span></b>
+					</div>
+					<div id='lobbyBoard'>
+						<div class="lobby">1<span class='lobbyName'>Test Lobby</span><span>1/2</span><span>open</span></div>
+						<div class="lobby">2<span class='lobbyName'>Pats Lobby</span><span>2/2</span><span>closed</span></div>
+						<!-- <div class="lobby">3<span class='lobbyName'>000000000</span><span>2/2</span><span>closed</span></div> -->
+					</div>
+				</div>
 
 		      </div>
 		      <div class="modal-footer">

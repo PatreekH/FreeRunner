@@ -1,5 +1,5 @@
 //FREE RUNNER
-//b Hernandez
+//Patrick Hernandez
 
 var box = $('.box');
 var boxPos = {width: 30, height: 30};
@@ -99,12 +99,14 @@ var signUpStatus = 0;*/
 
 //fix item purchase while active glitch
 //user is able to remove hat
-//battle tab
-// --battle tab switches to single player while on battle page
+//websockets room
+//db collection for current open lobbies
+//if lobby is full, cant join
+
+
 //look into background ideas
 //add intructions for non mem and mem
 //send user name to mongodb as is, then when cross ref, setLowercase
-//look into websockets
 
 //add pitfalls
 //alert to refresh window after resizing
@@ -215,9 +217,26 @@ $("#logOutConfirm").on("click", function(){
 
     //==================
 
-    //Code for battle button
-$('#battleBtn').on('click', function(){
+    //Code for multiplayer lobby
+$('#multiplayerBtn').on('click', function(){
     $('#lobbyModal').modal('show');
+});
+
+$('#createLobby').on('click', function(){
+    var uniqueid = Math.floor(Math.random() * (500000 - 100000)) + 100000;
+    var url = window.location.origin + '/multiplayer'; /*+ uniqueid;*/
+    window.location.replace(url);
+/*    $.ajax({
+
+        method: 'GET',
+
+        url: '/multiplayer/' + uniqueid,
+
+        success: function(response){
+            console.log(response);
+        }
+
+    });*/
 });
 
 
@@ -874,8 +893,7 @@ function isAuthenticated(){
             if (response == "invalid"){
             	$(".homeBtn").hide();
                 /*$(".homeBtn").attr("id","loginBtn");*/
-                $("#battleBtn").hide();
-                $("#battleBtn2").hide();
+                $("#multiplayerBtn").hide();
                 $("#shopBtn").hide();
                 $("#hsBtn").hide();
                 $("#optionsBtn").hide();
@@ -888,8 +906,7 @@ function isAuthenticated(){
                 grabHighScoreData();
                 $("#loginBtn").hide();
                 $(".homeBtn").show();
-                $("#battleBtn").show();
-                $("#battleBtn2").show();
+                $("#multiplayerBtn").show();
                 $("#shopBtn").show();
                 $("#hsBtn").show();
                 $("#optionsBtn").show();
