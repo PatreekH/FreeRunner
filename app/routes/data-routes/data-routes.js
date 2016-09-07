@@ -91,7 +91,7 @@ module.exports = function(app, db){
     		if (userCoinCount < req.body.cost){
     			console.log("Purchase Failed!");
     			res.json('insufficient');
-    		} else if (itemsArray[req.body.itemId] == true){
+    		} else if (itemsArray[req.body.itemId] == true || 'active'){
     			console.log("Item already purchased!");
     			res.json('owned');
     		} else {
