@@ -38,7 +38,7 @@ var mongojs = require('mongojs');
 var databaseUrl = "mongodb://patrickh:newave12@ds013486.mlab.com:13486/freerunner";
 
 // Hook mongojs configuration to the db variable
-var db = mongojs(databaseUrl, ["userdata"], ["rooms"]);
+var db = mongojs(databaseUrl, ["userdata", "rooms"]);
 db.on('error', function(err) {
   console.log('Database Error:', err);
 });

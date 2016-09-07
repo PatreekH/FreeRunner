@@ -90,6 +90,7 @@ var signUpStatus = 0;*/
 //responsive gameplay --done
 //onkeydown, if counter >= 5, stop animation -- done
 //build algo for wall error -- done
+//db collection for current open lobbies -- done
 
 
 //change box catch dimensions -- see prototype
@@ -100,7 +101,6 @@ var signUpStatus = 0;*/
 //fix item purchase while active glitch
 //user is able to remove hat
 //websockets room
-//db collection for current open lobbies
 //if lobby is full, cant join
 
 
@@ -224,8 +224,6 @@ $('#multiplayerBtn').on('click', function(){
 
 $('#createLobby').on('click', function(){
     var room = Math.floor(Math.random() * (50000000000000 - 10000000000000)) + 10000000000000;
-    var url = window.location.origin + '/multiplayer/room/' + room;
-    window.location.replace(url);
     createRoom(room);
 });
 
@@ -292,7 +290,7 @@ function currentHatUpdate(itemId){
         },
 
         success: function(response){
-            console.log(response + "what is this")
+            console.log(response + "what is this");
         }
 
     });
@@ -915,16 +913,38 @@ function grabMultiplayerData(){
             pass: password
         },*/
         success: function(response){
-            console.log(response);
-            
-            //if response success reload page
+            var num = 0;
+            for (i = 0; i < response.length; i++){
+                num++;
+                if (response[i].playerCount == 1){
+                    $('#lobbyBoard').append("<a href='/multiplayer/room/" + response[i].roomId + "'><div class='lobby'>" + num + "<span class='lobbyName'>Pats Lobby</span><span>1/2</span><span>open</span></div></a>");
+                } else if (response[i].playerCount == 2){
+                    $('#lobbyBoard').append("<a href='/multiplayer/room/" + response[i].roomId + "'><div class='lobby'>" + num + "<span class='lobbyName'>Pats Lobby</span><span>2/2</span><span>closed</span></div></a>");
+                }
+            }
         }
 
     }); 
 }
 
 function createRoom(roomId){
+    $.ajax({
 
+        method: 'POST',
+
+        url: '/createRoom',
+
+        data: {
+            roomId: roomId
+        },
+        success: function(response){
+            console.log(response);
+            var url = window.location.origin + '/multiplayer/room/' + response.roomId;
+            /*window.location.replace(url);*/
+            $('#lobbyBoard').prepend("<a href='/multiplayer/room/" + response.roomId + "'><div class='lobby'>2<span class='lobbyName'>Pats Lobby</span><span>2/2</span><span>closed</span></div></a>")
+        }
+
+    });
 }
 
 function loginAttempt(username, password){

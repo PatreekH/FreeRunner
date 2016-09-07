@@ -17,8 +17,13 @@ module.exports = function(app, db){
 		});
 	});
 
-	app.post('/lobbyData', function(req, res){
-		db.rooms.insert({}, function (err, docs) {
+	app.post('/createRoom', function(req, res){
+		//grab players hat who created room and asign it number
+		//add player name to db with firstPlayer
+		//set up lobby options modal
+		db.rooms.insert({"playerCount": 1, "hat": 0, "roomId": req.body.roomId}, function (err, docs) {
+			if (err) throw err
+			console.log(docs);
 			res.json(docs);
 		});
 	});
