@@ -6,6 +6,23 @@ var path = require('path');
 
 module.exports = function(app, db){
 
+	app.post('/multiplayer/room/:lobbyid', function(req, res){
+		/*console.log(req.params.lobbyid);*/
+		res.json(req.params.lobbyid);
+	});
+
+	app.post('/lobbyData', function(req, res){
+		db.rooms.find({}, function (err, docs) {
+			res.json(docs);
+		});
+	});
+
+	app.post('/lobbyData', function(req, res){
+		db.rooms.insert({}, function (err, docs) {
+			res.json(docs);
+		});
+	});
+
 	app.get('/isAuthenticated', function(req, res){
 		if (req.session.isAuth == true){
 			res.json(req.session.userInfo);

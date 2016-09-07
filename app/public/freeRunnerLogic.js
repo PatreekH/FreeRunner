@@ -21,7 +21,7 @@ var onePercentW = windowWidthSize / 100;
 //Top and Bottom lane measurements based on screen size
 var percent15 = parseFloat(onePercentH * 15); 
 var laneTop = (percent15 + 191);
-var laneBottom = (percent15 + 276);
+var laneBottom = (percent15 + 279);
 
 //Determines the speed of obsticales based on screen width
 //184.32 a second
@@ -223,20 +223,10 @@ $('#multiplayerBtn').on('click', function(){
 });
 
 $('#createLobby').on('click', function(){
-    var uniqueid = Math.floor(Math.random() * (500000 - 100000)) + 100000;
-    var url = window.location.origin + '/multiplayer'; /*+ uniqueid;*/
+    var room = Math.floor(Math.random() * (50000000000000 - 10000000000000)) + 10000000000000;
+    var url = window.location.origin + '/multiplayer/room/' + room;
     window.location.replace(url);
-/*    $.ajax({
-
-        method: 'GET',
-
-        url: '/multiplayer/' + uniqueid,
-
-        success: function(response){
-            console.log(response);
-        }
-
-    });*/
+    createRoom(room);
 });
 
 
@@ -416,18 +406,14 @@ $(document).keyup(function(e) {
 
 var map = {16: false, 83: false};
 $(document).keydown(function(e) {
-    if (e.keyCode in map) {
+    if (e.keyCode in map == true) {
         map[e.keyCode] = true;
-        if (map[16] && map[83]) {
-	        if (loginStatus == 1){
-	   			console.log("Can't start while tabs are open");
-	    	} else {
+        if (map[16] && map[83] == true) {
 	    		start();
-	    	}
         }
     }
 }).keyup(function(e) {
-    if (e.keyCode in map) {
+    if (e.keyCode in map == true) {
         map[e.keyCode] = false;
     }
 });
@@ -893,7 +879,7 @@ function isAuthenticated(){
             if (response == "invalid"){
             	$(".homeBtn").hide();
                 /*$(".homeBtn").attr("id","loginBtn");*/
-                $("#multiplayerBtn").hide();
+                /*$("#multiplayerBtn").hide();*/
                 $("#shopBtn").hide();
                 $("#hsBtn").hide();
                 $("#optionsBtn").hide();
@@ -904,6 +890,7 @@ function isAuthenticated(){
                 name = response.user
                 grabUserData(name);
                 grabHighScoreData();
+                grabMultiplayerData();
                 $("#loginBtn").hide();
                 $(".homeBtn").show();
                 $("#multiplayerBtn").show();
@@ -914,6 +901,30 @@ function isAuthenticated(){
         }
 
     });
+}
+
+function grabMultiplayerData(){
+    $.ajax({
+
+        method: 'POST',
+
+        url: '/lobbyData',
+
+/*        data: {
+            user: username,
+            pass: password
+        },*/
+        success: function(response){
+            console.log(response);
+            
+            //if response success reload page
+        }
+
+    }); 
+}
+
+function createRoom(roomId){
+
 }
 
 function loginAttempt(username, password){

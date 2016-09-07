@@ -123,6 +123,36 @@ var signUpStatus = 0;*/
 
 //==========
 
+connect();
+
+function connect(){
+    var room;
+
+    $.ajax({
+
+        method: 'POST',
+
+        url: window.location.pathname,
+
+        success: function(response){
+            console.log("Current Room: " + response);
+            room = response;
+            //run function to start websocket with room as param
+        }
+
+    });
+
+    var socket = io.connect('http://localhost:8080');
+
+    socket.on('connect', function() {
+       socket.emit('createRoom', room);
+    });
+
+/*    socket.on('roomCheck', function() {
+        console.log('Incoming message:', data);
+    });*/
+}
+
 
 //Function to grab difference between two numbers
 function diff(a,b){return Math.abs(a-b);};
@@ -252,7 +282,7 @@ $('#profileBtn').on('click', function(){
 });
 
 $('#hatPlaceHolder').on('click', function(){
-    $('#spot' + currentHat).html("<img data-id='1' id='itemPorfile" + currentHat + "pic' class='hatProfile' src='css/images/hat" + currentHat + ".png'>");
+    $('#spot' + currentHat).html("<img data-id='1' id='itemPorfile" + currentHat + "pic' class='hatProfile' src='/css/images/hat" + currentHat + ".png'>");
 });
 
 $('.pItem').on('click', function(){
@@ -263,7 +293,7 @@ $('.pItem').on('click', function(){
 		console.log("You don't have this hat!");
 	} else {
 		if (currentHat != null){
-			$('#spot' + currentHat).html("<img data-id='1' id='itemProfile" + currentHat + "pic' class='hatProfile' src='css/images/hat" + currentHat + ".png'>");
+			$('#spot' + currentHat).html("<img data-id='1' id='itemProfile" + currentHat + "pic' class='hatProfile' src='/css/images/hat" + currentHat + ".png'>");
 		}
 		selectHat(hatId);
 	}
@@ -276,7 +306,7 @@ function selectHat(itemId){
 	$('#currentHat').remove();
 	$('#spot' + itemId).empty();
 	$('#spot' + itemId).html("ON");
-	$('.box').append("<img id='currentHat' class='hat' src='css/images/hat" + itemId + ".png'>");
+	$('.box').append("<img id='currentHat' class='hat' src='/css/images/hat" + itemId + ".png'>");
     currentHatUpdate(itemId);
 }
 
@@ -663,15 +693,15 @@ function coinGenerator(nextCoin, coinLane){
             coinCounter++;
 
             if (coinLane == 1){
-                $('.lane').append('<div class="h1z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:110%;top:168.5px;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+                $('.lane').append('<div class="h1z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:110%;top:168.5px;">' + '<img id="hcube" src="/css/images/coin.png">' + '</div>');
             } else if (coinLane == 2){
-                $('.lane').append('<div class="h2z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:108%;top:191.4px;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+                $('.lane').append('<div class="h2z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:108%;top:191.4px;">' + '<img id="hcube" src="/css/images/coin.png">' + '</div>');
             } else if (coinLane == 3){
-                $('.lane').append('<div class="h3z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:106%;top:214.3px;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+                $('.lane').append('<div class="h3z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:106%;top:214.3px;">' + '<img id="hcube" src="/css/images/coin.png">' + '</div>');
             } else if (coinLane == 4){
-                $('.lane').append('<div class="h4z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:104%;top:237.2px;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+                $('.lane').append('<div class="h4z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:104%;top:237.2px;">' + '<img id="hcube" src="/css/images/coin.png">' + '</div>');
             } else if (coinLane == 5){
-                $('.lane').append('<div class="h5z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="css/images/coin.png">' + '</div>');
+                $('.lane').append('<div class="h5z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="/css/images/coin.png">' + '</div>');
             }
             
             $('#coin-' + coinCounter).animate({
@@ -752,7 +782,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
         h1counter++;
 
-        $('.lane').append('<div class="h1z hurdle" id="hurdle1-' + h1counter + '" style="position:fixed;left:110%;top:168.5px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane').append('<div class="h1z hurdle" id="hurdle1-' + h1counter + '" style="position:fixed;left:110%;top:168.5px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle1-' + h1counter).animate({
             left: '-=120%'
@@ -786,7 +816,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
         h2counter++;
 
-        $('.lane').append('<div class="h2z hurdle" id="hurdle2-' + h2counter + '" style="position:fixed;left:108%;top:191.4px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane').append('<div class="h2z hurdle" id="hurdle2-' + h2counter + '" style="position:fixed;left:108%;top:191.4px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle2-' + h2counter).animate({
             left: '-=120%'
@@ -820,7 +850,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
         h3counter++;
 
-        $('.lane').append('<div class="h3z hurdle" id="hurdle3-' + h3counter + '" style="position:fixed;left:106%;top:214.3px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane').append('<div class="h3z hurdle" id="hurdle3-' + h3counter + '" style="position:fixed;left:106%;top:214.3px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle3-' + h3counter).animate({
             left: '-=120%'
@@ -854,7 +884,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
         h4counter++;
 
-        $('.lane').append('<div class="h4z hurdle" id="hurdle4-' + h4counter + '" style="position:fixed;left:104%;top:237.2px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane').append('<div class="h4z hurdle" id="hurdle4-' + h4counter + '" style="position:fixed;left:104%;top:237.2px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle4-' + h4counter).animate({
             left: '-=120%'
@@ -888,7 +918,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
         h5counter++;
 
-        $('.lane').append('<div class="h5z hurdle" id="hurdle5-' + h5counter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane').append('<div class="h5z hurdle" id="hurdle5-' + h5counter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle5-' + h5counter).animate({
         left: '-=120%'
@@ -939,7 +969,7 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
 
         h1counter++;
 
-        $('.lane2').append('<div class="h1z hurdle" id="hurdle2_1-' + h1counter + '" style="position:fixed;left:110%;top:168.5px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane2').append('<div class="h1z hurdle" id="hurdle2_1-' + h1counter + '" style="position:fixed;left:110%;top:168.5px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle2_1-' + h1counter).animate({
             left: '-=120%'
@@ -973,7 +1003,7 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
 
         h2counter++;
 
-        $('.lane2').append('<div class="h2z hurdle" id="hurdle2_2-' + h2counter + '" style="position:fixed;left:108%;top:191.4px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane2').append('<div class="h2z hurdle" id="hurdle2_2-' + h2counter + '" style="position:fixed;left:108%;top:191.4px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle2_2-' + h2counter).animate({
             left: '-=120%'
@@ -1007,7 +1037,7 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
 
         h3counter++;
 
-        $('.lane2').append('<div class="h3z hurdle" id="hurdle2_3-' + h3counter + '" style="position:fixed;left:106%;top:214.3px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane2').append('<div class="h3z hurdle" id="hurdle2_3-' + h3counter + '" style="position:fixed;left:106%;top:214.3px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle2_3-' + h3counter).animate({
             left: '-=120%'
@@ -1041,7 +1071,7 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
 
         h4counter++;
 
-        $('.lane2').append('<div class="h4z hurdle" id="hurdle2_4-' + h4counter + '" style="position:fixed;left:104%;top:237.2px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane2').append('<div class="h4z hurdle" id="hurdle2_4-' + h4counter + '" style="position:fixed;left:104%;top:237.2px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle2_4-' + h4counter).animate({
             left: '-=120%'
@@ -1075,7 +1105,7 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
 
         h5counter++;
 
-        $('.lane2').append('<div class="h5z hurdle" id="hurdle2_5-' + h5counter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane2').append('<div class="h5z hurdle" id="hurdle2_5-' + h5counter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle2_5-' + h5counter).animate({
         left: '-=120%'
@@ -1237,12 +1267,12 @@ function grabUserData(username){
             for (i = 0; i < response.items.length; i++){
 
                if (response.items[i] == true){
-                $("#spot" + i).html("<img data-id='1' id='itemProfile" + i + "pic' class='hatProfile' src='css/images/hat" + i + ".png'>")
+                $("#spot" + i).html("<img data-id='1' id='itemProfile" + i + "pic' class='hatProfile' src='/css/images/hat" + i + ".png'>")
                } else if (response.items[i] == false) {
                 $("#spot" + i).empty();
                 console.log('Not purchased yet');
                } else if (response.items[i] == 'active'){
-                $('.box').append("<img id='currentHat' class='hat' src='css/images/hat" + i + ".png'>");
+                $('.box').append("<img id='currentHat' class='hat' src='/css/images/hat" + i + ".png'>");
                 $('#spot' + i).html("<div id='hatPlaceHolder'>ON</div>");
                 currentHat = i;
                }
@@ -1319,9 +1349,9 @@ function updateAllItemData(){
             for (i = 0; i < response.items.length; i++){
                 console.log(response.items[i]);
                if (response.items[i] == true){
-                $("#spot" + i).html("<img data-id='1' id='itemProfile" + i + "pic' class='hatProfile' src='css/images/hat" + i + ".png'>");
+                $("#spot" + i).html("<img data-id='1' id='itemProfile" + i + "pic' class='hatProfile' src='/css/images/hat" + i + ".png'>");
                } /*else if (response.items[i] == 'active'){
-                $('.box').append("<img id='currentHat' class='hat' src='css/images/hat" + i + ".png'>");
+                $('.box').append("<img id='currentHat' class='hat' src='/css/images/hat" + i + ".png'>");
                 $('#spot' + i).html("ON");
                 currentHat = i;
                }*/
@@ -1347,7 +1377,7 @@ function updateAllItemData(){
 /*function createDrop(){
     s += 1;
     $('.lane').append(
-        '<img class="drop-off" id="dropoff' + s + '" src="dropoff.png" style="top:40.75%;left:110%;"><img class="ledge-pic2" id="ledge-pic2' + s + '" src="startLedge2.png" style="top:40.50%;left:115%;">'
+        '<img class="drop-off" id="dropoff' + s + '" src="/dropoff.png" style="top:40.75%;left:110%;"><img class="ledge-pic2" id="ledge-pic2' + s + '" src="/startLedge2.png" style="top:40.50%;left:115%;">'
     );
     moveLedge();
 }
