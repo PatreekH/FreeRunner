@@ -17,14 +17,22 @@ module.exports = function(app, db){
 		});
 	});
 
-	app.post('/createRoom', function(req, res){
-		//grab players hat who created room and asign it number
-		//add player name to db with firstPlayer
-		//set up lobby options modal
-		db.rooms.insert({"playerCount": 1, "hat": 0, "roomId": req.body.roomId}, function (err, docs) {
+	app.post('/joinRoom', function(req, res){
+		db.rooms.update({roomId: req.body.roomId}, {$set: {playerCount: 2, "p2user": req.body.username, "p2hat": 0}}, function (err, docs) {
 			if (err) throw err
-			console.log(docs);
 			res.json(docs);
+		});
+	});
+
+	app.post('/createRoom', function(req, res){
+		//name of lobby
+		var p2name = "none";
+		db.userdata.find({username: req.body.username}, function (err, docs) {
+			db.rooms.insert({"playerCount": 1, "p1user": docs[0].username, "p2user": p2name, "p1hat": 0, "p2hat": 0, "roomId": req.body.roomId}, function (err, docs) {
+				if (err) throw err
+				console.log(docs);
+				res.json(docs);
+			});
 		});
 	});
 
@@ -91,7 +99,7 @@ module.exports = function(app, db){
     		if (userCoinCount < req.body.cost){
     			console.log("Purchase Failed!");
     			res.json('insufficient');
-    		} else if (itemsArray[req.body.itemId] == true || 'active'){
+    		} else if (itemsArray[req.body.itemId] == true || itemsArray[req.body.itemId] == 'active'){
     			console.log("Item already purchased!");
     			res.json('owned');
     		} else {
@@ -172,7 +180,6 @@ module.exports = function(app, db){
     		res.json(docs[0]);
     	});
 	});*/
-
 
 	app.post('/updateAfterRun', function(req, res){
 		console.log(req.body);

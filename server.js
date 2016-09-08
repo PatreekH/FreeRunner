@@ -52,21 +52,22 @@ MongoClient.connect(databaseUrl, function (err, db) {
   }
 });
 
-var newRoom;
+
+var globalRoom;
 
 io.sockets.on('connection', function(socket) {
     // once a client has connected, we expect to get a ping from them saying what room they want to join
     socket.on('createRoom', function(room) {
-        newRoom = room.toString();
         console.log("Current Room: " + room);
-        socket.join(room.toString());
+        socket.join(room);
+        globalRoom == room;
     });
 });
 
 
-/*io.socket.on('roomCheck', function(room){
+io.socket.on('roomCheck', function(room){
   io.sockets.to(room).emit('message', 'PLEASE WORK!!!');
-});*/
+});
 
 
 // ROUTES

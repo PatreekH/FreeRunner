@@ -91,6 +91,7 @@ var signUpStatus = 0;*/
 //onkeydown, if counter >= 5, stop animation -- done
 //build algo for wall error -- done
 //db collection for current open lobbies -- done
+//fix item purchase while active glitch -- done
 
 
 //change box catch dimensions -- see prototype
@@ -98,11 +99,10 @@ var signUpStatus = 0;*/
 //build algo to stop coin and hurdle collision -- attempted
     //--combine hurdle and coin generator to make chain of events, pitfalls as well
 
-//fix item purchase while active glitch
+//delete room from lobby board on disconnect
 //user is able to remove hat
 //websockets room
 //if lobby is full, cant join
-
 
 //look into background ideas
 //add intructions for non mem and mem
@@ -876,8 +876,10 @@ function isAuthenticated(){
             //user is not signed in
             if (response == "invalid"){
             	$(".homeBtn").hide();
-                /*$(".homeBtn").attr("id","loginBtn");*/
-                /*$("#multiplayerBtn").hide();*/
+                //====
+               /* $("#multiplayerBtn").hide();*/
+                grabMultiplayerData();
+                //====
                 $("#shopBtn").hide();
                 $("#hsBtn").hide();
                 $("#optionsBtn").hide();
@@ -908,10 +910,6 @@ function grabMultiplayerData(){
 
         url: '/lobbyData',
 
-/*        data: {
-            user: username,
-            pass: password
-        },*/
         success: function(response){
             var num = 0;
             for (i = 0; i < response.length; i++){
@@ -919,7 +917,7 @@ function grabMultiplayerData(){
                 if (response[i].playerCount == 1){
                     $('#lobbyBoard').append("<a href='/multiplayer/room/" + response[i].roomId + "'><div class='lobby'>" + num + "<span class='lobbyName'>Pats Lobby</span><span>1/2</span><span>open</span></div></a>");
                 } else if (response[i].playerCount == 2){
-                    $('#lobbyBoard').append("<a href='/multiplayer/room/" + response[i].roomId + "'><div class='lobby'>" + num + "<span class='lobbyName'>Pats Lobby</span><span>2/2</span><span>closed</span></div></a>");
+                    $('#lobbyBoard').append("<a><div class='lobby'>" + num + "<span class='lobbyName'>Pats Lobby</span><span>2/2</span><span>closed</span></div></a>");
                 }
             }
         }
@@ -927,7 +925,26 @@ function grabMultiplayerData(){
     }); 
 }
 
+function joinRoom(){
+    $.ajax({
+
+        method: 'POST',
+
+        url: '/joinRoom',
+
+        data: {
+            roomId: roomId,
+            username: name
+        },
+        success: function(response){
+            console.log(response);
+        }
+
+    });
+}
+
 function createRoom(roomId){
+    //connect to sec
     $.ajax({
 
         method: 'POST',
@@ -935,16 +952,24 @@ function createRoom(roomId){
         url: '/createRoom',
 
         data: {
-            roomId: roomId
+            roomId: roomId,
+            username: name
         },
         success: function(response){
             console.log(response);
+            
+            var socket = io.connect('http://localhost:8080');
+
+            socket.on('connect', function() {
+               socket.emit('createRoom', response.roomId);
+            });
+
             var url = window.location.origin + '/multiplayer/room/' + response.roomId;
-            /*window.location.replace(url);*/
-            $('#lobbyBoard').prepend("<a href='/multiplayer/room/" + response.roomId + "'><div class='lobby'>2<span class='lobbyName'>Pats Lobby</span><span>2/2</span><span>closed</span></div></a>")
+            window.location.replace(url);
         }
 
     });
+
 }
 
 function loginAttempt(username, password){

@@ -126,9 +126,21 @@ var signUpStatus = 0;*/
 connect();
 
 function connect(){
-    var room;
+    /*var room;*/
 
-    $.ajax({
+//do post call to grab current room data
+//if current players == 1, waiting for other player
+//if current players == 2,
+
+/*            var socket = io.connect('http://localhost:8080');
+
+            socket.on('connect', function() {
+               socket.emit('createRoom', response.roomId);
+            }); */
+
+            //^That should be inside the success
+
+/*    $.ajax({
 
         method: 'POST',
 
@@ -137,16 +149,10 @@ function connect(){
         success: function(response){
             console.log("Current Room: " + response);
             room = response;
-            //run function to start websocket with room as param
         }
 
-    });
+    });*/
 
-    var socket = io.connect('http://localhost:8080');
-
-    socket.on('connect', function() {
-       socket.emit('createRoom', room);
-    });
 
 /*    socket.on('roomCheck', function() {
         console.log('Incoming message:', data);
