@@ -165,6 +165,33 @@ function gameSetup(){
 
         $('.box2').show();
 
+        if (player == 1){
+            $("#messageDiv").html("<span>Player 1: " + usersInfo.user1 + "</span><span id='p1ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br>" + "<span>Player 2: " + usersInfo.user2 + "</span><span id='p2ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br><br>" + "<button type='button' id='playerReady' data-id='1' class='btn btn-default'>Ready!</button>");
+            if (usersInfo.user2hat == 0){
+                $('.box2').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
+            } else if (usersInfo.user2hat == 1){
+                $('.box2').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
+            } else if (usersInfo.user2hat == 2){
+                $('.box2').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
+            } else if (usersInfo.user2hat == 3){
+                $('.box2').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
+            } else if (usersInfo.user2hat == 4){
+                $('.box2').append('<img id="currentHat" class="hat" src="/css/images/hat5.png">');
+            }
+        } else if (player == 2){
+            $("#messageDiv").html("<span>Player 1: " + usersInfo.user1 + "</span><span id='p1ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br>" + "<span>Player 2: " + usersInfo.user2 + "</span><span id='p2ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br><br>" + "<button type='button' id='playerReady' data-id='2' class='btn btn-default'>Ready!</button>");
+            if (usersInfo.user1hat == 0){
+                $('.box2').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
+            } else if (usersInfo.user1hat == 1){
+                $('.box2').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
+            } else if (usersInfo.user1hat == 2){
+                $('.box2').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
+            } else if (usersInfo.user1hat == 3){
+                $('.box2').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
+            } else if (usersInfo.user1hat == 4){
+                $('.box2').append('<img id="currentHat" class="hat" src="/css/images/hat5.png">');
+            }
+        }
     });
 
     socket.on('readyStatusChange', function(playerReady) {
