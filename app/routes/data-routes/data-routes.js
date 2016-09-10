@@ -25,38 +25,40 @@ module.exports = function(app, db){
 	});
 
 	app.post('/joinRoom', function(req, res){
-		var user2Hat;
+		var user2Hat = 'none';
 		db.userdata.find({username: req.body.username}, function (err, docs) {
 			for (i = 0; i < docs[0].items.length; i++){
+				console.log(docs[0].items)
 				if (docs[0].items[i] == 'active'){
 					user2Hat = i; 
 				} else {
-					user2Hat = 'none';
+					console.log('not active hat');
 				}
 			}
-		});
-		db.rooms.update({roomId: req.body.roomId}, {$set: {playerCount: 2, "p2user": req.body.username, "p2hat": user2Hat}}, function (err, docs) {
-			if (err) throw err
+			db.rooms.update({roomId: req.body.roomId}, {$set: {playerCount: 2, "p2user": req.body.username, "p2hat": user2Hat}}, function (err, docs) {
+				if (err) throw err
 
-			console.log(req.body.username + " has joined room " + req.body.roomId);
+				console.log(req.body.username + " has joined room " + req.body.roomId);
 
-			db.rooms.find({roomId: req.body.roomId}, function (err, docs) {
-				console.log("Grabbed current room data");
-				res.json(docs);
+				db.rooms.find({roomId: req.body.roomId}, function (err, docs) {
+					console.log("Grabbed current room data");
+					res.json(docs);
+				});
+
 			});
-
 		});
 	});
 
 	app.post('/createRoom', function(req, res){
 		//name of lobby
-		var p2name = "none";
+		var p2name = 'none';
+		var user1Hat = 'none';
 		db.userdata.find({username: req.body.username}, function (err, docs) {
 			for (i = 0; i < docs[0].items.length; i++){
 				if (docs[0].items[i] == 'active'){
-					var user1Hat = i; 
+					user1Hat = i; 
 				} else {
-					var user2Hat = 'none';
+					console.log('not active hat');
 				}
 			}
 			db.rooms.insert({"playerCount": 1, "p1user": docs[0].username, "p2user": p2name, "p1hat": user1Hat, "p2hat": 0, "roomId": req.body.roomId}, function (err, docs) {
