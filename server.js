@@ -53,20 +53,26 @@ MongoClient.connect(databaseUrl, function (err, db) {
 });
 
 
-var globalRoom;
+var globalRoom; 
 
-io.sockets.on('connection', function(socket) {
+io.on('connection', function(socket) {
     // once a client has connected, we expect to get a ping from them saying what room they want to join
     socket.on('createRoom', function(room) {
-        console.log("Current Room: " + room);
+        console.log("p1 connected to room: " + room);
         socket.join(room);
         globalRoom == room;
     });
-});
+
+    socket.on('joinRoom', function(room) {
+        console.log("p2 connected to room: " + room);
+        socket.join(room);
+        io.to(room).emit('setup', 'ready');
+        globalRoom == room;
+    });
 
 
-io.socket.on('roomCheck', function(room){
-  io.sockets.to(room).emit('message', 'PLEASE WORK!!!');
+
+
 });
 
 

@@ -129,6 +129,10 @@
 		font-family: 'Poppins', sans-serif;
 	}
 
+	#joinRoom{
+		cursor: pointer;
+	}
+
 /*	.ledge-pic2{
 		width: 400px;
 		height: 1375px;

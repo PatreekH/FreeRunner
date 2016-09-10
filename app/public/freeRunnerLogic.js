@@ -877,8 +877,8 @@ function isAuthenticated(){
             if (response == "invalid"){
             	$(".homeBtn").hide();
                 //====
-               /* $("#multiplayerBtn").hide();*/
-                grabMultiplayerData();
+                $("#multiplayerBtn").hide();
+                /*grabMultiplayerData();*/
                 //====
                 $("#shopBtn").hide();
                 $("#hsBtn").hide();
@@ -915,7 +915,7 @@ function grabMultiplayerData(){
             for (i = 0; i < response.length; i++){
                 num++;
                 if (response[i].playerCount == 1){
-                    $('#lobbyBoard').append("<a href='/multiplayer/room/" + response[i].roomId + "'><div class='lobby'>" + num + "<span class='lobbyName'>Pats Lobby</span><span>1/2</span><span>open</span></div></a>");
+                    $('#lobbyBoard').append("<a id='joinRoom' data-id='" + response[i].roomId + "'><div class='lobby'>" + num + "<span class='lobbyName'>Pats Lobby</span><span>1/2</span><span>open</span></div></a>");
                 } else if (response[i].playerCount == 2){
                     $('#lobbyBoard').append("<a><div class='lobby'>" + num + "<span class='lobbyName'>Pats Lobby</span><span>2/2</span><span>closed</span></div></a>");
                 }
@@ -925,7 +925,13 @@ function grabMultiplayerData(){
     }); 
 }
 
-function joinRoom(){
+$('#lobbyBoard').on('click', '#joinRoom', function(){
+    var selectedRoom = $(this).attr("data-id");
+    console.log('selected room: ' + selectedRoom);
+    joinRoom(selectedRoom);
+});
+
+function joinRoom(roomId){
     $.ajax({
 
         method: 'POST',
@@ -937,7 +943,11 @@ function joinRoom(){
             username: name
         },
         success: function(response){
+            console.log("==Join room response==");
             console.log(response);
+            console.log("======================");
+            var url = window.location.origin + '/multiplayer/room/' + response[0].roomId;
+            window.location.replace(url);
         }
 
     });
@@ -956,13 +966,7 @@ function createRoom(roomId){
             username: name
         },
         success: function(response){
-            console.log(response);
-            
-            var socket = io.connect('http://localhost:8080');
-
-            socket.on('connect', function() {
-               socket.emit('createRoom', response.roomId);
-            });
+/*            console.log(response);*/
 
             var url = window.location.origin + '/multiplayer/room/' + response.roomId;
             window.location.replace(url);

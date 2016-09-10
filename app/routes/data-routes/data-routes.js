@@ -11,8 +11,15 @@ module.exports = function(app, db){
 		res.json(req.params.lobbyid);
 	});
 
+	app.post('/connectPlayers', function(req, res){
+		db.rooms.find({roomId: req.body.roomId}, function (err, docs) {
+			res.json(docs);
+		});
+	});
+
 	app.post('/lobbyData', function(req, res){
 		db.rooms.find({}, function (err, docs) {
+			console.log("Grabbed all available rooms")
 			res.json(docs);
 		});
 	});
@@ -20,7 +27,14 @@ module.exports = function(app, db){
 	app.post('/joinRoom', function(req, res){
 		db.rooms.update({roomId: req.body.roomId}, {$set: {playerCount: 2, "p2user": req.body.username, "p2hat": 0}}, function (err, docs) {
 			if (err) throw err
-			res.json(docs);
+
+			console.log(req.body.username + " has joined room " + req.body.roomId);
+
+			db.rooms.find({roomId: req.body.roomId}, function (err, docs) {
+				console.log("Grabbed current room data");
+				res.json(docs);
+			});
+
 		});
 	});
 
@@ -30,7 +44,7 @@ module.exports = function(app, db){
 		db.userdata.find({username: req.body.username}, function (err, docs) {
 			db.rooms.insert({"playerCount": 1, "p1user": docs[0].username, "p2user": p2name, "p1hat": 0, "p2hat": 0, "roomId": req.body.roomId}, function (err, docs) {
 				if (err) throw err
-				console.log(docs);
+				console.log("Room: " + req.body.roomId + " has been created!");
 				res.json(docs);
 			});
 		});

@@ -89,44 +89,64 @@ var signUpStatus = 0;*/
 
 
 
-//=======TODO LIST:
-//after animation deleteHurdle function will add 1 to hurdle value then delete -- done
-//function startLaneDetection for lane collision check to avoid over movement -- done
-//cant access any nav buttons while game is started -- done
-//user authentication --done
-//sign up working correctly -- done
-//setup store/profile/signup modal and login div -- done
-//put hat on character -- done
-//selected hat stays on character after run and on login -- done
-//responsive gameplay --done
-//onkeydown, if counter >= 5, stop animation -- done
-//build algo for wall error -- done
-
-
-//change box catch dimensions -- see prototype
-    //media query box top
-//build algo to stop coin and hurdle collision -- attempted
-    //--combine hurdle and coin generator to make chain of events, pitfalls as well
-
-//fix item purchase while active glitch
-//user is able to remove hat
-//battle tab
-// --battle tab switches to single player while on battle page
-//look into background ideas
-//add intructions for non mem and mem
-//send user name to mongodb as is, then when cross ref, setLowercase
-//look into websockets
-
-//add pitfalls
-//alert to refresh window after resizing
-//increase in difficulty?
-
 //==========
+var socket = io.connect('http://localhost:8080');
 
-connect();
+grabCurrentRoomData();
 
-function connect(){
-    /*var room;*/
+function grabCurrentRoomData(){
+    $.ajax({
+
+        method: 'POST',
+
+        url: window.location.pathname,
+
+        success: function(response){
+            console.log("Grabbing Current Room Data");
+            console.log("Current Room: " + response);
+            connect(response);
+        }
+
+    });
+}
+
+function connect(currentRoom){
+    $.ajax({
+
+        method: 'POST',
+
+        url: '/connectPlayers',
+
+        data: {
+            roomId: currentRoom
+        },
+
+        success: function(response){
+            console.log("Connecting Players...");
+            console.log(response);
+            if (response[0].playerCount == 1){
+
+                $("#start").html('Waiting for other player to join...');
+
+                socket.emit('createRoom', response[0].roomId);
+            
+            } else if (response[0].playerCount == 2){
+
+                socket.emit('joinRoom', response[0].roomId);
+
+            }
+            startGame();
+        }
+    });
+}
+
+function startGame(){
+    socket.on('setup', function(ready) {
+        if (ready == 'ready'){
+            $("#start").html("Press 'Shift' + 'S' to start");
+        }
+    });
+}
 
 //do post call to grab current room data
 //if current players == 1, waiting for other player
@@ -140,24 +160,7 @@ function connect(){
 
             //^That should be inside the success
 
-/*    $.ajax({
 
-        method: 'POST',
-
-        url: window.location.pathname,
-
-        success: function(response){
-            console.log("Current Room: " + response);
-            room = response;
-        }
-
-    });*/
-
-
-/*    socket.on('roomCheck', function() {
-        console.log('Incoming message:', data);
-    });*/
-}
 
 
 //Function to grab difference between two numbers
