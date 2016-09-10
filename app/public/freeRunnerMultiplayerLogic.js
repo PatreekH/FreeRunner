@@ -89,10 +89,21 @@ var signUpStatus = 0;*/
 
 
 
+//TODO:
+
+//On disconnect/refresh, both players ejected too lobby
+//Add hats to multiplayer
+//Fix start position for box1
+//Make speed the same no matter screen size
+//Alert both users if there is a collision
+
+
 //==========
 var socket = io.connect('http://localhost:8080');
 
 grabCurrentRoomData();
+
+$('.box2').hide();
 
 function grabCurrentRoomData(){
     $.ajax({
@@ -114,6 +125,7 @@ var player;
 var p1Status = false;
 var p2Status = false;
 
+
 function connect(currentRoom){
     $.ajax({
 
@@ -130,14 +142,14 @@ function connect(currentRoom){
             console.log(response);
             if (response[0].playerCount == 1){
 
-                socket.emit('createRoom', {room: response[0].roomId, name: response[0].p1user});
+                socket.emit('createRoom', {room: response[0].roomId, name: response[0].p1user, hat: response[0].p1hat});
 
                 player = 1;
                 console.log('I am player' + player);
             
             } else if (response[0].playerCount == 2){
 
-                socket.emit('joinRoom', {room: response[0].roomId, name: response[0].p2user});
+                socket.emit('joinRoom', {room: response[0].roomId, name: response[0].p2user, hat: response[0].p2hat});
 
                 player = 2;
                 console.log('I am player' + player);
@@ -149,13 +161,10 @@ function connect(currentRoom){
 }
 
 function gameSetup(){
-    socket.on('setup', function(users) {
-        if (player == 1){
-            $("#messageDiv").html("<span>Player 1: " + users.user1 + "</span><span id='p1ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br>" + "<span>Player 2: " + users.user2 + "</span><span id='p2ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br><br>" + "<button type='button' id='playerReady' data-id='1' class='btn btn-default'>Ready!</button>");
-        } else if (player == 2){
-            $("#messageDiv").html("<span>Player 1: " + users.user1 + "</span><span id='p1ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br>" + "<span>Player 2: " + users.user2 + "</span><span id='p2ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br><br>" + "<button type='button' id='playerReady' data-id='2' class='btn btn-default'>Ready!</button>");
-        }
-        $(".laneWrapper2").append("<div class='box2'><img id='pcube' src='/css/images/pcube.png'></div>");
+    socket.on('setup', function(usersInfo) {
+
+        $('.box2').show();
+
     });
 
     socket.on('readyStatusChange', function(playerReady) {
@@ -185,7 +194,7 @@ function checkReadyStatus(){
     } else if (p1Status == true && p2Status == true){
         var delay = setTimeout(function(){
             startCountDown();
-        }, 2000);
+        }, 500);
     }
 };
 
@@ -202,9 +211,65 @@ function startCountDown(){
                 $('#countDown').html('GO!');
                 clearInterval(startCountDown);
                 start();
+                trackMovement();
             }
         }, 1000);
     }, 2000);
+}
+
+function trackMovement(){
+    console.log('tracking movement...');
+    socket.on('movePlayerUp', function(user) {
+        if (player == 1 && user == 1){
+            $('.box').animate({
+                top: '-=22',
+                left: '+=22'
+            }, 150, 'linear');
+        } else if (player == 2 && user == 1){
+            $('.box2').animate({
+                top: '-=22',
+                left: '+=22'
+            }, 150, 'linear');
+        } else if (player == 1 && user == 2){
+            $('.box2').animate({
+                top: '-=22',
+                left: '+=22'
+            }, 150, 'linear');
+        } else if (player == 2 && user == 2){
+            $('.box').animate({
+                top: '-=22',
+                left: '+=22'
+            }, 150, 'linear');
+        }
+    });
+
+    socket.on('movePlayerDown', function(user) {
+        if (player == 1 && user == 1){
+            console.log('I am p1, move player1 down');
+            $('.box').animate({
+                top: '+=22',
+                left: '-=22'
+            }, 150, 'linear');
+        } else if (player == 2 && user == 1){
+            console.log('I am p2, move player1 down');
+            $('.box2').animate({
+                top: '+=22',
+                left: '-=22'
+            }, 150, 'linear');
+        } else if (player == 1 && user == 2){
+            console.log('I am p1, move player2 down');
+            $('.box2').animate({
+                top: '+=22',
+                left: '-=22'
+            }, 150, 'linear');
+        } else if (player == 2 && user == 2){
+            console.log('I am p2, move player2 down');
+            $('.box').animate({
+                top: '+=22',
+                left: '-=22'
+            }, 150, 'linear');
+        }
+    });
 }
 
 //Function to grab difference between two numbers
@@ -212,274 +277,21 @@ function diff(a,b){return Math.abs(a-b);};
 
 //Code for nav
 
-    //Code for login dropdown
-
-$('#loginBtn').on('click', function() {
-    if (loginStatus == 0 && launch == false){
-        $('#loginDiv').animate({
-            top: "38px"
-        }, 500);
-        loginStatus += 1;
-    } else if (loginStatus == 1 && launch == false){
-        $('#loginDiv').animate({
-            top: "-150px"
-        }, 500);
-        loginStatus = 0;
-    } else if (launch == true){
-        console.log("Game has already started");
-    }
-});
-
-$("#submitLoginInfo").on("click", function(){
-    var usernameInput = $("#usernameInput").val().trim();
-    var passwordInput = $("#passwordInput").val().trim();
-    console.log(usernameInput + " " + passwordInput);
-    loginAttempt(usernameInput, passwordInput);
-    return false;
-});
-
-$("#signUp").on("click", function(){
-	/*signUpStatus += 1;*/
-	$('#signUpModal').modal('show');
-});
-
-$("#submitNewUser").on("click", function(){
-	var usernameSignUp = $("#signupUserName").val().trim();
-    var passwordSignUp = $("#signupPassword").val().trim();
-    var passwordCheck = $("#signupPasswordCheck").val().trim();
-    var usernameCharCountCheck = $.trim($("#signupUserName").val());
-    var passwordCharCountCheck = $.trim($("#signupPassword").val());
-    /*console.log("HERE  " + usernameCharCountCheck + "PS" + passwordCharCountCheck);*/
-    if (usernameCharCountCheck <= 0 || passwordCharCountCheck <= 0){
-    	alert('Please fill out both forms');
-    } else if (passwordSignUp != passwordCheck){
-    	alert('Passwords do not match')
-    } else {
-	    $.ajax({
-
-	        method: 'POST',
-
-	        url: '/submitNewUser',
-
-	        data: {
-	            newUser: usernameSignUp,
-	            newPass: passwordSignUp
-	        },
-
-	        success: function(response){
-		        console.log(response);
-		        if (response == 'success'){
-		        	alert('Successfully signed up! You may now login!');
-		        	/*location.reload();*/
-                    $('#signUpModal').modal('hide');
-		        } else {
-		        	alert('Error');
-		        }
-	        }
-
-	    });
-    }
-});
-
-$("#loginAccept").on("click", function(){
-	location.reload();
-});
-
-$("#logOutRequest").on("click", function(){
-	/*logOutStatus += 1;*/
-	$('#logOutModal').modal('show');
-});
-
-$("#logOutConfirm").on("click", function(){
-	$.ajax({
-
-        method: 'GET',
-
-        url: '/logout',
-
-        success: function(response){
-        	if (response == "success"){
-        		alert("You have logged out");
-        		location.reload();
-        	}
-        }
-
-    });
-});
-    //==================
-
-    //Code for profile dropdown
-
-$('#profileBtn').on('click', function(){
-    if (profileStatus == 0 && launch == false){
-        $('#profileDiv').animate({
-            top: "38px"
-        }, 500);
-        profileStatus += 1;
-    } else if (profileStatus == 1 && launch == false){
-        $('#profileDiv').animate({
-            top: "-150px"
-        }, 500);
-        profileStatus = 0;
-    } else if (launch == true){
-        console.log("Game has already started");
-    }
-});
-
-$('#hatPlaceHolder').on('click', function(){
-    $('#spot' + currentHat).html("<img data-id='1' id='itemPorfile" + currentHat + "pic' class='hatProfile' src='/css/images/hat" + currentHat + ".png'>");
-});
-
-$('.pItem').on('click', function(){
-	var hatId = $(this).attr('data-id');
-	var purchasedCheck = $('#itemProfile' + hatId + 'pic').attr('data-id');
-
-	if (purchasedCheck != 1){
-		console.log("You don't have this hat!");
-	} else {
-		if (currentHat != null){
-			$('#spot' + currentHat).html("<img data-id='1' id='itemProfile" + currentHat + "pic' class='hatProfile' src='/css/images/hat" + currentHat + ".png'>");
-		}
-		selectHat(hatId);
-	}
-});
-
-var currentHat;
-
-function selectHat(itemId){
-	currentHat = itemId;
-	$('#currentHat').remove();
-	$('#spot' + itemId).empty();
-	$('#spot' + itemId).html("ON");
-	$('.box').append("<img id='currentHat' class='hat' src='/css/images/hat" + itemId + ".png'>");
-    currentHatUpdate(itemId);
-}
-
-function currentHatUpdate(itemId){
-    $.ajax({
-
-        method: 'POST',
-
-        url: '/updateCurrentHat',
-
-        data: {
-                currentUser: name,
-                currentHat: itemId
-        },
-
-        success: function(response){
-            console.log(response + "what is this")
-        }
-
-    });
-}
-
-    //==================
-
-    //Code for High Score dropdown
-
-$('#hsBtn').on('click',  function() {
-    if (profileStatus == 0 && launch == false){
-        $('#highscoreDiv').animate({
-            top: "38px"
-        }, 500);
-        profileStatus += 1;
-    } else if (profileStatus == 1 && launch == false){
-        $('#highscoreDiv').animate({
-            top: "-150px"
-        }, 500);
-        profileStatus = 0;
-    } else if (launch == true){
-        console.log("Game has already started");
-    }
-});
-
-    //==================
-
-    //Code for shop modal
-
-$('#shopBtn').on('click', function() {
-    if (launch == false){
-        $('#shopModal').modal('show');
-    } else if (launch == true){
-        console.log("Game has already started");
-    }
-});
-
-var nextSlide = 2;
-var currentSlide = 1;
-var itemDataId = 1;
-var previousSlide = 0;
-
-function itemSlide(){
-    $('#item' + currentSlide + "pic").addClass('currentItem');
-    $('#item' + currentSlide + "pic").removeClass('notSelected');
-    $('#item' + previousSlide + "pic").addClass('notSelected');
-    $('#item' + previousSlide + "pic").removeClass('currentItem');
-    $('#item' + nextSlide + "pic").addClass('notSelected');
-    $('#item' + nextSlide + "pic").removeClass('currentItem');
-};
-
-$('#shopSelectRight').on('click', function(){
-    if (currentSlide == 4){
-        console.log('no more items left!');
-    } else {
-        $('.itemDiv').animate({
-            marginLeft: "-=138"
-        }, 250);
-        itemDataId += 1;
-        $("#purchaseItem").attr("data-id", itemDataId);
-        currentSlide += 1;
-        previousSlide += 1;
-        nextSlide += 1;
-        itemSlide();
-    }
-
-});
-
-$('#shopSelectLeft').on('click', function(){
-if (currentSlide == 0){
-        console.log('no more items left!');
-    } else {
-        $('.itemDiv').animate({
-            marginLeft: "+=138"
-        }, 250);
-        itemDataId -= 1;
-        $("#purchaseItem").attr("data-id", itemDataId);
-        currentSlide -= 1;
-        previousSlide -= 1;
-        nextSlide -= 1;
-        itemSlide();
-    }
-});
-
-$('#purchaseItem').on('click', function(){
-    var itemId = $(this).attr('data-id');
-    var cost = $('#price' + itemDataId).attr('data-id');
-    makePurchase(itemId, cost);
-});
-
     //==================
 
     //Code for user commands
 
+var pos;
+
 $(document).keyup(function(e) {
     switch (e.which) {
     case 40:
-        var box1Pos = box.position();
-        down(box1Pos, '.box', laneBottom, 1);
+        pos = box.position();
+        down(pos);
         break;
     case 38:
-        var box1Pos = box.position();
-        up(box1Pos,'.box', laneTop, 1);
-        break;
-    case 87:
-        var box2Pos = box2.position();
-        up(box2Pos,'.box2', lane2Top, 2);
-        break;
-    case 83:
-        var box2Pos = box2.position();
-        down(box2Pos,'.box2', lane2Bottom, 2);
+        pos = box.position();
+        up(pos);
         break;
     case 32:
         /*jump();*/
@@ -489,6 +301,52 @@ $(document).keyup(function(e) {
         break;
     }
 });
+
+function up(pos){
+    console.log(pos.top + " " + laneTop);
+
+    if (pos.top <= parseFloat(laneTop)){
+        console.log("Fall");
+    } else if (pos.top > laneTop) {
+        if (player == 1){
+            console.log('Move player 1 up!');
+            socket.emit('moveup', 1);
+        } else if (player == 2){
+            console.log('Move player 2 up!');
+            socket.emit('moveup', 2);
+        }
+    }
+
+    if (lane <= 1){
+        console.log("Fall");
+    } else {
+        lane--;
+        console.log("lane: " + lane);
+    }
+}
+
+function down(pos){
+    /*console.log(pos.top + " " + laneBottom);*/
+
+    if (pos.top >= parseFloat(laneBottom)){
+        console.log("Fall");
+    } else if (pos.top < laneBottom) {
+        if (player == 1){
+            console.log('Move player 1 down!');
+            socket.emit('movedown', 1);
+        } else if (player == 2){
+            console.log('Move player 2 down!');
+            socket.emit('movedown', 2);
+        }
+    }
+
+    if (lane >= 5){
+        console.log("Fall");
+    } else {
+        lane++;
+        console.log("lane: " + lane);
+    }
+}
 
 var map = {16: false, 83: false};
 $(document).keydown(function(e) {
@@ -536,14 +394,14 @@ function start(){
         createHerd();
         startScore();
 
-        if (loggedIn == true){
+/*        if (loggedIn == true){
         	startCoinGenerator();
         } else {
             $('#loginDiv').animate({
                 top: "-=150px"
             }, 500);
             loginStatus = 0;    
-        }
+        }*/
 
         launch = true;
 
@@ -631,13 +489,12 @@ function fall(){
     }, 1100); 
 }
 
-function up(pos, box, laneTop, boxlane){
-/*    var pos = box.position();*/
+/*function up(pos, box, laneTop, boxlane){
     console.log(pos.top + " " + laneTop);
 
     if (pos.top <= parseFloat(laneTop)){
         console.log("Fall");
-    } else if (pos.top > laneTop /*&& launch == true*/) {
+    } else if (pos.top > laneTop) {
         $(box).animate({
             top: '-=22',
             left: '+=22'
@@ -662,11 +519,10 @@ function up(pos, box, laneTop, boxlane){
 }
 
 function down(pos, box, laneBottom, boxlane){
-/*    var pos = box.position();*/
     console.log(pos.top + " " + laneBottom)
     if (pos.top >= parseFloat(laneBottom)){
         console.log("Fall");
-    } else if (pos.top < laneBottom /*&& launch == true*/) {
+    } else if (pos.top < laneBottom) {
         $(box).animate({
             top: '+=22',
             left: '-=22'
@@ -688,7 +544,7 @@ function down(pos, box, laneBottom, boxlane){
             console.log("lane: " + lane2);
         }  
     }
-}
+}*/
 
 //Code for Score
 
@@ -698,79 +554,6 @@ function startScore(){
         score += 1;
         /*$('#score').html(score);*/
     }, 10);
-}
-
-//Code for Coins
-
-function startCoinGenerator(){
-    var coinsGenerated = 0;
-    var generateCoins = setInterval(function(){
-        coinsGenerated += 1;
-        console.log("Coins generated: " + coinsGenerated);
-        coinCheck();
-    }, 1800); 
-}
-
-function coinCheck(){
-    //Time until next coin
-    var nextCoin = Math.floor(Math.random() * (3000 - 2500)) + 2500;
-
-    //Picks random lane
-    var coinLane = Math.floor(Math.random() * (5 - 1)) + 1;
-    
-    if (diff(nextCoin, interval1) < 400 && coinLane == 1 || 
-        diff(nextCoin, interval2) < 400 && coinLane == 2 || 
-        diff(nextCoin, interval3) < 400 && coinLane == 3 ||
-        diff(nextCoin, interval4) < 400 && coinLane == 4 ||
-        diff(nextCoin, interval5) < 400 && coinLane == 5){
-        console.log("ERROR coin was delayed due to unauthorized placement");
-        nextCoin += 150;
-        coinGenerator(nextCoin, coinLane);
-        console.log("Coin interval: " + nextCoin);
-    } else {
-        coinGenerator(nextCoin, coinLane);
-        console.log("Coin interval: " + nextCoin);
-    }
-}
-
-function coinGenerator(nextCoin, coinLane){
-
-        var nextCoinTimer = setTimeout(function(){
-
-            coinCounter++;
-
-            if (coinLane == 1){
-                $('.lane').append('<div class="h1z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:110%;top:168.5px;">' + '<img id="hcube" src="/css/images/coin.png">' + '</div>');
-            } else if (coinLane == 2){
-                $('.lane').append('<div class="h2z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:108%;top:191.4px;">' + '<img id="hcube" src="/css/images/coin.png">' + '</div>');
-            } else if (coinLane == 3){
-                $('.lane').append('<div class="h3z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:106%;top:214.3px;">' + '<img id="hcube" src="/css/images/coin.png">' + '</div>');
-            } else if (coinLane == 4){
-                $('.lane').append('<div class="h4z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:104%;top:237.2px;">' + '<img id="hcube" src="/css/images/coin.png">' + '</div>');
-            } else if (coinLane == 5){
-                $('.lane').append('<div class="h5z hurdle" id="coin-' + coinCounter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="/css/images/coin.png">' + '</div>');
-            }
-            
-            $('#coin-' + coinCounter).animate({
-                left: '-=120%'
-            }, speed, 'linear');
-
-            var coin = $('#coin-' + coinCounter);
-
-            var updateCoin = setInterval(function(){
-
-                var newCoin = coin.position();
-
-                newBoxPos = box.position();
-
-                if (newBoxPos.top < newCoin.top + coinPos.width && newBoxPos.top + boxPos.width > newCoin.top && newBoxPos.left < newCoin.left + coinPos.height && boxPos.height + newBoxPos.left > newCoin.left && lane == coinLane) {
-                    coin.remove();
-                    coinsCollected += 1;
-                    score += 100;
-                }
-
-            }, 1);
-        }, nextCoin);
 }
 
 //Code for Hurdles

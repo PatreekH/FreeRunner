@@ -178,7 +178,6 @@ $("#submitNewUser").on("click", function(){
 		        console.log(response);
 		        if (response == 'success'){
 		        	alert('Successfully signed up! You may now login!');
-		        	/*location.reload();*/
                     $('#signUpModal').modal('hide');
 		        } else {
 		        	alert('Error');

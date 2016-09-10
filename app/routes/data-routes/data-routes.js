@@ -25,7 +25,17 @@ module.exports = function(app, db){
 	});
 
 	app.post('/joinRoom', function(req, res){
-		db.rooms.update({roomId: req.body.roomId}, {$set: {playerCount: 2, "p2user": req.body.username, "p2hat": 0}}, function (err, docs) {
+		var user2Hat;
+		db.userdata.find({username: req.body.username}, function (err, docs) {
+			for (i = 0; i < docs[0].items.length; i++){
+				if (docs[0].items[i] == 'active'){
+					user2Hat = i; 
+				} else {
+					user2Hat = 'none';
+				}
+			}
+		});
+		db.rooms.update({roomId: req.body.roomId}, {$set: {playerCount: 2, "p2user": req.body.username, "p2hat": user2Hat}}, function (err, docs) {
 			if (err) throw err
 
 			console.log(req.body.username + " has joined room " + req.body.roomId);
@@ -42,7 +52,14 @@ module.exports = function(app, db){
 		//name of lobby
 		var p2name = "none";
 		db.userdata.find({username: req.body.username}, function (err, docs) {
-			db.rooms.insert({"playerCount": 1, "p1user": docs[0].username, "p2user": p2name, "p1hat": 0, "p2hat": 0, "roomId": req.body.roomId}, function (err, docs) {
+			for (i = 0; i < docs[0].items.length; i++){
+				if (docs[0].items[i] == 'active'){
+					var user1Hat = i; 
+				} else {
+					var user2Hat = 'none';
+				}
+			}
+			db.rooms.insert({"playerCount": 1, "p1user": docs[0].username, "p2user": p2name, "p1hat": user1Hat, "p2hat": 0, "roomId": req.body.roomId}, function (err, docs) {
 				if (err) throw err
 				console.log("Room: " + req.body.roomId + " has been created!");
 				res.json(docs);
