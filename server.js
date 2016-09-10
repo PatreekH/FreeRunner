@@ -53,21 +53,33 @@ MongoClient.connect(databaseUrl, function (err, db) {
 });
 
 
-var globalRoom; 
+var globalRoom;
+var user1;
+var user2; 
 
 io.on('connection', function(socket) {
     // once a client has connected, we expect to get a ping from them saying what room they want to join
-    socket.on('createRoom', function(room) {
-        console.log("p1 connected to room: " + room);
-        socket.join(room);
-        globalRoom == room;
+    socket.on('createRoom', function(payload) {
+        console.log(payload);
+        console.log("p1 connected to room: " + payload.room);
+        socket.join(payload.room);
+        user1 = payload.name;
+        globalRoom = payload.room;
     });
 
-    socket.on('joinRoom', function(room) {
-        console.log("p2 connected to room: " + room);
-        socket.join(room);
-        io.to(room).emit('setup', 'ready');
-        globalRoom == room;
+    socket.on('joinRoom', function(payload) {
+        console.log(payload);
+        console.log("p2 connected to room: " + payload.room);
+        socket.join(payload.room);
+        user2 = payload.name;
+        globalRoom = payload.room;
+
+        io.to(payload.room).emit('setup', {user1: user1, user2: user2});
+    });
+
+    socket.on('playerReady', function(playerNum) {
+        console.log("player" + playerNum + " is ready!");
+        io.to(globalRoom).emit('readyStatusChange', playerNum);
     });
 
 

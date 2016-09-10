@@ -110,6 +110,10 @@ function grabCurrentRoomData(){
     });
 }
 
+var player;
+var p1Status = false;
+var p2Status = false;
+
 function connect(currentRoom){
     $.ajax({
 
@@ -126,41 +130,33 @@ function connect(currentRoom){
             console.log(response);
             if (response[0].playerCount == 1){
 
-                $("#start").html('Waiting for other player to join...');
+                socket.emit('createRoom', {room: response[0].roomId, name: response[0].p1user});
 
-                socket.emit('createRoom', response[0].roomId);
+                player = 1;
+                console.log('I am player' + player);
             
             } else if (response[0].playerCount == 2){
 
-                socket.emit('joinRoom', response[0].roomId);
+                socket.emit('joinRoom', {room: response[0].roomId, name: response[0].p2user});
+
+                player = 2;
+                console.log('I am player' + player);
 
             }
-            startGame();
+            gameSetup();
         }
     });
 }
 
-function startGame(){
-    socket.on('setup', function(ready) {
-        if (ready == 'ready'){
-            $("#start").html("Press 'Shift' + 'S' to start");
+function gameSetup(){
+    socket.on('setup', function(users) {
+        if (player == 1){
+            $("#messageDiv").html("<span>Player 1: " + users.user1 + "</span><span id='p1ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br>" + "<span>Player 2: " + users.user2 + "</span><span id='p2ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br><br>" + "<button type='button' id='playerReady' data-id='1' class='btn btn-default'>Ready!</button>");
+        } else if (player == 2){
+            $("#messageDiv").html("<span>Player 1: " + users.user1 + "</span><span id='p1ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br>" + "<span>Player 2: " + users.user2 + "</span><span id='p2ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br><br>" + "<button type='button' id='playerReady' data-id='2' class='btn btn-default'>Ready!</button>");
         }
+        $(".laneWrapper2").append("<div class='box2'><img id='pcube' src='/css/images/pcube.png'></div>");
     });
-}
-
-//do post call to grab current room data
-//if current players == 1, waiting for other player
-//if current players == 2,
-
-/*            var socket = io.connect('http://localhost:8080');
-
-            socket.on('connect', function() {
-               socket.emit('createRoom', response.roomId);
-            }); */
-
-            //^That should be inside the success
-
-
 
 
 //Function to grab difference between two numbers
@@ -262,14 +258,6 @@ $("#logOutConfirm").on("click", function(){
 
     });
 });
-
-    //==================
-
-    //Code for battle button
-$('#battleBtn').on('click', function(){
-
-});
-
     //==================
 
     //Code for profile dropdown
@@ -474,7 +462,9 @@ $(document).keydown(function(e) {
 
 function start(){
     if (launch == false){
-        $('#start').remove();
+        $('#messageDiv').animate({
+            left: "-=400px"
+        }, 3000);
         $('.ledge-pic').animate({
             left: "-=650px"
         }, 3000);
