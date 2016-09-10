@@ -158,6 +158,54 @@ function gameSetup(){
         $(".laneWrapper2").append("<div class='box2'><img id='pcube' src='/css/images/pcube.png'></div>");
     });
 
+    socket.on('readyStatusChange', function(playerReady) {
+        if (playerReady == 1){
+            $('#p1ready').html('<i id="ready" class="fa fa-check-circle" aria-hidden="true"></i>');
+            p1Status = true;
+            console.log("p1stat: " + p1Status + " | " + "p2stat: " + p2Status);
+            checkReadyStatus();
+        } else if (playerReady == 2){
+            $('#p2ready').html('<i id="ready" class="fa fa-check-circle" aria-hidden="true"></i>');
+            p2Status = true;
+            console.log("p1stat: " + p1Status + " | " + "p2stat: " + p2Status);
+            checkReadyStatus();
+        }
+    });
+}
+
+$('#messageDiv').on('click', '#playerReady', function(){
+    var playerNumber = $(this).attr("data-id");
+    console.log(playerNumber);
+    socket.emit('playerReady', playerNumber);
+});
+
+function checkReadyStatus(){
+    if (p1Status == false || p2Status == false){
+        console.log('waiting for both players to be ready..');
+    } else if (p1Status == true && p2Status == true){
+        var delay = setTimeout(function(){
+            startCountDown();
+        }, 2000);
+    }
+};
+
+function startCountDown(){
+    countDown = 5;
+    $('#messageDiv').html('Get Ready...');
+    var delay2 = setTimeout(function(){
+        $('#messageDiv').html('<p id="countDown" style="font-size:75px;">5<p>');
+        var startCountDown = setInterval(function(){
+            if (countDown > 1){
+                countDown--;
+                $('#countDown').html(countDown);
+            } else if (countDown == 1){
+                $('#countDown').html('GO!');
+                clearInterval(startCountDown);
+                start();
+            }
+        }, 1000);
+    }, 2000);
+}
 
 //Function to grab difference between two numbers
 function diff(a,b){return Math.abs(a-b);};
