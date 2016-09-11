@@ -91,12 +91,14 @@ var signUpStatus = 0;*/
 
 //TODO:
 
+//fix z-index for o-lane
 //On disconnect/refresh, both players ejected too lobby
-//Add hats to multiplayer
-//Fix start position for box1
+//Add hats to multiplayer -- done
+//Fix start position for box1 -- done
 //Make speed the same no matter screen size
 //Alert both users if there is a collision
 
+//have player 2 main box be different id
 
 //==========
 var socket = io.connect('http://localhost:8080');
@@ -601,34 +603,27 @@ function createHerd(){
 
 function createIntervals(){
 
-    interval1 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
-    interval2 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
-    interval3 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
-    interval4 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
-    interval5 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
-
-    if (diff(interval1, interval2) < 500 && diff(interval2, interval3) < 500 && diff(interval3, interval4) < 500 && diff(interval4, interval5) < 500){
-        console.log("#ERROR: WALL CREATED#");
-        interval1 += 700;
-        interval3 += 700;
-/*        console.log("Int1: " + interval1 + " +700 delay");
-        console.log("Int2: " + interval2);
-        console.log("Int3: " + interval3 + " +700 delay");
-        console.log("Int4: " + interval4);
-        console.log("Int5: " + interval5);
-        console.log("=====Wall Fixed=====");*/
-        createHurdles(interval1, interval2, interval3, interval4, interval5);
-        createHurdles2(interval1, interval2, interval3, interval4, interval5);
-    } else {
-        createHurdles(interval1, interval2, interval3, interval4, interval5);
-        createHurdles2(interval1, interval2, interval3, interval4, interval5);
-/*        console.log("Int1: " + interval1);
-        console.log("Int2: " + interval2);
-        console.log("Int3: " + interval3);
-        console.log("Int4: " + interval4);
-        console.log("Int5: " + interval5);
-        console.log("====================");*/
+    if (player == 1){
+        interval1 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
+        interval2 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
+        interval3 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
+        interval4 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
+        interval5 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
+        socket.emit('sendIntervals', {i1: interval1, i2: interval2, i3: interval3, i4: interval4, i5: interval5,});
     }
+
+    socket.on('setIntervals', function(interval) {
+        if (diff(interval.i1, interval.i2) < 500 && diff(interval.i2, interval.i3) < 500 && diff(interval.i3, interval.i4) < 500 && diff(interval.i4, interval.i5) < 500){
+            console.log("#ERROR: WALL CREATED#");
+            interval.i1 += 700;
+            interval.i3 += 700;
+            createHurdles(interval.i1, interval.i2, interval.i3, interval.i4, interval.i5);
+            createHurdles2(interval.i1, interval.i2, interval.i3, interval.i4, interval.i5);
+        } else {
+            createHurdles(interval.i1, interval.i2, interval.i3, interval.i4, interval.i5);
+            createHurdles2(interval.i1, interval.i2, interval.i3, interval.i4, interval.i5);
+        }
+    });
 
 }
 

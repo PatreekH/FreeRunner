@@ -96,7 +96,10 @@ io.on('connection', function(socket) {
         io.to(globalRoom).emit('movePlayerDown', playerNum);
     });
 
-
+    socket.on('sendIntervals', function(interval) {
+      /*console.log('created intervals: ' + interval.i1 + " " + interval.i2 + " " + interval.i3 + " " + interval.i4 + " " + interval.i5);*/
+      io.to(globalRoom).emit('setIntervals', {i1: interval.i1, i2: interval.i2, i3: interval.i3, i4: interval.i4, i5: interval.i5});
+    });
 
 
 });
