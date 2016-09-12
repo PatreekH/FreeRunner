@@ -8,9 +8,9 @@ var request = require('request');
 var cheerio = require('cheerio');
 var bodyParser = require('body-parser');
 
-var http = require('http');
-var server = http.createServer();
-var io = require('socket.io')(server);
+var http = require('http').Server(app);
+/*var server = http.createServer();*/
+var io = require('socket.io')(http);
 
 // express session for user authentication
 session = require('express-session');
@@ -120,10 +120,10 @@ require('./app/routes/html-routes/html-routes.js')(app, db);
 
 // listen on port 3000
 
-server.listen(8080, function() {
+/*server.listen(8080, function() {
   console.log('WS running on port 8080!');
-});
+});*/
 
-app.listen(process.env.PORT || 3000, function() {
+http.listen(process.env.PORT || 3000, function() {
   console.log('App running on port 3000!');
 });

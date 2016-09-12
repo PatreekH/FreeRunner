@@ -113,7 +113,7 @@ var signUpStatus = 0;*/
 //have player 2 main box be different id
 
 //==========
-var socket = io.connect('http://localhost:8080');
+var socket = io.connect();
 
 grabCurrentRoomData();
 

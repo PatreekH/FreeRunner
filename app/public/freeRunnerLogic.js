@@ -117,7 +117,6 @@ var signUpStatus = 0;*/
 
 //==========
 
-
 //Function to grab difference between two numbers
 function diff(a,b){return Math.abs(a-b);};
 
