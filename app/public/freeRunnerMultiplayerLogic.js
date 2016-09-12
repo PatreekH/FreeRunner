@@ -69,6 +69,12 @@ var h3counter = 0;
 var h4counter = 0;
 var h5counter = 0;
 
+var h2_1counter = 0;
+var h2_2counter = 0;
+var h2_3counter = 0;
+var h2_4counter = 0;
+var h2_5counter = 0;
+
 //tracks the coins generated counter and coins collected during gameplay
 var coinCounter = 0;
 var coinsCollected = 0;
@@ -79,6 +85,12 @@ var interval2;
 var interval3;
 var interval4;
 var interval5;
+
+var newHurdle1;
+var newHurdle2;
+var newHurdle3;
+var newHurdle4;
+var newHurdle5;
 
 //Tracks navbar dropdowns (0 = closed, 1 = open)
 var profileStatus = 0;
@@ -254,53 +266,136 @@ function trackMovement(){
     console.log('tracking movement...');
     socket.on('movePlayerUp', function(user) {
         if (player == 1 && user == 1){
+
+            console.log('I am p1, move player1 up');
+
             $('.box').animate({
                 top: '-=22',
                 left: '+=22'
             }, 150, 'linear');
+
+            if (lane <= 1){
+                console.log("Fall");
+            } else {
+                lane--;
+                console.log("lane: " + lane);
+            }
+
         } else if (player == 2 && user == 1){
+
+            console.log('I am p2, move player1 up');
+
             $('.box2').animate({
                 top: '-=22',
                 left: '+=22'
             }, 150, 'linear');
+
+            if (lane2 <= 1){
+                console.log("Fall");
+            } else {
+                lane2--;
+                console.log("lane: " + lane);
+            }
+
         } else if (player == 1 && user == 2){
+
+            console.log('I am p1, move player2 up');
+
             $('.box2').animate({
                 top: '-=22',
                 left: '+=22'
             }, 150, 'linear');
+
+            if (lane2 <= 1){
+                console.log("Fall");
+            } else {
+                lane2--;
+                console.log("lane: " + lane);
+            }
         } else if (player == 2 && user == 2){
+
+            console.log('I am p2, move player2 up');
+
             $('.box').animate({
                 top: '-=22',
                 left: '+=22'
             }, 150, 'linear');
+
+            if (lane <= 1){
+                console.log("Fall");
+            } else {
+                lane--;
+                console.log("lane: " + lane);
+            }
         }
     });
 
     socket.on('movePlayerDown', function(user) {
         if (player == 1 && user == 1){
+
             console.log('I am p1, move player1 down');
+
             $('.box').animate({
                 top: '+=22',
                 left: '-=22'
             }, 150, 'linear');
+
+            if (lane >= 5){
+                console.log("Fall");
+            } else {
+                lane++;
+                console.log("lane: " + lane);
+            }
+
         } else if (player == 2 && user == 1){
+
             console.log('I am p2, move player1 down');
+
             $('.box2').animate({
                 top: '+=22',
                 left: '-=22'
             }, 150, 'linear');
+
+            if (lane2 >= 5){
+                console.log("Fall");
+            } else {
+                lane2++;
+                console.log("lane: " + lane);
+            }
+
         } else if (player == 1 && user == 2){
+
             console.log('I am p1, move player2 down');
+
             $('.box2').animate({
                 top: '+=22',
                 left: '-=22'
             }, 150, 'linear');
+
+
+            if (lane2 >= 5){
+                console.log("Fall");
+            } else {
+                lane2++;
+                console.log("lane: " + lane);
+            }
+
         } else if (player == 2 && user == 2){
+
             console.log('I am p2, move player2 down');
+
             $('.box').animate({
                 top: '+=22',
                 left: '-=22'
             }, 150, 'linear');
+
+            if (lane >= 5){
+                console.log("Fall");
+            } else {
+                lane++;
+                console.log("lane: " + lane);
+            }
+
         }
     });
 }
@@ -349,13 +444,6 @@ function up(pos){
             socket.emit('moveup', 2);
         }
     }
-
-    if (lane <= 1){
-        console.log("Fall");
-    } else {
-        lane--;
-        console.log("lane: " + lane);
-    }
 }
 
 function down(pos){
@@ -371,13 +459,6 @@ function down(pos){
             console.log('Move player 2 down!');
             socket.emit('movedown', 2);
         }
-    }
-
-    if (lane >= 5){
-        console.log("Fall");
-    } else {
-        lane++;
-        console.log("lane: " + lane);
     }
 }
 
@@ -467,26 +548,26 @@ function start(){
                 $('.h5z').css("z-index", "5");
             }
             if (lane2 == 1){
-                $('.h1z').css("z-index", "5");
-                $('.h2z').css("z-index", "5");
+                $('.h1_2z').css("z-index", "5");
+                $('.h2_2z').css("z-index", "5");
             } else if (lane2 == 2){
-                $('.h1z').css("z-index", "3");
-                $('.h2z').css("z-index", "5");
-                $('.h3z').css("z-index", "5");
+                $('.h1_2z').css("z-index", "3");
+                $('.h2_2z').css("z-index", "5");
+                $('.h3_2z').css("z-index", "5");
             } else if (lane2 == 3){
-                $('.h1z').css("z-index", "2");
-                $('.h2z').css("z-index", "3");
-                $('.h3z').css("z-index", "4");
-                $('.h4z').css("z-index", "5");
+                $('.h1_2z').css("z-index", "2");
+                $('.h2_2z').css("z-index", "3");
+                $('.h3_2z').css("z-index", "4");
+                $('.h4_2z').css("z-index", "5");
             } else if (lane2 == 4){
-                $('.h1z').css("z-index", "1");
-                $('.h2z').css("z-index", "2");
-                $('.h3z').css("z-index", "3");
-                $('.h4z').css("z-index", "4");
-                $('.h5z').css("z-index", "5");
+                $('.h1_2z').css("z-index", "1");
+                $('.h2_2z').css("z-index", "2");
+                $('.h3_2z').css("z-index", "3");
+                $('.h4_2z').css("z-index", "4");
+                $('.h5_2z').css("z-index", "5");
             } else if (lane2 == 5){
-                $('.h4z').css("z-index", "3");
-                $('.h5z').css("z-index", "5");
+                $('.h4_2z').css("z-index", "3");
+                $('.h5_2z').css("z-index", "5");
             }
         }, 1);
 
@@ -522,63 +603,6 @@ function fall(){
     }, 1100); 
 }
 
-/*function up(pos, box, laneTop, boxlane){
-    console.log(pos.top + " " + laneTop);
-
-    if (pos.top <= parseFloat(laneTop)){
-        console.log("Fall");
-    } else if (pos.top > laneTop) {
-        $(box).animate({
-            top: '-=22',
-            left: '+=22'
-        }, 150, 'linear'); 
-    }
-
-    if (boxlane == 1){
-        if (lane <= 1){
-            console.log("Fall");
-        } else {
-            lane--;
-            console.log("lane: " + lane);
-        }
-    } else if (boxlane == 2){
-        if (lane2 <= 1){
-            console.log("Fall");
-        } else {
-            lane2--;
-            console.log("lane: " + lane2);
-        }  
-    }
-}
-
-function down(pos, box, laneBottom, boxlane){
-    console.log(pos.top + " " + laneBottom)
-    if (pos.top >= parseFloat(laneBottom)){
-        console.log("Fall");
-    } else if (pos.top < laneBottom) {
-        $(box).animate({
-            top: '+=22',
-            left: '-=22'
-        }, 150, 'linear'); 
-    }
-
-    if (boxlane == 1){
-        if (lane >= 5){
-            console.log("Fall");
-        } else {
-            lane++;
-            console.log("lane: " + lane);
-        }
-    } else if (boxlane == 2){
-        if (lane2 >= 5){
-            console.log("Fall");
-        } else {
-            lane2++;
-            console.log("lane: " + lane2);
-        }  
-    }
-}*/
-
 //Code for Score
 
 function startScore(){
@@ -589,9 +613,102 @@ function startScore(){
     }, 10);
 }
 
+//Code for results modal
+$('.quitMulti').on('click', function(){
+    window.location.replace(window.location.origin);
+});
+
 //Code for Hurdles
 
 function createHerd(){
+
+//Hides winner and loser in results modal to allow fade in
+
+    socket.on('results', function(playerInfo) {
+        var stopHurdles = setInterval(function(){
+            $('.hurdle').stop();
+        }, 100);
+
+        if (playerInfo.playerNum == 1){
+
+            $('.box').fadeOut();
+            $('.box2').fadeOut();          
+
+            clearInterval(createHerdOfHurdles);
+
+            $('#gameResultsWinner').html('Player 2 wins!');
+
+            if (playerInfo.p1hat == 0){
+                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
+            } else if (playerInfo.p1hat == 1){
+                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
+            } else if (playerInfo.p1hat == 2){
+                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
+            } else if (playerInfo.p1hat == 3){
+                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
+            } else if (playerInfo.p1hat == 4){
+                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
+            } else {
+                console.log('no hat active for player 1');
+            }
+
+            if (playerInfo.p2hat == 0){
+                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
+            } else if (playerInfo.p2hat == 1){
+                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
+            } else if (playerInfo.p2hat == 2){
+                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
+            } else if (playerInfo.p2hat == 3){
+                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
+            } else if (playerInfo.p2hat == 4){
+                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
+            } else {
+                console.log('no hat active for player 2');
+            }
+
+            $('#resultsModal').modal('show');
+
+        } else if (playerInfo.playerNum == 2){
+
+            $('.box').fadeOut();
+            $('.box2').fadeOut();          
+
+            clearInterval(createHerdOfHurdles);
+
+            $('#gameResultsWinner').html('Player 1 wins!');
+
+            if (playerInfo.p1hat == 0){
+                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
+            } else if (playerInfo.p1hat == 1){
+                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
+            } else if (playerInfo.p1hat == 2){
+                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
+            } else if (playerInfo.p1hat == 3){
+                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
+            } else if (playerInfo.p1hat == 4){
+                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
+            } else {
+                console.log('no hat active for player 1');
+            }
+
+            if (playerInfo.p2hat == 0){
+                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
+            } else if (playerInfo.p2hat == 1){
+                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
+            } else if (playerInfo.p2hat == 2){
+                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
+            } else if (playerInfo.p2hat == 3){
+                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
+            } else if (playerInfo.p2hat == 4){
+                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
+            } else {
+                console.log('no hat active for player 2');
+            }
+
+            $('#resultsModal').modal('show');
+        }
+    });
+
     var herd = 0;
     /*var herdInterval = Math.floor(Math.random() * (1800 - 1600)) + 1600;*/
     var createHerdOfHurdles = setInterval(function(){
@@ -609,7 +726,7 @@ function createIntervals(){
         interval3 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
         interval4 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
         interval5 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
-        socket.emit('sendIntervals', {i1: interval1, i2: interval2, i3: interval3, i4: interval4, i5: interval5,});
+        socket.emit('sendIntervals', {i1: interval1, i2: interval2, i3: interval3, i4: interval4, i5: interval5});
     }
 
     socket.on('setIntervals', function(interval) {
@@ -627,14 +744,14 @@ function createIntervals(){
 
 }
 
-    //rate of speed per 1 second for 130% of window width /10000
-    //algo for box position from top
+//run function and/or send emit
+//send over 'player' for emit, on socket if player == 1 p2wins, etc
 
 function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
     var newBoxPos = box.position();
 
-    var newHurdle1 = setTimeout(function(){
+    newHurdle1 = setTimeout(function(){
 
         h1counter++;
 
@@ -657,18 +774,15 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
             if (newBoxPos.top < newHurdlePos1.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos1.top && newBoxPos.left < newHurdlePos1.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos1.left && lane == 1) {
             	removeHurdles(h1counter, 1);
-                alert("Collision! with lane 1! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 1-" + h1counter);
-                if (loggedIn == true){
-                    updateAfterRun();
-                }
-                location.reload();
+                console.log("Collision! with lane 1! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 1-" + h1counter);
+                socket.emit('endGame', player);
             }
 
         }, 1);
 
     }, interval1);
 
-    var newHurdle2 = setTimeout(function(){
+    newHurdle2 = setTimeout(function(){
 
         h2counter++;
 
@@ -691,18 +805,15 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
             if (newBoxPos.top < newHurdlePos2.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos2.top && newBoxPos.left < newHurdlePos2.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos2.left && lane == 2) {
             	removeHurdles(h2counter, 2);
-                alert("Collision! with lane 2! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 2-" + h2counter);
-                if (loggedIn == true){
-                    updateAfterRun();
-                }
-                location.reload();
+                console.log("Collision! with lane 2! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 2-" + h2counter);
+                socket.emit('endGame', player);
             }
 
         }, 1);
 
     }, interval2);
 
-    var newHurdle3 = setTimeout(function(){
+    newHurdle3 = setTimeout(function(){
 
         h3counter++;
 
@@ -725,18 +836,15 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
             if (newBoxPos.top < newHurdlePos3.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos3.top && newBoxPos.left < newHurdlePos3.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos3.left && lane == 3) {
                 removeHurdles(h3counter, 3);
-                alert("Collision! with lane 3! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 3-" + h3counter);
-                if (loggedIn == true){
-                    updateAfterRun();
-                }
-                location.reload();
+                console.log("Collision! with lane 3! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 3-" + h3counter);
+                socket.emit('endGame', player);
             }
 
         }, 1);
 
     }, interval3);
 
-    var newHurdle4 = setTimeout(function(){
+    newHurdle4 = setTimeout(function(){
 
         h4counter++;
 
@@ -759,18 +867,15 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
             if (newBoxPos.top < newHurdlePos4.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos4.top && newBoxPos.left < newHurdlePos4.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos4.left && lane == 4) {
                 removeHurdles(h4counter, 4);
-                alert("Collision! with lane 4! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 4-" + h4counter);
-                if (loggedIn == true){
-                    updateAfterRun();
-                }
-                location.reload();
+                console.log("Collision! with lane 4! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 4-" + h4counter);
+                socket.emit('endGame', player);
             }
 
         }, 1);
 
     }, interval4);
 
-    var newHurdle5 = setTimeout(function(){
+    newHurdle5 = setTimeout(function(){
 
         h5counter++;
 
@@ -793,11 +898,8 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
             if (newBoxPos.top < newHurdlePos5.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos5.top && newBoxPos.left < newHurdlePos5.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos5.left && lane == 5) {
                	removeHurdles(h5counter, 5);
-                alert("Collision! with lane 5! Score: " + score + " " + "Coins Collected: " + coinsCollected + " hurdle: 5-" + h5counter);
-                if (loggedIn == true){
-                    updateAfterRun();
-                }
-                location.reload();
+                console.log("Collision! with lane 5! Score: " + score + " " + "Coins Collected: " + coinsCollected + " hurdle: 5-" + h5counter);
+                socket.emit('endGame', player);
             }
 
         }, 1);
@@ -806,7 +908,12 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
 }
 
-
+//Removes all hurdles on collision to avoid double or endless collisions
+function removeHurdles(counter, lane){
+        for (i = 0; i < counter; i++){
+            $('#hurdle' + lane + '-' + i).remove(); 
+        }  
+}
 
 
 
@@ -823,9 +930,9 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
 
     var newHurdle2_1 = setTimeout(function(){
 
-        h1counter++;
+        h2_1counter++;
 
-        $('.lane2').append('<div class="h1z hurdle" id="hurdle2_1-' + h1counter + '" style="position:fixed;left:110%;top:168.5px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
+        $('.lane2').append('<div class="h1_2z hurdle" id="hurdle2_1-' + h1counter + '" style="position:fixed;left:110%;top:168.5px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle2_1-' + h1counter).animate({
             left: '-=120%'
@@ -843,12 +950,8 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
             newBox2Pos = box2.position();
 
             if (newBox2Pos.top < newHurdlePos2_1.top + hurdlePos.width && newBox2Pos.top + boxPos.width > newHurdlePos2_1.top && newBox2Pos.left < newHurdlePos2_1.left + hurdlePos.height && boxPos.height + newBox2Pos.left > newHurdlePos2_1.left && lane == 1) {
-                removeHurdles(h1counter, 1, 2);
-                alert("Collision! with box 2 lane 1! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 1-" + h1counter);
-                if (loggedIn == true){
-                    updateAfterRun();
-                }
-                location.reload();
+                console.log(h1counter + " " +  1 + " " + 2);
+                console.log('collision');
             }
 
         }, 1);
@@ -857,9 +960,9 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
 
     var newHurdle2_2 = setTimeout(function(){
 
-        h2counter++;
+        h2_2counter++;
 
-        $('.lane2').append('<div class="h2z hurdle" id="hurdle2_2-' + h2counter + '" style="position:fixed;left:108%;top:191.4px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
+        $('.lane2').append('<div class="h2_2z hurdle" id="hurdle2_2-' + h2counter + '" style="position:fixed;left:108%;top:191.4px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle2_2-' + h2counter).animate({
             left: '-=120%'
@@ -877,12 +980,8 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
             newBox2Pos = box2.position();
 
             if (newBox2Pos.top < newHurdlePos2_2.top + hurdlePos.width && newBox2Pos.top + boxPos.width > newHurdlePos2_2.top && newBox2Pos.left < newHurdlePos2_2.left + hurdlePos.height && boxPos.height + newBox2Pos.left > newHurdlePos2_2.left && lane == 2) {
-                removeHurdles(h2counter, 2, 2);
-                alert("Collision! with box 2 lane 2! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 2-" + h2counter);
-                if (loggedIn == true){
-                    updateAfterRun();
-                }
-                location.reload();
+                console.log(h2counter + " " + 2 + " " + 2);
+                console.log('collision');
             }
 
         }, 1);
@@ -891,9 +990,9 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
 
     var newHurdle2_3 = setTimeout(function(){
 
-        h3counter++;
+        h2_3counter++;
 
-        $('.lane2').append('<div class="h3z hurdle" id="hurdle2_3-' + h3counter + '" style="position:fixed;left:106%;top:214.3px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
+        $('.lane2').append('<div class="h3_2z hurdle" id="hurdle2_3-' + h3counter + '" style="position:fixed;left:106%;top:214.3px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle2_3-' + h3counter).animate({
             left: '-=120%'
@@ -911,12 +1010,8 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
             newBox2Pos = box2.position();
 
             if (newBox2Pos.top < newHurdlePos2_3.top + hurdlePos.width && newBox2Pos.top + boxPos.width > newHurdlePos2_3.top && newBox2Pos.left < newHurdlePos2_3.left + hurdlePos.height && boxPos.height + newBox2Pos.left > newHurdlePos2_3.left && lane == 3) {
-                removeHurdles(h3counter, 3, 2);
-                alert("Collision! with box 2 lane 3! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 3-" + h3counter);
-                if (loggedIn == true){
-                    updateAfterRun();
-                }
-                location.reload();
+                console.log(h3counter + " " + 3 + " " + 2);
+                console.log('collision');
             }
 
         }, 1);
@@ -925,9 +1020,9 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
 
     var newHurdle2_4 = setTimeout(function(){
 
-        h4counter++;
+        h2_4counter++;
 
-        $('.lane2').append('<div class="h4z hurdle" id="hurdle2_4-' + h4counter + '" style="position:fixed;left:104%;top:237.2px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
+        $('.lane2').append('<div class="h4_2z hurdle" id="hurdle2_4-' + h4counter + '" style="position:fixed;left:104%;top:237.2px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle2_4-' + h4counter).animate({
             left: '-=120%'
@@ -945,12 +1040,8 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
             newBox2Pos = box2.position();
 
             if (newBox2Pos.top < newHurdlePos2_4.top + hurdlePos.width && newBox2Pos.top + boxPos.width > newHurdlePos2_4.top && newBox2Pos.left < newHurdlePos2_4.left + hurdlePos.height && boxPos.height + newBox2Pos.left > newHurdlePos2_4.left && lane == 4) {
-                removeHurdles(h4counter, 4, 2);
-                alert("Collision! with box 2 lane 4! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 4-" + h4counter);
-                if (loggedIn == true){
-                    updateAfterRun();
-                }
-                location.reload();
+                console.log(h4counter + " " + 4 + " " + 2);
+                console.log('collision');
             }
 
         }, 1);
@@ -959,9 +1050,9 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
 
     var newHurdle2_5 = setTimeout(function(){
 
-        h5counter++;
+        h2_5counter++;
 
-        $('.lane2').append('<div class="h5z hurdle" id="hurdle2_5-' + h5counter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
+        $('.lane2').append('<div class="h5_2z hurdle" id="hurdle2_5-' + h5counter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="/css/images/hcube.png">' + '</div>');
         
         $('#hurdle2_5-' + h5counter).animate({
         left: '-=120%'
@@ -979,12 +1070,8 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
             newBox2Pos = box.position();
 
             if (newBox2Pos.top < newHurdlePos2_5.top + hurdlePos.width && newBox2Pos.top + boxPos.width > newHurdlePos2_5.top && newBox2Pos.left < newHurdlePos2_5.left + hurdlePos.height && boxPos.height + newBox2Pos.left > newHurdlePos2_5.left && lane == 5) {
-                removeHurdles(h5counter, 5, 2);
-                alert("Collision! with box 2 lane 5! Score: " + score + " " + "Coins Collected: " + coinsCollected + " hurdle: 5-" + h5counter);
-                if (loggedIn == true){
-                    updateAfterRun();
-                }
-                location.reload();
+                console.log(h5counter + " " + 5 + " " + 2);             
+                console.log('collision');
             }
 
         }, 1);
@@ -993,19 +1080,6 @@ function createHurdles2(interval1, interval2, interval3, interval4, interval5){
 
 }
 
-//Removes all hurdles on collision to avoid double or endless collisions
-function removeHurdles(counter, lane, box){
-    if (box == 1){
-        for (i = 0; i < counter; i++){
-            $('#hurdle' + lane + '-' + i).remove(); 
-        }  
-    } else if (box == 2){
-        for (i = 0; i < counter; i++){
-            $('#hurdle2_' + lane + '-' + i).remove(); 
-        }  
-    }
-
-}
 
 //routes for data
 

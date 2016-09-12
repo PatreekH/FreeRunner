@@ -123,8 +123,8 @@
 	#start{
 		top: 20%;
 		left: 35%;
+		z-index: -1;
 		position: absolute;
-		z-index: +2;
 		font-weight: bold; 
 		font-family: 'Poppins', sans-serif;
 	}

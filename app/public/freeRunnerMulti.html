@@ -152,131 +152,29 @@
 
 	</div>
 
-
-				<!-- success Modal -->
-<div class="modal fade bs-example-modal-sm" id="successModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-	  <div class="modal-dialog modal-sm" role="document">
+	<div class="modal fade" id="resultsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Login Successful!</h4>
+		        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+		        <h4 class="modal-title" id="myModalLabel">Game over!</h4>
+		      </div>
+		      <div class="modal-body gameResults">
+		    	<h3 id="gameResultsWinner">Player 1 wins!</h3>
+		    	<div id="podiumDiv">
+		    		<div id='winner'>
+							<img id='pcube' src='/css/images/pcube.png'>
+							<!-- <img id="currentHat" class="hat" src="css/images/hat1.png"> -->
+		    		</div>
+		    		<div id='loser'>
+							<img id='pcube' src='/css/images/pcube.png'>
+							<!-- <img id="currentHat" class="hat" src="css/images/hat1.png"> -->
+		    		</div>
+		    		<img id='podium' src='/css/images/podium.png'>
+		    	</div>
 		      </div>
 		      <div class="modal-footer">
-		        <!-- <a href="/admin"> --><button id="loginAccept" type="button" class="btn btn-default" >Okay</button><!-- </a> -->
-		      </div>
-		    </div>
-		  </div>
-	</div>
-
-		<!-- !success modal -->
-	<div class="modal fade bs-example-modal-sm" id="unsuccessModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-	  <div class="modal-dialog modal-sm" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Invalid username or password</h4>
-		      </div>
-		      <div class="modal-body">
-		        <h2><span class="glyphicon glyphicon-ban-circle"></span></h2> <h4>Try Again</h4>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		      </div>
-		    </div>
-		  </div>
-	</div>
-
-		<!-- shop modal -->
-	<div class="modal fade bs-example-modal-sm" id="shopModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-	  <div class="modal-dialog modal-sm" role="document">
-	    <div class="modal-content">
-	    	<div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Shop</h4>
-		    </div>
-
-
-		     <i id="shopSelectLeft" class="fa fa-caret-left" aria-hidden="true"></i>
-			<div id="shopDiv">
-
-
-				<div class="itemDiv">
-					<div class="itemInfo">
-						<div class="well itemPic"><img id="item0pic" class="hatStore notSelected" src="/css/images/hat0.png"></div>
-						<div id="price0" class="itemPrice" data-id="10"><img id="coinPic" src="/css/images/coin.png">10</div>
-					</div>
-					<div class="itemInfo">
-						<div class="well itemPic"><img id="item1pic" class="hatStore currentItem" src="/css/images/hat1.png"></div>
-						<div id="price1" class="itemPrice" data-id="20"><img id="coinPic" src="/css/images/coin.png">20</div>
-					</div>
-					<div class="itemInfo">
-						<div class="well itemPic"><img id="item2pic" class="hatStore notSelected" src="/css/images/hat2.png"></div>
-						<div id="price2" class="itemPrice" data-id="30"><img id="coinPic" src="/css/images/coin.png">30</div>
-					</div>
-					<div class="itemInfo">
-						<div class="well itemPic"><img id="item3pic" class="hatStore notSelected" src="/css/images/hat3.png"></div>
-						<div id="price3" class="itemPrice" data-id="40"><img id="coinPic" src="/css/images/coin.png">40</div>
-					</div>
-					<div class="itemInfo">
-						<div class="itemPic well"><img id="item4pic" class="hatStore notSelected" src="/css/images/hat4.png"></div>
-						<div id="price4" class="itemPrice" data-id="50"><img id="coinPic" src="/css/images/coin.png">50</div>
-					</div>
-				</div>
-
-				<!-- <button id="purcahseItem" data-id="1">Purchase</button> -->
-			</div>
-			<center><button id="purchaseItem" data-id="1">Purchase</button></center>
-			<i id="shopSelectRight" class="fa fa-caret-right" aria-hidden="true"></i>
-
-	    </div>
-	  </div>
-	</div>
-
-			<!-- signout modal -->
-	<div class="modal fade bs-example-modal-sm" id="logOutModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-	  <div class="modal-dialog modal-sm" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h5 class="modal-title" id="myModalLabel">Are you sure you want to log out?</h5>
-		      </div>
-<!-- 		      <div class="modal-body">
-		        <h2><span class="glyphicon glyphicon-ban-circle"></span></h2> <h4>Try Again</h4>
-		      </div> -->
-		      <div class="modal-footer">
-		      	<button type="button" class="btn btn-default" id="logOutConfirm">Yes</button>
-		        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-		      </div>
-		    </div>
-		  </div>
-	</div>
-
-	<div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div id="loginFailedModal" class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Sign up:</h4>
-		      </div>
-		      <div class="modal-body">
-			    <form>
-					<label>Enter your desired username and password:</label>
-					<br>
-					<label>username - </label>
-					<input id="signupUserName" type="text" required>
-					<br>
-					<label>password - </label>
-					<input id="signupPassword" type="password" required>
-					<br>
-					<br>
-					<label>verify password - </label>
-					<input id="signupPasswordCheck" type="password" required>
-					<br>
-	  			</form>
-		      </div>
-		      <div class="modal-footer">
-		      	<input type="submit" class="btn btn-default" id="submitNewUser">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		        <button type="button" class="btn btn-default quitMulti" data-dismiss="modal">Quit</button>
 		      </div>
 		    </div>
 		  </div>

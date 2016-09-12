@@ -115,6 +115,26 @@
 		z-index: +5;
 	}
 
+	.h1_2z{
+		z-index: +5;
+	}
+
+	.h2_2z{
+		z-index: +5;
+	}
+
+	.h3_2z{
+		z-index: +5;
+	}
+
+	.h4_2z{
+		z-index: +5;
+	}
+
+	.h5_2z{
+		z-index: +5;
+	}
+
 	.laneWrapper{
 		overflow: hidden;
 		position: relative;
@@ -580,6 +600,35 @@
 
 	#notReady{
 		color: #8B0000;
+	}
+
+	#podium{
+		width: 300px;
+		height: 150px;
+		margin-top: 50px;
+		margin-left: 250px;
+	}
+
+	#gameResultsWinner{
+		margin-left: 20px;
+	}
+
+	#winner{
+		width: 30px;
+    	height: 30px;
+		position: absolute;
+		z-index: +1;
+		top: 110px;
+		left: 460px;
+	}
+
+	#loser{
+		width: 30px;
+    	height: 30px;
+		position: absolute;
+		z-index: +1;
+		top: 150px;
+		left: 330px;
 	}
 
 

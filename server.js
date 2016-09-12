@@ -97,8 +97,17 @@ io.on('connection', function(socket) {
     });
 
     socket.on('sendIntervals', function(interval) {
-      /*console.log('created intervals: ' + interval.i1 + " " + interval.i2 + " " + interval.i3 + " " + interval.i4 + " " + interval.i5);*/
+      console.log('created intervals: ' + interval.i1 + " " + interval.i2 + " " + interval.i3 + " " + interval.i4 + " " + interval.i5);
       io.to(globalRoom).emit('setIntervals', {i1: interval.i1, i2: interval.i2, i3: interval.i3, i4: interval.i4, i5: interval.i5});
+    });
+
+    socket.on('endGame', function(player) {
+        console.log('player ' + player + " loses!");
+        if (player == 1){
+            io.to(globalRoom).emit('results', {playerNum: 1, p1hat: user1hat, p2hat: user2hat});
+        } else if (player == 2){
+            io.to(globalRoom).emit('results', {playerNum: 2, p1hat: user1hat, p2hat: user2hat});
+        }
     });
 
 

@@ -101,8 +101,11 @@ var signUpStatus = 0;*/
 
 //delete room from lobby board on disconnect
 //user is able to remove hat
-//websockets room
-//if lobby is full, cant join
+//real time lobby updates
+//style profile
+//add duel rank
+//players defeated in profile
+//duel highscores
 
 //look into background ideas
 //add intructions for non mem and mem
