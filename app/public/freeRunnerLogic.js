@@ -1,5 +1,5 @@
-//FREE RUNNER
-//Patrick Hernandez
+//BOX RUNNER
+//by Patrick Hernandez
 
 var box = $('.box');
 var boxPos = {width: 30, height: 30};
@@ -100,15 +100,23 @@ var signUpStatus = 0;*/
     //--combine hurdle and coin generator to make chain of events, pitfalls as well
 
 //delete room from lobby board on disconnect
+//add paralax cloud movement
 //user is able to remove hat
 //real time lobby updates
-//style profile
-//add duel rank
+//style profile/multi-lobby/
 //players defeated in profile
+//add intructions for non mem and mem
+//add options dropdown: music settings/instructions on:off
+//add logo
+//add picture to nav tab
+//fix multiplayer button from splitting when browser is wide
+//label code
+
+//be able to move and drag highscore list to plant on page?
+//add duel rank
 //duel highscores
 
 //look into background ideas
-//add intructions for non mem and mem
 //send user name to mongodb as is, then when cross ref, setLowercase
 
 //add pitfalls

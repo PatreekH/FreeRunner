@@ -57,11 +57,16 @@ var globalRoom;
 var user1;
 var user2;
 var user1hat;
-var user2hat; 
+var user2hat;
+var tie = 'tie';
+var p1lost = false;
+var p2lost = false;
 
 io.on('connection', function(socket) {
     // once a client has connected, we expect to get a ping from them saying what room they want to join
     socket.on('createRoom', function(payload) {
+        p1lost = false;
+        p2lost = false;
         console.log(payload);
         console.log("p1 connected to room: " + payload.room);
         socket.join(payload.room);
@@ -104,9 +109,21 @@ io.on('connection', function(socket) {
     socket.on('endGame', function(player) {
         console.log('player ' + player + " loses!");
         if (player == 1){
-            io.to(globalRoom).emit('results', {playerNum: 1, p1hat: user1hat, p2hat: user2hat});
+            p1lost = true;
+            if (p1lost == true && p2lost == true){
+                console.log('players tied!');
+                io.to(globalRoom).emit('results', {playerNum: tie, winner: tie, p1hat: user1hat, p2hat: user2hat}); 
+            } else {
+                io.to(globalRoom).emit('results', {playerNum: 1, winner: user2, p1hat: user1hat, p2hat: user2hat});
+            }
         } else if (player == 2){
-            io.to(globalRoom).emit('results', {playerNum: 2, p1hat: user1hat, p2hat: user2hat});
+            p2lost = true;
+            if (p1lost == true && p2lost == true){
+                console.log('players tied!');
+                io.to(globalRoom).emit('results', {playerNum: tie, winner: tie, p1hat: user1hat, p2hat: user2hat}); 
+            } else {
+                io.to(globalRoom).emit('results', {playerNum: 2, winner: user1, p1hat: user1hat, p2hat: user2hat});
+            }
         }
     });
 
