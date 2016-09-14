@@ -605,7 +605,6 @@
 	#podium{
 		width: 300px;
 		height: 150px;
-		margin-top: 50px;
 		margin-left: 250px;
 	}
 
@@ -613,22 +612,45 @@
 		margin-left: 20px;
 	}
 
+	#rematchDiv{
+		margin-top: 10px;
+		margin-left: 20px;
+		float: left;
+	}
+
+	.rematch{
+
+	}
+
 	#winner{
-		width: 30px;
+		width: 60px;
     	height: 30px;
 		position: absolute;
 		z-index: +1;
-		top: 110px;
-		left: 460px;
+		top: 60px;
+		left: 402.5px;
 	}
 
 	#loser{
-		width: 30px;
+		width: 60px;
     	height: 30px;
 		position: absolute;
 		z-index: +1;
-		top: 150px;
-		left: 330px;
+		top: 100px;
+		left: 267.5px;
 	}
 
+	#winnerCube, #loserCube{
+		margin-left: 60px;
+	}
+
+/*	#winnerCube{
+		margin-left: 60px;
+	}*/
+
+	#podiumSpot1, #podiumSpot2{
+		width: 150px;
+		margin-bottom: 25px;
+		text-align: center;
+	}
 

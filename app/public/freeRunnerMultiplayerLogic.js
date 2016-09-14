@@ -97,18 +97,18 @@ var herd = 0;
 //fix z-index for o-lane -- done
 //Add hats to multiplayer -- done
 //Fix start position for box1 -- done
-
+//Find and Fix repeating hat glitch --done
+//Alert both users if there is a collision -- done
 
 //On disconnect/refresh, both players ejected too lobby
-
 //sync hurdles no matter screen size
-//Make speed the same no matter screen size
-
+//Make speed the same no matter screen size^
 //Add rematch option
-//Find and Fix repeating hat glitch
+//Add results modal reopen button on nav after finishing a game.
+
 //Add Lobbies in real team
 //Style lobby modal
-//Alert both users if there is a collision -- done
+
 
 
 //=========
@@ -162,6 +162,9 @@ function connect(currentRoom){
             console.log(response);
             if (response[0].playerCount == 1){
 
+/*                if (response[0].rematch == false){
+
+                }*/
                 socket.emit('createRoom', {room: response[0].roomId, name: response[0].p1user, hat: response[0].p1hat});
 
                 player = 1;
@@ -186,7 +189,7 @@ function gameSetup(){
         $('.box2').show();
 
         if (player == 1){
-            $("#messageDiv").html("<span>Player 1: " + usersInfo.user1 + "</span><span id='p1ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br>" + "<span>Player 2: " + usersInfo.user2 + "</span><span id='p2ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br><br>" + "<button type='button' id='playerReady' data-id='1' class='btn btn-default'>Ready!</button>");
+            $("#messageDiv").html("<span>Player 1: " + usersInfo.user1.capitalizeFirstLetter() + "</span><span id='p1ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br>" + "<span>Player 2: " + usersInfo.user2.capitalizeFirstLetter() + "</span><span id='p2ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br><br>" + "<button type='button' id='playerReady' data-id='1' class='btn btn-default'>Ready!</button>");
             if (usersInfo.user2hat == 0){
                 $('.box2').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
             } else if (usersInfo.user2hat == 1){
@@ -201,7 +204,7 @@ function gameSetup(){
                 console.log('no hat active for player 2');
             }
         } else if (player == 2){
-            $("#messageDiv").html("<span>Player 1: " + usersInfo.user1 + "</span><span id='p1ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br>" + "<span>Player 2: " + usersInfo.user2 + "</span><span id='p2ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br><br>" + "<button type='button' id='playerReady' data-id='2' class='btn btn-default'>Ready!</button>");
+            $("#messageDiv").html("<span>Player 1: " + usersInfo.user1.capitalizeFirstLetter() + "</span><span id='p1ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br>" + "<span>Player 2: " + usersInfo.user2.capitalizeFirstLetter() + "</span><span id='p2ready'><i class='fa fa-times-circle' id='notReady' aria-hidden='true'></i></span>" + "<br><br>" + "<button type='button' id='playerReady' data-id='2' class='btn btn-default'>Ready!</button>");
             if (usersInfo.user1hat == 0){
                 $('.box2').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
             } else if (usersInfo.user1hat == 1){
@@ -561,6 +564,109 @@ $('.quitMulti').on('click', function(){
 
 //Code for Hurdles
 
+//create unique rematch button based on player
+//checkRematchStatus function
+//If both true, reset db? and refresh page
+//player "1" will refresh first while player "2" will have a delay, thus reseting their current player options
+
+var p1rematch = false;
+var p2rematch = false;
+var p1Podium;
+var p2Podium;
+
+$('#rematchDiv').on('click', '.rematch', function(){
+    var playerNumRematch = $(this).attr("data-id");
+    console.log(playerNumRematch);
+    socket.emit('playerRematch', playerNumRematch);
+});
+
+function rematch(){
+    socket.on('rematchStatusChange', function(rematchReady) {
+        if (rematchReady == 1 && p1Podium == 1){
+            $('#spot1rematch').html('<i id="ready" class="fa fa-check-circle" aria-hidden="true"></i>');
+            p1rematch = true;
+            console.log("p1RematchStat: " + p1rematch + " | " + "p2RematchStat: " + p2rematch);
+            checkRematchStatus();
+
+        } else if (rematchReady == 1 && p1Podium == 2){
+            $('#spot2rematch').html('<i id="ready" class="fa fa-check-circle" aria-hidden="true"></i>');
+            p1rematch = true;
+            console.log("p1RematchStat: " + p1rematch + " | " + "p2RematchStat: " + p2rematch);
+            checkRematchStatus();
+
+        } else if (rematchReady == 2 && p2Podium == 1){
+            $('#spot1rematch').html('<i id="ready" class="fa fa-check-circle" aria-hidden="true"></i>');
+            p2rematch = true;
+            console.log("p1stat: " + p1rematch + " | " + "p2stat: " + p2rematch);
+            checkRematchStatus();
+
+        } else if (rematchReady == 2 && p2Podium == 2){
+            $('#spot2rematch').html('<i id="ready" class="fa fa-check-circle" aria-hidden="true"></i>');
+            p2rematch = true;
+            console.log("p1stat: " + p1rematch + " | " + "p2stat: " + p2rematch);
+            checkRematchStatus();
+        }
+    });
+}
+
+function checkRematchStatus(){
+    if (p1rematch == false || p2rematch == false){
+        console.log('waiting for both players to rematch..');
+    } else if (p1rematch == true && p2rematch == true){
+        $.ajax({
+
+            method: 'POST',
+
+            url: window.location.pathname,
+
+            success: function(response){
+                console.log("Grabbing Current Room Data");
+                console.log("Current Room: " + response);
+                setRematch(response);
+            }
+
+        });
+    }
+};
+
+function setRematch(currentRoom){
+    $.ajax({
+
+        method: 'POST',
+
+        url: '/rematch',
+
+        data: {
+            roomId: currentRoom
+        },
+
+        success: function(response){
+            //if player == 1 refresh right away
+            if (player == 1){
+                location.reload();
+            } else if (player == 2){
+                var rematchDelay = setTimeout(function(){
+                    $.ajax({
+
+                        method: 'POST',
+
+                        url: '/p2rematch',
+
+                        data: {
+                            roomId: currentRoom
+                        },
+
+                        success: function(response){
+                                location.reload();
+                        }
+                    });
+                }, 1000);
+            }
+        }
+    });
+}
+
+
 function createHerd(){
 
     socket.on('results', function(playerInfo) {
@@ -568,40 +674,53 @@ function createHerd(){
             $('.hurdle').stop();
         }, 100);
 
+        rematch();
+
         var winner = playerInfo.winner;
 
         console.log(winner);
+
+            if (player == 1){
+                $('#rematchDiv').html('<button type="button" data-id="1" class="btn btn-default rematch">Rematch?</button>');
+            } else if (player == 2){
+                $('#rematchDiv').html('<button type="button" data-id="2" class="btn btn-default rematch">Rematch?</button>');
+            }
 
         if (playerInfo.playerNum == 1){         
 
             clearInterval(createHerdOfHurdles);
 
+            p2Podium = 1;
+            p1Podium = 2;
+
             $('#gameResultsWinner').html(winner.capitalizeFirstLetter() + " wins!");
+            $('#overheadName1').html(playerInfo.winner.capitalizeFirstLetter());
+            $('#overheadName2').html(playerInfo.loser.capitalizeFirstLetter());
 
             if (playerInfo.p1hat == 0){
-                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
+                $('#loserCube').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
             } else if (playerInfo.p1hat == 1){
-                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
+                $('#loserCube').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
             } else if (playerInfo.p1hat == 2){
-                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
+                $('#loserCube').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
             } else if (playerInfo.p1hat == 3){
-                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
+                $('#loserCube').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
             } else if (playerInfo.p1hat == 4){
-                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
+                $('#loserCube').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
             } else {
                 console.log('no hat active for player 1');
             }
 
             if (playerInfo.p2hat == 0){
-                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
+                $('#winnerCube').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
             } else if (playerInfo.p2hat == 1){
-                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
+                $('#winnerCube').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
             } else if (playerInfo.p2hat == 2){
-                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
+                $('#winnerCube').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
             } else if (playerInfo.p2hat == 3){
-                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
+                $('#winnerCube').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
             } else if (playerInfo.p2hat == 4){
-                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
+                $('#winnerCube').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
             } else {
                 console.log('no hat active for player 2');
             }
@@ -612,32 +731,37 @@ function createHerd(){
 
             clearInterval(createHerdOfHurdles);
 
+            p1Podium = 1;
+            p2Podium = 2;
+
             $('#gameResultsWinner').html(winner.capitalizeFirstLetter() + " wins!");
+            $('#overheadName1').html(playerInfo.winner.capitalizeFirstLetter());
+            $('#overheadName2').html(playerInfo.loser.capitalizeFirstLetter());
 
             if (playerInfo.p1hat == 0){
-                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
+                $('#winnerCube').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
             } else if (playerInfo.p1hat == 1){
-                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
+                $('#winnerCube').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
             } else if (playerInfo.p1hat == 2){
-                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
+                $('#winnerCube').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
             } else if (playerInfo.p1hat == 3){
-                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
+                $('#winnerCube').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
             } else if (playerInfo.p1hat == 4){
-                $('#winner').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
+                $('#winnerCube').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
             } else {
                 console.log('no hat active for player 1');
             }
 
             if (playerInfo.p2hat == 0){
-                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
+                $('#loserCube').append('<img id="currentHat" class="hat" src="/css/images/hat0.png">');
             } else if (playerInfo.p2hat == 1){
-                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
+                $('#loserCube').append('<img id="currentHat" class="hat" src="/css/images/hat1.png">');
             } else if (playerInfo.p2hat == 2){
-                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
+                $('#loserCube').append('<img id="currentHat" class="hat" src="/css/images/hat2.png">');
             } else if (playerInfo.p2hat == 3){
-                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
+                $('#loserCube').append('<img id="currentHat" class="hat" src="/css/images/hat3.png">');
             } else if (playerInfo.p2hat == 4){
-                $('#loser').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
+                $('#loserCube').append('<img id="currentHat" class="hat" src="/css/images/hat4.png">');
             } else {
                 console.log('no hat active for player 2');
             }
@@ -650,8 +774,8 @@ function createHerd(){
 
             $('#gameResultsWinner').html("Tie!");
 
-            $('#winner').remove();
-            $('#loser').remove();
+            $('#winnerCube').remove();
+            $('#loserCube').remove();
 
             $('#resultsModal').modal('show');
         }

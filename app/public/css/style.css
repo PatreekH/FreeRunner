@@ -334,6 +334,8 @@
 		color: white;
 	}
 
+
+	/*move multiplayerBtn div so these stay in place*/
 	#battleBtnPic{
 		position: absolute;
 		padding-top: 8px;

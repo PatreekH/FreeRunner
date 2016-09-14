@@ -69,6 +69,22 @@ module.exports = function(app, db){
 		});
 	});
 
+	app.post('/rematch', function(req, res){
+		db.rooms.update({roomId: req.body.roomId}, {$set: {playerCount: 1}}, function (err, docs) {
+			if (err) throw err
+			console.log("Room: " + req.body.roomId + " has been reset for p1rematch!");
+			res.json(docs);
+		});
+	});
+
+	app.post('/p2rematch', function(req, res){
+		db.rooms.update({roomId: req.body.roomId}, {$set: {playerCount: 2}}, function (err, docs) {
+			if (err) throw err
+			console.log("Room: " + req.body.roomId + " has been reset for p2rematch!");
+			res.json(docs);
+		});
+	});
+
 	app.get('/isAuthenticated', function(req, res){
 		if (req.session.isAuth == true){
 			res.json(req.session.userInfo);

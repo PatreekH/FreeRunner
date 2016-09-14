@@ -100,6 +100,7 @@ var signUpStatus = 0;*/
     //--combine hurdle and coin generator to make chain of events, pitfalls as well
 
 //delete room from lobby board on disconnect
+//lowercase when logging in check
 //add paralax cloud movement
 //user is able to remove hat
 //real time lobby updates

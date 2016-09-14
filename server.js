@@ -114,7 +114,7 @@ io.on('connection', function(socket) {
                 console.log('players tied!');
                 io.to(globalRoom).emit('results', {playerNum: tie, winner: tie, p1hat: user1hat, p2hat: user2hat}); 
             } else {
-                io.to(globalRoom).emit('results', {playerNum: 1, winner: user2, p1hat: user1hat, p2hat: user2hat});
+                io.to(globalRoom).emit('results', {playerNum: 1, winner: user2, loser: user1, p1hat: user1hat, p2hat: user2hat});
             }
         } else if (player == 2){
             p2lost = true;
@@ -122,9 +122,13 @@ io.on('connection', function(socket) {
                 console.log('players tied!');
                 io.to(globalRoom).emit('results', {playerNum: tie, winner: tie, p1hat: user1hat, p2hat: user2hat}); 
             } else {
-                io.to(globalRoom).emit('results', {playerNum: 2, winner: user1, p1hat: user1hat, p2hat: user2hat});
+                io.to(globalRoom).emit('results', {playerNum: 2, winner: user1, loser: user2, p1hat: user1hat, p2hat: user2hat});
             }
         }
+    });
+
+    socket.on('playerRematch', function(rematchNum) {
+        io.to(globalRoom).emit('rematchStatusChange', rematchNum);
     });
 
 

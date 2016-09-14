@@ -16,92 +16,15 @@
 <body>
 
 	<nav>
-		<div id="profileNav">
-			<!-- <div id="profileTitle"><b>Profile</b></div> -->
-			<!-- <div id="loginBtn"><p>Login | Sign up</p></div> -->
-			<!-- <i id="profileBtn" class='homeBtn fa fa-caret-down' aria-hidden='true'></i> -->
-		</div>
-<!-- 		<div class="title">
-			Free Runner
-		</div> -->
-		<!-- div id="navMenu"> -->
-			<a href="/"><i id="battleBtn" class="fa fa-cube" aria-hidden="true"></i></a>
-<!-- 			<i id="shopBtn" class="fa fa-usd" aria-hidden="true"></i>
-			<i id="hsBtn" class="fa fa-list-ol" aria-hidden="true"></i> -->
-			<i id="optionsBtn" class="fa fa-cog" aria-hidden="true"></i>
-		<!-- </div> -->
+		<a href="/"><i id="battleBtn" class="fa fa-cube" aria-hidden="true"></i></a>
+<!-- 		<i id="optionsBtn" class="fa fa-cog" aria-hidden="true"></i> -->
 	</nav>
-
-	<div id="profileDiv">
-		<div id="profile">
-			<p><b>Profile</b></p>
-		</div>
-
-		<div id="info">
-			<!-- p>Name:</p> -->
-			<span>Name: </span><span id="userName"></span>
-		</div>
-		<div id="stats">
-			<span>Personal Best: </span><span id="profileHs">----</span>
-			<br>
-			<span><img id="coinPic" src="/css/images/coin.png">'s: </span><span id="profileCoins">$</span>
-			<!-- <span><p>Players Defeated:</p></span> -->
-			<br>
-			<div id="logOutBtn"><button id="logOutRequest">Logout</button></div id="logOutBtn">
-		</div>
-		<div id="closet">
-			<div id="spot0" data-id="0" class="pitem well"></div>
-			<div id="spot1" data-id="1" class="pitem well"></div>
-			<div id="spot2" data-id="2" class="pitem well"></div>
-			<div id="spot3" data-id="3" class="pitem well"></div>
-			<div id="spot4" data-id="4" class="pitem well"></div>
-		</div>
-		<!-- add logout -->
-	</div>
-
-	<div id="highscoreDiv">
-
-		<center><b>Top High Score List</b></center>
-
-		<div id="highscorelist">
-			<table>
-			<tr>
-				<td class="rank1name"><b>1.</b> </td>
-				<td class="rank1score"></td>
-			</tr>
-			<tr>
-				<td class="rank2name"><b>2.</b> </td>
-				<td class="rank2score"></td>
-			</tr>
-			<tr>
-				<td class="rank3name"><b>3.</b> </td>
-				<td class="rank3score"></td>
-			</tr>
-			<tr>
-				<td class="rank4name"><b>4.</b> </td>
-				<td class="rank4score"></td>
-			</tr>
-			<tr>
-				<td class="rank5name"><b>5.</b> </td>
-				<td class="rank5score"></td>
-			</tr>
-
-			</table>
-
-		</div>
-	</div>
 
 
 
 		<div id="messageDiv">
 			<p>Waiting for other player to join...</p>
 		</div>
-
-	<!-- div id="scoreDiv"></div> -->
-
-
-<!-- 		<img class="drop-off" id="dropoff" src="dropoff.png" style="top:40.75%;left:50%;">
-		<img class="ledge-pic2" id="ledge-pic2" src="startLedge2.png" style="top:40.50%;left:55%;" -->
 
 	<div class="laneWrapper">
 
@@ -160,17 +83,32 @@
 		        <h4 class="modal-title" id="myModalLabel">Game over!</h4>
 		      </div>
 		      <div class="modal-body gameResults">
-		    	<h3 id="gameResultsWinner"></h3>
+		    	<h3 id="gameResultsWinner">Patrick wins!</h3>
 		    	<div id="podiumDiv">
-		    		<div id='winner'>
-							<img id='pcube' src='/css/images/pcube.png'>
+			    	<div id="rematchDiv">
+			    		<!-- <button type="button" class="btn btn-default rematch">Rematch?</button> -->
+			    	</div>
+		    		<div id="winner">
+		    			<div id="podiumSpot1">
+			    			<span id="overheadName1"></span>
+			    			<span id="spot1rematch"><i class="fa fa-times-circle" id="notReady" aria-hidden="true"></i></span>
+		    			</div>
+		    			<div id="winnerCube">
+							<img id="pcube" src="/css/images/pcube.png">
 							<!-- <img id="currentHat" class="hat" src="css/images/hat1.png"> -->
+						</div>
 		    		</div>
-		    		<div id='loser'>
-							<img id='pcube' src='/css/images/pcube.png'>
+		    		<div id="loser">
+		    			<div id="podiumSpot2">
+			    			<span id="overheadName2"></span>
+			    			<span id="spot2rematch"><i class="fa fa-times-circle" id="notReady" aria-hidden="true"></i></span>
+		    			</div>
+		    			<div id="loserCube">
+							<img id="pcube" src="/css/images/pcube.png">
 							<!-- <img id="currentHat" class="hat" src="css/images/hat1.png"> -->
+						</div>
 		    		</div>
-		    		<img id='podium' src='/css/images/podium.png'>
+		    		<img id="podium" src="/css/images/podium.png">
 		    	</div>
 		      </div>
 		      <div class="modal-footer">
