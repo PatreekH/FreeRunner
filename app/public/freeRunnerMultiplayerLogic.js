@@ -2,8 +2,8 @@
 //by Patrick Hernandez
 
 //player1 and player2 box class references and measurements
-var box = $('#boxside');
-var box2 = $('#boxside2');
+var box = $('.boxside');
+var box2 = $('.box2');
 var boxPos = {width: 20, height: 20};
 var hurdlePos = {width: 30, height: 30};
 
@@ -305,7 +305,7 @@ function trackMovement(){
 
             console.log('I am p1, move player1 up');
 
-            box.animate({
+            $('.boxside').animate({
                 top: '-=22',
                 left: '+=22'
             }, 150, 'linear');
@@ -321,7 +321,7 @@ function trackMovement(){
 
             console.log('I am p2, move player1 up');
 
-            box2.animate({
+            $('.box2').animate({
                 top: '-=22',
                 left: '+=22'
             }, 150, 'linear');
@@ -330,14 +330,14 @@ function trackMovement(){
                 console.log("Fall");
             } else {
                 lane2--;
-                console.log("lane: " + lane);
+                console.log("lane: " + lane2);
             }
 
         } else if (player == 1 && user == 2){
 
             console.log('I am p1, move player2 up');
 
-            box2.animate({
+            $('.box2').animate({
                 top: '-=22',
                 left: '+=22'
             }, 150, 'linear');
@@ -346,13 +346,13 @@ function trackMovement(){
                 console.log("Fall");
             } else {
                 lane2--;
-                console.log("lane: " + lane);
+                console.log("lane: " + lane2);
             }
         } else if (player == 2 && user == 2){
 
             console.log('I am p2, move player2 up');
 
-            box.animate({
+            $('.boxside').animate({
                 top: '-=22',
                 left: '+=22'
             }, 150, 'linear');
@@ -371,7 +371,7 @@ function trackMovement(){
 
             console.log('I am p1, move player1 down');
 
-            box.animate({
+            $('.boxside').animate({
                 top: '+=22',
                 left: '-=22'
             }, 150, 'linear');
@@ -387,7 +387,7 @@ function trackMovement(){
 
             console.log('I am p2, move player1 down');
 
-            box2.animate({
+            $('.box2').animate({
                 top: '+=22',
                 left: '-=22'
             }, 150, 'linear');
@@ -396,14 +396,14 @@ function trackMovement(){
                 console.log("Fall");
             } else {
                 lane2++;
-                console.log("lane: " + lane);
+                console.log("lane: " + lane2);
             }
 
         } else if (player == 1 && user == 2){
 
             console.log('I am p1, move player2 down');
 
-            box2.animate({
+            $('.box2').animate({
                 top: '+=22',
                 left: '-=22'
             }, 150, 'linear');
@@ -413,14 +413,14 @@ function trackMovement(){
                 console.log("Fall");
             } else {
                 lane2++;
-                console.log("lane: " + lane);
+                console.log("lane: " + lane2);
             }
 
         } else if (player == 2 && user == 2){
 
             console.log('I am p2, move player2 down');
 
-            box.animate({
+            $('.boxside').animate({
                 top: '+=22',
                 left: '-=22'
             }, 150, 'linear');
@@ -566,13 +566,13 @@ function start(){
             } else if (lane2 == 3){
                 $('.h1_2z').css("z-index", "2");
                 $('.h2_2z').css("z-index", "3");
-                $('.h3_2z').css("z-index", "4");
+                $('.h3_2z').css("z-index", "5");
                 $('.h4_2z').css("z-index", "5");
             } else if (lane2 == 4){
                 $('.h1_2z').css("z-index", "1");
                 $('.h2_2z').css("z-index", "2");
                 $('.h3_2z').css("z-index", "3");
-                $('.h4_2z').css("z-index", "4");
+                $('.h4_2z').css("z-index", "5");
                 $('.h5_2z').css("z-index", "5");
             } else if (lane2 == 5){
                 $('.h4_2z').css("z-index", "3");
@@ -583,17 +583,17 @@ function start(){
         var barrierCheck = setInterval(function(){
             var posCheck = box.position();
             if (posCheck.top <= parseFloat(laneTop) && lane == 1){
-                box.stop();
+                $('.box').stop();
             } else if (posCheck.top >= parseFloat(laneBottom) && lane == 5){
-                box.stop();
+                $('.box').stop();
             }
 
-            var pos2Check = box2.position();
+/*            var pos2Check = box2.position();
             if (pos2Check.top <= parseFloat(laneTop) && lane == 1){
-                box2.stop();
+                $('.box2').stop();
             } else if (pos2Check.top >= parseFloat(laneBottom) && lane == 5){
-                box2.stop();
-            }
+                $('.box2').stop();
+            }*/
 
         }, 1);
 

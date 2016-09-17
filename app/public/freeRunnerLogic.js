@@ -21,7 +21,7 @@ var onePercentW = windowWidthSize / 100;
 //Top and Bottom lane measurements based on screen size
 var percent15 = parseFloat(onePercentH * 15); 
 var laneTop = (percent15 + 198);
-var laneBottom = (percent15 + 279);
+var laneBottom = (percent15 + 285);
 
 //Determines the speed of obsticales based on screen width
 //184.32 a second

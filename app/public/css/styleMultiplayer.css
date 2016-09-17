@@ -3,22 +3,12 @@
 		/*background-color: white !important;*/
 	}
 
-	#boxside{
+	.boxside{
 		position: fixed;
     	top: 168.5px;
     	left: 336px;
 		z-index: +4;
-		background-color: red;
-		width: 20px;
-    	height: 20px;
-	}
-
-	#boxside2{
-		position: fixed;
-    	top: 168.5px;
-    	left: 336px;
-		z-index: +4;
-		background-color: red;
+/*		background-color: red;*/
 		width: 20px;
     	height: 20px;
 	}
@@ -49,12 +39,14 @@
 	}
 
 	.box2{
+		position: fixed;
+    	top: 168.5px;
+    	left: 336px;
+		z-index: +4;
 		/*background-image: url(pcube.png);*/
     	width: 30px;
     	height: 30px;
     	/*background:#ccc;*/
-    	position: relative;
-    	z-index: +4;
 	}
 
 	.lane2{
