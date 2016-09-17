@@ -578,7 +578,7 @@ function start(){
         startScore();
 
 
-        $('#instructions').fadeOut();
+        $('.instructions').fadeOut();
 
         if (loggedIn == true){
         	startCoinGenerator();
