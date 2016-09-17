@@ -256,6 +256,16 @@
 	    -webkit-transform: rotate(43.25deg) skew(0deg); 
 	}
 
+	.ledge-block5{
+		background-color: white;
+		top: 76.5px;
+		left: 310px;
+		position: absolute;
+		z-index: +2;
+		height: 10px;
+		width: 201px;
+	}
+
 	#start{
 		top: 45px;
 		left: 35%;

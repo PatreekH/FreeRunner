@@ -1206,6 +1206,7 @@ function grabUserData(username){
                 $(".ledge-block2").css("background-color", response.bgColor);
                 $(".ledge-block3").css("background-color", response.bgColor);
                 $(".ledge-block4").css("background-color", response.bgColor);
+                $(".ledge-block5").css("background-color", response.bgColor);
                 $(".ledge-block1-2").css("background-color", response.bgColor);
                 $(".ledge-block2-2").css("background-color", response.bgColor);
                 $(".ledge-block3-2").css("background-color", response.bgColor);
