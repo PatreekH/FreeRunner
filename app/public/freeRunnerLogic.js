@@ -1,8 +1,8 @@
 //BOX RUNNER
 //by Patrick Hernandez
 
-var box = $('.box');
-var boxPos = {width: 30, height: 30};
+var box = $('#boxside');
+var boxPos = {width: 20, height: 20};
 var hurdlePos = {width: 30, height: 30};
 var coinPos = {width: 30, height: 30};
 
@@ -20,7 +20,7 @@ var onePercentW = windowWidthSize / 100;
 
 //Top and Bottom lane measurements based on screen size
 var percent15 = parseFloat(onePercentH * 15); 
-var laneTop = (percent15 + 191);
+var laneTop = (percent15 + 198);
 var laneBottom = (percent15 + 279);
 
 //Determines the speed of obsticales based on screen width
@@ -73,6 +73,7 @@ var interval5;
 var profileStatus = 0;
 var shopStatus = 0;
 var loginStatus = 0;
+var hsStatus = 0;
 /*var logOutStatus = 0;
 var signUpStatus = 0;*/
 
@@ -104,12 +105,13 @@ var signUpStatus = 0;*/
 //add paralax cloud movement
 //user is able to remove hat
 //real time lobby updates
+
 //style profile/multi-lobby/
 //players defeated in profile
 //add intructions for non mem and mem
-//add options dropdown: music settings/instructions on:off
+//add options dropdown: music settings/instructions on:off/color
 //add logo
-//add picture to nav tab
+//add logo to nav tab
 //fix multiplayer button from splitting when browser is wide
 //label code
 
@@ -128,6 +130,73 @@ var signUpStatus = 0;*/
 
 //Function to grab difference between two numbers
 function diff(a,b){return Math.abs(a-b);};
+
+
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+//Code for spectrum
+
+var picker = $("#backgroundColorPicker");
+var previousСolor;
+var isChange = false;
+
+picker.spectrum({
+    preferredFormat : "rgb",
+    move : function (tinycolor) {
+        $("body").css("background-color", tinycolor.toRgbString());
+        $("#ledge-block").css("background-color", tinycolor.toRgbString());
+        $("#ledge-block2").css("background-color", tinycolor.toRgbString());
+        $("#ledge-block3").css("background-color", tinycolor.toRgbString());
+        $("#ledge-block4").css("background-color", tinycolor.toRgbString());
+        $("#start").css("color", "white");
+    },
+    show : function (tinycolor) {
+        isChange = false;
+        previousСolor = tinycolor;
+    },
+    hide : function (tinycolor) {
+        if (!isChange && previousСolor) {
+            $("body").css("background-color", previousСolor.toRgbString());
+            $("#ledge-block").css("background-color", tinycolor.toRgbString());
+            $("#ledge-block2").css("background-color", tinycolor.toRgbString());
+            $("#ledge-block3").css("background-color", tinycolor.toRgbString());
+            $("#ledge-block4").css("background-color", tinycolor.toRgbString());
+            $("#start").css("color", "white");
+        }
+
+    },
+    change : function (tinycolor) {
+        isChange = true;
+        $("body").css("background-color", tinycolor.toRgbString());
+        $("#ledge-block").css("background-color", tinycolor.toRgbString());
+        $("#ledge-block2").css("background-color", tinycolor.toRgbString());
+        $("#ledge-block3").css("background-color", tinycolor.toRgbString());
+        $("#ledge-block4").css("background-color", tinycolor.toRgbString());
+        $("#start").css("color", "white");
+        saveBgColor(tinycolor.toRgbString());
+    }
+});
+
+function saveBgColor(bgColor){
+    $.ajax({
+
+        method: 'POST',
+
+        url: '/saveBgColor',
+
+        data: {
+            username: name,
+            bgColor: bgColor
+        },
+
+        success: function(response){
+            alert('Background color saved!');
+        }
+
+    });  
+}
 
 //Code for nav
 
@@ -308,19 +377,79 @@ function currentHatUpdate(itemId){
 
     //==================
 
+    //Code for Options Modal
+
+$('#optionsBtn').on('click', function() {
+    if (launch == false){
+        $('#optionsModal').modal('show');
+    } else if (launch == true){
+        console.log("Game has already started");
+    }
+});
+
+var instructionsBtn = false;
+
+$('#instructionsBtn').on('click', function() {
+    $.ajax({
+
+        method: 'POST',
+
+        url: '/checkInstructionOptn',
+
+        data: {
+                username: name
+        },
+
+        success: function(response){
+            console.log(response);
+            if (response[0].instructions == 'false'){
+                $('#instructionsBtn').html('On');
+                $('.instructions').show();
+                updateInstructions('true');
+            } else if (response[0].instructions == 'true') {
+                $('#instructionsBtn').html('Off');
+                $('.instructions').hide();
+                updateInstructions('false');
+            }
+        }
+
+    });
+});
+
+function updateInstructions(status){
+    $.ajax({
+
+        method: 'POST',
+
+        url: '/updateInstructionOptn',
+
+        data: {
+                username: name,
+                data: status
+        },
+
+        success: function(response){
+            console.log('successfully updated instructions');
+        }
+
+    });
+}
+
+    //=============
+
     //Code for High Score dropdown
 
 $('#hsBtn').on('click',  function() {
-    if (profileStatus == 0 && launch == false){
+    if (hsStatus == 0 && launch == false){
         $('#highscoreDiv').animate({
             top: "38px"
         }, 500);
-        profileStatus += 1;
-    } else if (profileStatus == 1 && launch == false){
+        hsStatus += 1;
+    } else if (hsStatus == 1 && launch == false){
         $('#highscoreDiv').animate({
             top: "-150px"
         }, 500);
-        profileStatus = 0;
+        hsStatus = 0;
     } else if (launch == true){
         console.log("Game has already started");
     }
@@ -428,7 +557,7 @@ $(document).keydown(function(e) {
 
 function start(){
     if (launch == false){
-        $('#start').remove();
+        $('#start').fadeOut();
         $('#ledge-pic').animate({
             left: "-=550px"
         }, 3000);
@@ -438,9 +567,18 @@ function start(){
         $('#ledge-block2').animate({
             left: "-=550px"
         }, 3000);
+        $('#ledge-block3').animate({
+            left: "-=550px"
+        }, 3000);
+        $('#ledge-block4').animate({
+            left: "-=550px"
+        }, 3000);
 
         createHerd();
         startScore();
+
+
+        $('#instructions').fadeOut();
 
         if (loggedIn == true){
         	startCoinGenerator();
@@ -469,13 +607,13 @@ function start(){
             } else if (lane == 3){
                 $('.h1z').css("z-index", "2");
                 $('.h2z').css("z-index", "3");
-                $('.h3z').css("z-index", "4");
+                $('.h3z').css("z-index", "5");
                 $('.h4z').css("z-index", "5");
             } else if (lane == 4){
                 $('.h1z').css("z-index", "1");
                 $('.h2z').css("z-index", "2");
                 $('.h3z').css("z-index", "3");
-                $('.h4z').css("z-index", "4");
+                $('.h4z').css("z-index", "5");
                 $('.h5z').css("z-index", "5");
             } else if (lane == 5){
                 $('.h4z').css("z-index", "3");
@@ -484,7 +622,7 @@ function start(){
         }, 1);
 
         var barrierCheck = setInterval(function(){
-            var posCheck = box.position();
+            var posCheck = $('.box').position();
             if (posCheck.top <= parseFloat(laneTop) && lane == 1){
                 $('.box').stop();
             } else if (posCheck.top >= parseFloat(laneBottom) && lane == 5){
@@ -521,8 +659,8 @@ function up(){
 
     if (pos.top <= parseFloat(laneTop) && lane == 1){
         console.log("Fall");
-    } else if (pos.top > laneTop && launch == true) {
-        $('.box').animate({
+    } else if (pos.top > laneTop /*&& launch == true*/) {
+        box.animate({
             top: '-=22',
             left: '+=22'
         }, 150, 'linear'); 
@@ -541,8 +679,8 @@ function down(){
     console.log(pos.top + " " + laneBottom)
     if (pos.top >= parseFloat(laneBottom) && lane == 5){
         console.log("Fall");
-    } else if (pos.top < laneBottom && launch == true) {
-        $('.box').animate({
+    } else if (pos.top < laneBottom /*&& launch == true*/) {
+        box.animate({
             top: '+=22',
             left: '-=22'
         }, 150, 'linear'); 
@@ -890,6 +1028,7 @@ function isAuthenticated(){
                 $("#multiplayerBtn").hide();
                 /*grabMultiplayerData();*/
                 //====
+                $('.instructions').html('<b><h4><span>Dodge the </span><span><img id="hcubeInstruction" src="css/images/hcube.png">s</span><span> for a higher score!</span></h4></b>');
                 $("#shopBtn").hide();
                 $("#hsBtn").hide();
                 $("#optionsBtn").hide();
@@ -925,9 +1064,9 @@ function grabMultiplayerData(){
             for (i = 0; i < response.length; i++){
                 num++;
                 if (response[i].playerCount == 1){
-                    $('#lobbyBoard').append("<a id='joinRoom' data-id='" + response[i].roomId + "'><div class='lobby'>" + num + "<span class='lobbyName'>Pats Lobby</span><span>1/2</span><span>open</span></div></a>");
+                    $('#lobbyBoard').append("<a id='joinRoom' data-id='" + response[i].roomId + "'><div class='lobby'>" + num + "<span class='lobbyName'>" + response[i].p1user.capitalizeFirstLetter() + "'s Lobby</span><span>1/2</span><span id='#lobbyStatus'>open</span></div></a>");
                 } else if (response[i].playerCount == 2){
-                    $('#lobbyBoard').append("<a><div class='lobby'>" + num + "<span class='lobbyName'>Pats Lobby</span><span>2/2</span><span>closed</span></div></a>");
+                    $('#lobbyBoard').append("<a><div class='lobby'>" + num + "<span class='lobbyName'>" + name.capitalizeFirstLetter() + "'s Lobby</span><span>2/2</span><span id='#lobbyStatus'>closed</span></div></a>");
                 }
             }
         }
@@ -1055,7 +1194,28 @@ function grabUserData(username){
             /*console.log("HERE" + response)*/
             $('#profileHs').html(response.score);
             $('#profileCoins').html(response.coins);
-            $('#userName').html(response.username);
+            $('#userName').html(response.username.capitalizeFirstLetter());
+
+            if (response.bgColor == 'white'){
+                $("#start").css("color", "black");
+                $(".instructions").css("color", "black");
+            } else if (response.bgColor != "rgb(255, 255, 255)"){
+                $("body").css("background-color", response.bgColor);
+                $("#ledge-block").css("background-color", response.bgColor);
+                $("#ledge-block2").css("background-color", response.bgColor);
+                $("#ledge-block3").css("background-color", response.bgColor);
+                $("#ledge-block4").css("background-color", response.bgColor);
+                $("#start").css("color", "white");
+                $(".instructions").css("color", "white");
+            }
+
+            if (response.instructions == 'true'){
+                $('#instructionsBtn').html('On');
+                $('.instructions').show();
+            } else if (response.instructions == 'false'){
+                $('#instructionsBtn').html('Off');
+                $('.instructions').hide();
+            }
 
             for (i = 0; i < response.items.length; i++){
 

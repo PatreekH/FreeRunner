@@ -2,9 +2,9 @@
 //by Patrick Hernandez
 
 //player1 and player2 box class references and measurements
-var box = $('.box');
-var box2 = $('.box2');
-var boxPos = {width: 30, height: 30};
+var box = $('#boxside');
+var box2 = $('#boxside2');
+var boxPos = {width: 20, height: 20};
 var hurdlePos = {width: 30, height: 30};
 
 //Window measurments for responsive gameplay
@@ -91,6 +91,8 @@ var newHurdle5;
 var herd = 0;
 
 
+$('#resultsBtn').hide();
+
 
 //TODO:
 
@@ -99,15 +101,14 @@ var herd = 0;
 //Fix start position for box1 -- done
 //Find and Fix repeating hat glitch --done
 //Alert both users if there is a collision -- done
+//Add rematch option -- done
+//On disconnect/refresh, both players ejected too lobby --done
 
-//On disconnect/refresh, both players ejected too lobby
 //sync hurdles no matter screen size
-//Make speed the same no matter screen size^
-//Add rematch option
-//Add results modal reopen button on nav after finishing a game.
 
-//Add Lobbies in real team
-//Style lobby modal
+//Add results modal reopen button on nav after finishing a game.
+//leave button, are you sure you want to leave?
+
 
 
 
@@ -144,6 +145,32 @@ function grabCurrentRoomData(){
 var player;
 var p1Status = false;
 var p2Status = false;
+
+
+var rematchStatus = false;
+
+
+/*socket.on('disconnected', function(room) {
+    //remove from db so it's not in lobby anymore
+    if (rematch.rematchStatus == true){
+        $.ajax({
+
+            method: 'POST',
+
+            url: '/resetRematchStatus',
+
+            success: function(response){
+                rematchStatus = response.rematchStatus;
+                console.log('rematch status reset!');
+            }
+
+        });  
+        console.log('Rematch active!');
+    } else if (rematchStatus == false){
+                alert('Other player has disconnected! Lobby is closed!');
+                window.location.replace(window.location.origin);
+    }
+});*/
 
 
 function connect(currentRoom){
@@ -278,7 +305,7 @@ function trackMovement(){
 
             console.log('I am p1, move player1 up');
 
-            $('.box').animate({
+            box.animate({
                 top: '-=22',
                 left: '+=22'
             }, 150, 'linear');
@@ -294,7 +321,7 @@ function trackMovement(){
 
             console.log('I am p2, move player1 up');
 
-            $('.box2').animate({
+            box2.animate({
                 top: '-=22',
                 left: '+=22'
             }, 150, 'linear');
@@ -310,7 +337,7 @@ function trackMovement(){
 
             console.log('I am p1, move player2 up');
 
-            $('.box2').animate({
+            box2.animate({
                 top: '-=22',
                 left: '+=22'
             }, 150, 'linear');
@@ -325,7 +352,7 @@ function trackMovement(){
 
             console.log('I am p2, move player2 up');
 
-            $('.box').animate({
+            box.animate({
                 top: '-=22',
                 left: '+=22'
             }, 150, 'linear');
@@ -344,7 +371,7 @@ function trackMovement(){
 
             console.log('I am p1, move player1 down');
 
-            $('.box').animate({
+            box.animate({
                 top: '+=22',
                 left: '-=22'
             }, 150, 'linear');
@@ -360,7 +387,7 @@ function trackMovement(){
 
             console.log('I am p2, move player1 down');
 
-            $('.box2').animate({
+            box2.animate({
                 top: '+=22',
                 left: '-=22'
             }, 150, 'linear');
@@ -376,7 +403,7 @@ function trackMovement(){
 
             console.log('I am p1, move player2 down');
 
-            $('.box2').animate({
+            box2.animate({
                 top: '+=22',
                 left: '-=22'
             }, 150, 'linear');
@@ -393,7 +420,7 @@ function trackMovement(){
 
             console.log('I am p2, move player2 down');
 
-            $('.box').animate({
+            box.animate({
                 top: '+=22',
                 left: '-=22'
             }, 150, 'linear');
@@ -479,6 +506,12 @@ function start(){
         $('.ledge-block2').animate({
             left: "-=650px"
         }, 3000);
+        $('.ledge-block3').animate({
+            left: "-=650px"
+        }, 3000);
+        $('.ledge-block4').animate({
+            left: "-=650px"
+        }, 3000);
 
         $('.ledge-pic2').animate({
             left: "-=650px"
@@ -487,6 +520,12 @@ function start(){
             left: "-=650px"
         }, 3000);
         $('.ledge-block2-2').animate({
+            left: "-=650px"
+        }, 3000);
+        $('.ledge-block3-2').animate({
+            left: "-=650px"
+        }, 3000);
+        $('.ledge-block4-2').animate({
             left: "-=650px"
         }, 3000);
 
@@ -544,9 +583,16 @@ function start(){
         var barrierCheck = setInterval(function(){
             var posCheck = box.position();
             if (posCheck.top <= parseFloat(laneTop) && lane == 1){
-                $('.box').stop();
+                box.stop();
             } else if (posCheck.top >= parseFloat(laneBottom) && lane == 5){
-                $('.box').stop();
+                box.stop();
+            }
+
+            var pos2Check = box2.position();
+            if (pos2Check.top <= parseFloat(laneTop) && lane == 1){
+                box2.stop();
+            } else if (pos2Check.top >= parseFloat(laneBottom) && lane == 5){
+                box2.stop();
             }
 
         }, 1);
@@ -559,7 +605,24 @@ function start(){
 
 //Code for results modal
 $('.quitMulti').on('click', function(){
-    window.location.replace(window.location.origin);
+    var confirmQuit = confirm("Are you sure you want to leave multiplayer?");
+    //add room id to send over as data
+    if (confirmQuit == true){
+        $.ajax({
+
+            method: 'POST',
+
+            url: '/removeRoom',
+
+            success: function(response){
+                rematchStatus = response.rematchStatus;
+                window.location.replace(window.location.origin);
+            }
+
+        }); 
+    } else {
+        console.log('did not leave');
+    }
 });
 
 //Code for Hurdles
@@ -578,6 +641,10 @@ $('#rematchDiv').on('click', '.rematch', function(){
     var playerNumRematch = $(this).attr("data-id");
     console.log(playerNumRematch);
     socket.emit('playerRematch', playerNumRematch);
+});
+
+$('nav').on('click', '#resultsBtn', function(){
+     $('#resultsModal').modal('show');
 });
 
 function rematch(){
@@ -641,6 +708,7 @@ function setRematch(currentRoom){
         },
 
         success: function(response){
+            rematchStatus = response.rematchStatus
             //if player == 1 refresh right away
             if (player == 1){
                 location.reload();
@@ -666,7 +734,6 @@ function setRematch(currentRoom){
     });
 }
 
-
 function createHerd(){
 
     socket.on('results', function(playerInfo) {
@@ -675,6 +742,8 @@ function createHerd(){
         }, 100);
 
         rematch();
+
+        $('#resultsBtn').show();
 
         var winner = playerInfo.winner;
 
@@ -1130,6 +1199,18 @@ function grabUserData(username){
             $('#profileHs').html(response.score);
             $('#profileCoins').html(response.coins);
             $('#userName').html(response.username);
+
+            if (response.bgColor != "rgb(255, 255, 255)"){
+                $("body").css("background-color", response.bgColor);
+                $(".ledge-block").css("background-color", response.bgColor);
+                $(".ledge-block2").css("background-color", response.bgColor);
+                $(".ledge-block3").css("background-color", response.bgColor);
+                $(".ledge-block4").css("background-color", response.bgColor);
+                $(".ledge-block1-2").css("background-color", response.bgColor);
+                $(".ledge-block2-2").css("background-color", response.bgColor);
+                $(".ledge-block3-2").css("background-color", response.bgColor);
+                $(".ledge-block4-2").css("background-color", response.bgColor);
+            }
 
             for (i = 0; i < response.items.length; i++){
 

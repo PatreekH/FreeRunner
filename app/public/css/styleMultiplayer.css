@@ -1,6 +1,26 @@
 	body{
 		overflow: hidden;
-		/*background-color: #3d8fbe !important;*/
+		/*background-color: white !important;*/
+	}
+
+	#boxside{
+		position: fixed;
+    	top: 168.5px;
+    	left: 336px;
+		z-index: +4;
+		background-color: red;
+		width: 20px;
+    	height: 20px;
+	}
+
+	#boxside2{
+		position: fixed;
+    	top: 168.5px;
+    	left: 336px;
+		z-index: +4;
+		background-color: red;
+		width: 20px;
+    	height: 20px;
 	}
 
 	/*Second lane*/
@@ -19,14 +39,21 @@
 	    transform: rotate(0deg);
 	}
 
+	.box {
+    	/*background-image: url(pcube.png);*/
+    	width: 30px;
+    	height: 30px;
+    	/*background:#ccc;*/
+    	position: relative;
+    	z-index: +4;
+	}
+
 	.box2{
 		/*background-image: url(pcube.png);*/
     	width: 30px;
     	height: 30px;
-    	top: 168.5px;
-    	left: 336px;
     	/*background:#ccc;*/
-    	position: fixed;
+    	position: relative;
     	z-index: +4;
 	}
 
@@ -69,15 +96,16 @@
 		width: 309px;
 	}
 
-   .box {
-    	/*background-image: url(pcube.png);*/
-    	width: 30px;
-    	height: 30px;
-    	top: 168.5px;
-    	left: 336px;
-    	/*background:#ccc;*/
-    	position: fixed;
-    	z-index: +4;
+	.ledge-block4-2{
+		background-color: white; 
+	    position: absolute; 
+	    height: 195px; 
+	    width: 125px; 
+	    padding: 0px; 
+	    top: 108px; 
+	    left: 138px; 
+	    transform: rotate(35deg) skew(0deg); 
+	    -webkit-transform: rotate(43.25deg) skew(0deg); 
 	}
 
 	#pcube{
@@ -193,7 +221,7 @@
 		top: 170px;
 		position: absolute;
 		z-index: +2;
-		height: 137.3px;
+		height: 1000px;
 		width: 91px;
 	}
 
@@ -204,6 +232,36 @@
 		z-index: +2;
 		height: 10px;
 		width: 201px;
+	}
+
+	.ledge-block3{
+		background-color: white;
+		top: 105px;
+		position: absolute;
+		z-index: +2;
+		height: 75px;
+		width: 200px;
+	}
+
+	.ledge-block3-2{
+		background-color: white;
+		top: 280px;
+		position: absolute;
+		z-index: +2;
+		height: 75px;
+		width: 200px;
+	}
+
+	.ledge-block4{
+		background-color: white; 
+	    position: absolute; 
+	    height: 194px; 
+	    width: 125px; 
+	    padding: 0px; 
+	    top: 108px; 
+	    left: 30px; 
+	    transform: rotate(35deg) skew(0deg); 
+	    -webkit-transform: rotate(43.25deg) skew(0deg); 
 	}
 
 	#start{
@@ -652,5 +710,14 @@
 		width: 150px;
 		margin-bottom: 25px;
 		text-align: center;
+	}
+
+	#resultsBtn{
+		margin-right: 2%;
+		color: white;
+		padding-top: 8px;
+		font-size: 20px;
+		float: right;
+		cursor: pointer;
 	}
 

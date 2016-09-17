@@ -24,6 +24,24 @@ module.exports = function(app, db){
 		});
 	});
 
+	app.post('/checkInstructionOptn', function(req, res){
+		db.userdata.find({username: req.body.username}, function (err, docs) {
+			if (err) throw err
+
+			console.log('check instructions');
+			res.send(docs);
+		});
+	});
+
+	app.post('/updateInstructionOptn', function(req, res){
+		db.userdata.update({username: req.body.username}, {$set: {instructions: req.body.data}}, function (err, docs) {
+			if (err) throw err
+
+			console.log('update instructions');
+			res.send(docs);
+		});
+	});
+
 	app.post('/joinRoom', function(req, res){
 		var user2Hat = 'none';
 		db.userdata.find({username: req.body.username}, function (err, docs) {
@@ -69,11 +87,22 @@ module.exports = function(app, db){
 		});
 	});
 
+	app.post('/resetRematchStatus', function(req, res){
+		if (err) throw err
+		req.session.rematch = {
+					rematchStatus: false
+		}
+		res.json(req.session.rematch);
+	});
+
 	app.post('/rematch', function(req, res){
 		db.rooms.update({roomId: req.body.roomId}, {$set: {playerCount: 1}}, function (err, docs) {
 			if (err) throw err
+			req.session.rematch = {
+    					rematchStatus: true
+    		}
 			console.log("Room: " + req.body.roomId + " has been reset for p1rematch!");
-			res.json(docs);
+			res.json(req.session.rematch);
 		});
 	});
 
@@ -103,7 +132,9 @@ module.exports = function(app, db){
     				req.session.userInfo = {
     					user: req.body.user,
     					userCoins: docs[i].coins,
-    					userBest: docs[i].score
+    					userBest: docs[i].score,
+    					bgColor: docs[i].bgColor,
+    					instructionStatus: docs[i].instructions
     				}
   					req.session.isAuth = true;
   					i = docs.length;
@@ -123,7 +154,7 @@ module.exports = function(app, db){
 	});
 
 	app.post('/submitNewUser', function(req, res){
-		db.userdata.insert({"username": req.body.newUser, "password": req.body.newPass, "coins": 0, "score": 0, "items": [false, false, false, false, false]}, function(err, docs){
+		db.userdata.insert({"username": req.body.newUser, "password": req.body.newPass, "coins": 0, "score": 0, bgColor: 'white', instructions: 'true', "items": [false, false, false, false, false]}, function(err, docs){
 			if (err) throw err
 			res.send('success');
 		});
@@ -133,6 +164,23 @@ module.exports = function(app, db){
 		req.session.destroy();
 		console.log('successfully logged out.');
 		res.send('success');
+	});
+
+	app.post('/removeRoom', function(req, res){
+		db.rooms.remove({/*roomId: req.body.roomId*/}, function (err, docs) {
+			/*console.log("room " + req.body.roomId + " removed.");*/
+			res.json(docs);
+		});	
+	});
+
+	app.post('/saveBgColor', function(req, res){
+		db.userdata.update({username: req.body.username}, {$set: {bgColor: req.body.bgColor}}, function (err, docs) {
+    		if (err) throw err
+
+    		console.log("bg color changed!");
+
+    		res.json(docs);
+		});
 	});
 
 	app.post('/makePurchase', function(req, res){

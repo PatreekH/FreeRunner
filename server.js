@@ -131,6 +131,9 @@ io.on('connection', function(socket) {
         io.to(globalRoom).emit('rematchStatusChange', rematchNum);
     });
 
+    socket.on('disconnect', function(){
+        io.to(globalRoom).emit('disconnected', globalRoom);
+    });
 
 });
 

@@ -7,11 +7,37 @@
     	/*background-image: url(pcube.png);*/
     	width: 30px;
     	height: 30px;
-    	top: 168.5px;
-    	left: 233px;
+    	bottom: 9px;
+/*    	top: 168.5px;
+    	left: 233px;*/
     	/*background:#ccc;*/
-    	position: fixed;
-    	z-index: +4;
+    	position: relative;
+	}
+
+	#boxside{
+		position: fixed;
+    	top: 177px;
+    	left: 233px;
+		z-index: +4;
+		background-color: red;
+		width: 20px;
+    	height: 20px;
+	}
+
+	.instructions{
+		height: 50px;
+		width: 350px;
+		top: 15%;
+		left: 5%;
+		z-index: -1;
+		position: absolute;
+		font-weight: bold; 
+		font-family: 'Poppins', sans-serif;
+	}
+
+	#hcubeinstruction{
+		height: 25px;
+		width: 25px;
 	}
 
 	#pcube{
@@ -107,7 +133,7 @@
 		top: 170px;
 		position: absolute;
 		z-index: +2;
-		height: 137.3px;
+		height: 1000px;
 		width: 91px;
 	}
 
@@ -118,6 +144,28 @@
 		z-index: +2;
 		height: 10px;
 		width: 201px;
+	}
+
+	#ledge-block3{
+		background-color: white;
+		top: 168px;
+		left: 200px;
+		position: absolute;
+		z-index: +2;
+		height: 10px;
+		width: 201px;
+	}
+
+	#ledge-block4{
+		background-color: white; 
+	    position: absolute; 
+	    height: 195px; 
+	    width: 125px; 
+	    padding: 0px; 
+	    top: 105px; 
+	    left: 31.50px; 
+	    transform: rotate(35deg) skew(0deg); 
+	    -webkit-transform: rotate(43.25deg) skew(0deg); 
 	}
 
 	#start{
@@ -372,10 +420,22 @@
 	}
 
 	.lobby span{
-		margin-left: 70px;
+		margin-left: 55px;
+	}
+
+	#statusTitle{
+		margin-left: 6% !important;
 	}
 
 	.lobbyName{
+		margin-left: 10%;
+	}
+
+	#lobbyStatus{
+		margin-left: 10% !important;
+	}
+
+	#lobbyNameTitle{
 		margin-left: 10% !important;
 	}
 
@@ -526,10 +586,11 @@
 	#highscoreDiv{
 		background-color: white;
 		border: 3px solid black;
-		border-top: none;
 		position: absolute;
+		border-top: none;
 		left: 73.50%;
 		top: -150px;
+		/*cursor: move;*/
 		/*border: 1px solid black;*/
 		height: 150px;
 		width: 250px;
@@ -545,12 +606,21 @@
 		margin-top: 5%;
 	}
 
+	#hsoptions{
+		
+	}
+
 /*	#highscorelist td{
 		float: left;
 	}*/
 
 	#highscorelist table{
 		width: 100%;
+	}
+
+	#instructionsBtn{
+		
+
 	}
 
 

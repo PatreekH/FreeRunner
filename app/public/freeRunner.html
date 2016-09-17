@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
     <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+    <script src="https://cdn.rawgit.com/bgrins/spectrum/master/spectrum.js"></script>
+	<link href="https://cdn.rawgit.com/bgrins/spectrum/master/spectrum.css" rel="stylesheet"/>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 
@@ -103,7 +105,7 @@
 			</tr>
 
 			</table>
-
+			<div id='hsoptions'></div>
 		</div>
 	</div>
 
@@ -112,6 +114,8 @@
 		<div id="start">
 			<h1>Press 'Shift' + 'S' to start</h1>
 		</div>
+
+		<div class="instructions"><b><h4><span>Dodge the </span><span><img id="hcubeInstruction" src="css/images/hcube.png"></span><span> and collect</span><span><img id="hcube" src="css/images/coin.png"></span><span> for a higher score and to purchase items!</span></h4></b></div>
 
 	<<!-- div id="scoreDiv"></div> -->
 
@@ -123,6 +127,9 @@
 
 		<div id="ledge-block"></div>
 		<div id="ledge-block2"></div>
+		<div id="ledge-block3"></div>
+		<div id="ledge-block4"></div>
+
 		
 		<img id="ledge-pic" src="css/images/startLedge3.png">
 
@@ -132,17 +139,19 @@
 
 
 		<div class="lane">
-<!-- <div class="h1z hurdle" id="hurdle1" style="position:fixed;left:17%;top:168.5px;"><img id="hcube" src="css/images/ccube.png"></div>
-<div class="h2z hurdle" id="hurdle2" style="position:fixed;left:17%;top:191.4px;"><img id="hcube" src="css/images/hcube.png"></div>
-<div class="h3z hurdle" id="hurdle3" style="position:fixed;left:17%;top:214.3px;"><img id="hcube" src="css/images/hcube.png"></div>
-<div class="h4z hurdle" id="hurdle4" style="position:fixed;left:17%;top:237.2px;"><img id="hcube" src="css/images/hcube.png"></div>
-<div class="h5z hurdle" id="hurdle5" style="position:fixed;left:17%;top:260.1px"><img id="hcube" src="css/images/hcube.png"></div> -->
+<!-- <div class="h1z hurdle" id="hurdle1" style="position:fixed;left:23%;top:168.5px;"><img id="hcube" src="css/images/hcube.png"></div>
+<div class="h2z hurdle" id="hurdle2" style="position:fixed;left:23%;top:191.4px;"><img id="hcube" src="css/images/hcube.png"></div>
+<div class="h3z hurdle" id="hurdle3" style="position:fixed;left:23%;top:214.3px;"><img id="hcube" src="css/images/hcube.png"></div>
+<div class="h4z hurdle" id="hurdle4" style="position:fixed;left:23%;top:237.2px;"><img id="hcube" src="css/images/hcube.png"></div>
+<div class="h5z hurdle" id="hurdle5" style="position:fixed;left:23%;top:260.1px"><img id="hcube" src="css/images/hcube.png"></div> -->
 		</div>
 
+<div id='boxside'>
 		<div class="box">
 			<img id="pcube" src="css/images/pcube.png">
 			<!-- <img id="currentHat" class="hat" src="css/images/hat1.png"> -->
 		</div>
+</div>
 
 	</div>
 
@@ -295,7 +304,7 @@
 		      	<button id="createLobby" type="button" class="btn btn-default">Create Lobby</button>
 			    <div id='gameLobby'>
 					<div id='lobbyBoardTitles'>
-						<b>#<span>Lobby Name:</span><span>Players:</span><span>Status:</span></b>
+						<b>#<span id='lobbyNameTitle'>Lobby Name:</span><span>Players:</span><span id='statusTitle'>Status:</span></b>
 					</div>
 					<div id='lobbyBoard'>
 						<!-- <div class="lobby">3<span class='lobbyName'>000000000</span><span>2/2</span><span>closed</span></div> -->
@@ -305,6 +314,30 @@
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		      </div>
+		    </div>
+		  </div>
+	</div>
+
+	<div class="modal fade" id="optionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div id="loginFailedModal" class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Options:</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<div id='instructions'>
+		      		<h3>Instructions: </h3>
+		      		<button id='instructionsBtn' type="button" class="btn btn-default">Off</button>
+		      	</div>
+		      	<div id='instructions'>
+		      		<h3>Color: </h3>
+		      		<input type="text" id="backgroundColorPicker" />
+		      	</div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 		      </div>
 		    </div>
 		  </div>
