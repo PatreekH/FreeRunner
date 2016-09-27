@@ -21,7 +21,7 @@ var onePercentW = windowWidthSize / 100;
 //Top and Bottom lane measurements based on screen size
 var percent15 = parseFloat(onePercentH * 15); 
 var laneTop = (percent15 + 198);
-var laneBottom = (percent15 + 285);
+var laneBottom = (percent15 + 265);
 
 //Determines the speed of obsticales based on screen width
 //184.32 a second
@@ -136,6 +136,52 @@ String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
+var backgroundScroll = function(params) {
+    params = $.extend({
+        scrollSpeed: 35,
+        imageWidth: $('#cloud1').width(),
+        imageHeight: $('#cloud1').height()
+    }, params);
+    var step = 1,
+        current = 0,
+        restartPosition = - (params.imageWidth - params.imageHeight);
+    var scroll = function() {
+        current -= step;
+        if (current == restartPosition){
+            current = 0;
+        }   
+        $('#cloud1').css('backgroundPosition', current + 'px 0');
+    };
+    this.init = function() {
+        setInterval(scroll, params.scrollSpeed);
+    };
+};
+var scroll = new backgroundScroll();
+scroll.init();
+
+var background2Scroll = function(params) {
+    params = $.extend({
+        scrollSpeed: 35,
+        imageWidth: $('#cloud2').width(),
+        imageHeight: $('#cloud2').height()
+    }, params);
+    var step = 1,
+        current = 0,
+        restartPosition = - (params.imageWidth - params.imageHeight);
+    var scroll = function() {
+        current -= step;
+        if (current == restartPosition){
+            current = 0;
+        }   
+        $('#cloud2').css('backgroundPosition', current + 'px 0');
+    };
+    this.init = function() {
+        setInterval(scroll, params.scrollSpeed);
+    };
+};
+var scroll = new background2Scroll();
+scroll.init();
+
 //Code for spectrum
 
 var picker = $("#backgroundColorPicker");
@@ -150,7 +196,6 @@ picker.spectrum({
         $("#ledge-block2").css("background-color", tinycolor.toRgbString());
         $("#ledge-block3").css("background-color", tinycolor.toRgbString());
         $("#ledge-block4").css("background-color", tinycolor.toRgbString());
-        $("#start").css("color", "white");
     },
     show : function (tinycolor) {
         isChange = false;
@@ -163,7 +208,7 @@ picker.spectrum({
             $("#ledge-block2").css("background-color", tinycolor.toRgbString());
             $("#ledge-block3").css("background-color", tinycolor.toRgbString());
             $("#ledge-block4").css("background-color", tinycolor.toRgbString());
-            $("#start").css("color", "white");
+
         }
 
     },
@@ -174,7 +219,6 @@ picker.spectrum({
         $("#ledge-block2").css("background-color", tinycolor.toRgbString());
         $("#ledge-block3").css("background-color", tinycolor.toRgbString());
         $("#ledge-block4").css("background-color", tinycolor.toRgbString());
-        $("#start").css("color", "white");
         saveBgColor(tinycolor.toRgbString());
     }
 });
@@ -557,7 +601,6 @@ $(document).keydown(function(e) {
 
 function start(){
     if (launch == false){
-        $('#start').fadeOut();
         $('#ledge-pic').animate({
             left: "-=550px"
         }, 3000);
@@ -577,8 +620,12 @@ function start(){
         createHerd();
         startScore();
 
-
-        $('.instructions').fadeOut();
+/*        var cloudFade = setTimeout(function(){*/
+            $('#start').fadeOut();
+            $('#cloud1').fadeOut();
+            $('#cloud2').fadeOut();
+            $('.instructions').fadeOut();
+/*        }, 1000)*/
 
         if (loggedIn == true){
         	startCoinGenerator();
@@ -850,11 +897,16 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
             if (newBoxPos.top < newHurdlePos1.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos1.top && newBoxPos.left < newHurdlePos1.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos1.left && lane == 1) {
             	removeHurdles(h1counter, 1);
-                alert("Collision! with lane 1! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 1-" + h1counter);
+                //stop all hurdles from moving in background
+                //Do you have to remove hurdle on modal show?
+                //On collision have this update interval stop?
+                //modal keeps popping up, if dismissed than reset the page
+                $('#gameOverModal').modal('show');
+                /*alert("Collision! with lane 1! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 1-" + h1counter);*/
                 if (loggedIn == true){
                     updateAfterRun();
                 }
-                location.reload();
+                /*location.reload();*/
             }
 
         }, 1);
@@ -1196,17 +1248,17 @@ function grabUserData(username){
             $('#profileCoins').html(response.coins);
             $('#userName').html(response.username.capitalizeFirstLetter());
 
-            if (response.bgColor == 'white'){
+/*            if (response.bgColor == 'white'){
                 $("#start").css("color", "black");
                 $(".instructions").css("color", "black");
-            } else if (response.bgColor != "rgb(255, 255, 255)"){
+            } else*/if (response.bgColor != "rgb(255, 255, 255)"){
                 $("body").css("background-color", response.bgColor);
                 $("#ledge-block").css("background-color", response.bgColor);
                 $("#ledge-block2").css("background-color", response.bgColor);
                 $("#ledge-block3").css("background-color", response.bgColor);
                 $("#ledge-block4").css("background-color", response.bgColor);
-                $("#start").css("color", "white");
-                $(".instructions").css("color", "white");
+                $("#start").css("color", "black");
+                $(".instructions").css("color", "black");
             }
 
             if (response.instructions == 'true'){

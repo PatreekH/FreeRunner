@@ -44,10 +44,10 @@
 				<label>Password:</label>
 				<input id="passwordInput" type="password" required>
 				<br>
-				<button id="submitLoginInfo">Login</button>
+				<button type="button" class="btn btn-default" id="submitLoginInfo">Login</button>
   			</form>
   			<div class="hr">&nbsp;</div>
-  			<div id="signUpDiv">Don't have an account? <br><button id="signUp">Sign up!</button></div>
+  			<div id="signUpDiv">Don't have an account? <br><button type="button" class="btn btn-default" id="signUp">Sign up!</button></div>
 	</div>
 
 	<div id="profileDiv">
@@ -65,7 +65,7 @@
 			<span><img id="coinPic" src="css/images/coin.png">'s: </span><span id="profileCoins">$</span>
 			<!-- <span><p>Players Defeated:</p></span> -->
 			<br>
-			<div id="logOutBtn"><button id="logOutRequest">Logout</button></div id="logOutBtn">
+			<div id="logOutBtn"><button type="button" class="btn btn-default" id="logOutRequest">Logout</button></div id="logOutBtn">
 		</div>
 		<div id="closet">
 			<div id="spot0" data-id="0" class="pitem well"></div>
@@ -110,6 +110,10 @@
 	</div>
 
 
+		<div id="cloud1"></div>
+		<div id="cloud2"></div>
+
+
 
 		<div id="start">
 			<h1>Press 'Shift' + 'S' to start</h1>
@@ -117,7 +121,7 @@
 
 		<div class="instructions"><b><h4><span>Dodge the </span><span><img id="hcubeInstruction" src="css/images/hcube.png"></span><span> and collect</span><span><img id="hcube" src="css/images/coin.png"></span><span> for a higher score and to purchase items!</span></h4></b></div>
 
-	<<!-- div id="scoreDiv"></div> -->
+	<!-- div id="scoreDiv"></div> -->
 
 
 <!-- 		<img class="drop-off" id="dropoff" src="dropoff.png" style="top:40.75%;left:50%;">
@@ -131,7 +135,7 @@
 		<div id="ledge-block4"></div>
 
 		
-		<img id="ledge-pic" src="css/images/startLedge3.png">
+		<img id="ledge-pic" src="css/images/startLedge4.png">
 
 			<div id="lane-top-block"></div>
 
@@ -335,6 +339,23 @@
 		      		<h3>Color: </h3>
 		      		<input type="text" id="backgroundColorPicker" />
 		      	</div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+	</div>
+
+	<div class="modal fade" id="gameOverModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div id="loginFailedModal" class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Game over:</h4>
+		      </div>
+		      <div class="modal-body">
+<!-- here -->
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
