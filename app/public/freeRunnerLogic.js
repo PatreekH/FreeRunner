@@ -710,7 +710,7 @@ function up(){
 
     if (pos.top <= parseFloat(laneTop) && lane == 1){
         console.log("Fall");
-    } else if (pos.top > laneTop /*launch == true*/) {
+    } else if (pos.top > laneTop && launch == true) {
         box.animate({
             top: '-=22',
             left: '+=22'
@@ -730,7 +730,7 @@ function down(){
     console.log(pos.top + " " + laneBottom)
     if (pos.top >= parseFloat(laneBottom) && lane == 5){
         console.log("Fall");
-    } else if (pos.top < laneBottom /*launch == true*/) {
+    } else if (pos.top < laneBottom && launch == true) {
         box.animate({
             top: '+=22',
             left: '-=22'
