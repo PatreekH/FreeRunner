@@ -583,9 +583,9 @@ function start(){
         var barrierCheck = setInterval(function(){
             var posCheck = box.position();
             if (posCheck.top <= parseFloat(laneTop) && lane == 1){
-                $('.box').stop();
+                box.stop();
             } else if (posCheck.top >= parseFloat(laneBottom) && lane == 5){
-                $('.box').stop();
+                box.stop();
             }
 
 /*            var pos2Check = box2.position();
