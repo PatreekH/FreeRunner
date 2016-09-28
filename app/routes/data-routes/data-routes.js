@@ -301,7 +301,12 @@ module.exports = function(app, db){
 	    		// the update is complete
 	    		console.log("Updated user data");
 	    		if (err) throw err
-	    		res.json(docs[0]);
+	    		res.json(docs);
+/*	    		db.userdata.find({username: req.body.username}, function (err, docs) {
+	    			if (err) throw err
+	    			console.log(docs);
+	    			res.json(docs[0]);
+	    		});*/
     		});
 
 		});

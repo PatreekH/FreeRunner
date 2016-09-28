@@ -143,11 +143,11 @@
 
 
 		<div class="lane">
-<!-- <div class="h1z hurdle" id="hurdle1" style="position:fixed;left:23%;top:168.5px;"><img id="hcube" src="css/images/hcube.png"></div>
-<div class="h2z hurdle" id="hurdle2" style="position:fixed;left:23%;top:191.4px;"><img id="hcube" src="css/images/hcube.png"></div>
-<div class="h3z hurdle" id="hurdle3" style="position:fixed;left:23%;top:214.3px;"><img id="hcube" src="css/images/hcube.png"></div>
-<div class="h4z hurdle" id="hurdle4" style="position:fixed;left:23%;top:237.2px;"><img id="hcube" src="css/images/hcube.png"></div>
-<div class="h5z hurdle" id="hurdle5" style="position:fixed;left:23%;top:260.1px"><img id="hcube" src="css/images/hcube.png"></div> -->
+<!-- <div class="h1z hurdle" id="hurdle1" style="position:fixed;left:17%;top:168.5px;"><img id="hcube" src="css/images/hcube.png"></div>
+<div class="h2z hurdle" id="hurdle2" style="position:fixed;left:16%;top:191.4px;"><img id="hcube" src="css/images/hcube.png"></div>
+<div class="h3z hurdle" id="hurdle3" style="position:fixed;left:15%;top:214.3px;"><img id="hcube" src="css/images/hcube.png"></div>
+<div class="h4z hurdle" id="hurdle4" style="position:fixed;left:14%;top:237.2px;"><img id="hcube" src="css/images/hcube.png"></div>
+<div class="h5z hurdle" id="hurdle5" style="position:fixed;left:13%;top:260.1px"><img id="hcube" src="css/images/hcube.png"></div> -->
 		</div>
 
 <div id='boxside'>
@@ -184,7 +184,10 @@
 		        <h4 class="modal-title" id="myModalLabel">Invalid username or password</h4>
 		      </div>
 		      <div class="modal-body">
-		        <h2><span class="glyphicon glyphicon-ban-circle"></span></h2> <h4>Try Again</h4>
+		      	<div id="error">
+		        	<h2><span class="glyphicon glyphicon-ban-circle"></span></h2> 
+		        	<h4>Try Again</h4>
+		        </div>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -210,29 +213,33 @@
 				<div class="itemDiv">
 					<div class="itemInfo">
 						<div class="well itemPic"><img id="item0pic" class="hatStore notSelected" src="css/images/hat0.png"></div>
-						<div id="price0" class="itemPrice" data-id="10"><img id="coinPic" src="css/images/coin.png">10</div>
+						<div id="price0" class="itemPrice" data-id="1"><img id="coinPic" src="css/images/coin.png">1</div>
 					</div>
 					<div class="itemInfo">
 						<div class="well itemPic"><img id="item1pic" class="hatStore currentItem" src="css/images/hat1.png"></div>
-						<div id="price1" class="itemPrice" data-id="20"><img id="coinPic" src="css/images/coin.png">20</div>
+						<div id="price1" class="itemPrice" data-id="5"><img id="coinPic" src="css/images/coin.png">5</div>
 					</div>
 					<div class="itemInfo">
 						<div class="well itemPic"><img id="item2pic" class="hatStore notSelected" src="css/images/hat2.png"></div>
-						<div id="price2" class="itemPrice" data-id="30"><img id="coinPic" src="css/images/coin.png">30</div>
+						<div id="price2" class="itemPrice" data-id="10"><img id="coinPic" src="css/images/coin.png">10</div>
 					</div>
 					<div class="itemInfo">
 						<div class="well itemPic"><img id="item3pic" class="hatStore notSelected" src="css/images/hat3.png"></div>
-						<div id="price3" class="itemPrice" data-id="40"><img id="coinPic" src="css/images/coin.png">40</div>
+						<div id="price3" class="itemPrice" data-id="15"><img id="coinPic" src="css/images/coin.png">15</div>
 					</div>
 					<div class="itemInfo">
 						<div class="itemPic well"><img id="item4pic" class="hatStore notSelected" src="css/images/hat4.png"></div>
-						<div id="price4" class="itemPrice" data-id="50"><img id="coinPic" src="css/images/coin.png">50</div>
+						<div id="price4" class="itemPrice" data-id="20"><img id="coinPic" src="css/images/coin.png">20</div>
 					</div>
 				</div>
 
 				<!-- <button id="purcahseItem" data-id="1">Purchase</button> -->
 			</div>
-			<center><button id="purchaseItem" data-id="1">Purchase</button></center>
+			<center>
+			<span><img id="coinPic" src="css/images/coin.png">'s: </span><span id="shopCoins">$</span>
+			<br>
+			<button type="button" class="btn btn-default" id="purchaseItem" data-id="1">Purchase</button>
+			</center>
 			<i id="shopSelectRight" class="fa fa-caret-right" aria-hidden="true"></i>
 
 	    </div>
@@ -347,7 +354,7 @@
 		  </div>
 	</div>
 
-	<div class="modal fade" id="gameOverModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!-- 	<div class="modal fade" id="gameOverModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div id="loginFailedModal" class="modal-dialog" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -355,7 +362,37 @@
 		        <h4 class="modal-title" id="myModalLabel">Game over:</h4>
 		      </div>
 		      <div class="modal-body">
-<!-- here -->
+	<div id="gameOverScoreDiv">
+					<span>Score: </span><span id="gameOverScore"></span>
+				</div>
+				<br>
+				<div id="gameOverCoinDiv">
+					<span><img id="hcube" src="css/images/coin.png">: </span><span id="gameOverCoin"></span>
+				</div>
+
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+	</div> -->
+
+	<div class="modal fade bs-example-modal-sm" id="gameOverModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	  <div class="modal-dialog modal-sm" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Game over:</h4>
+		      </div>
+		      <div class="modal-body">
+<!-- here -->	<div id="gameOverScoreDiv">
+					<center><span>Score: </span><span id="gameOverScore"></span></center>
+				</div>
+				<br>
+				<div id="gameOverCoinDiv">
+					<span><img id="hcube" src="css/images/coin.png">: </span><span id="gameOverCoin"></span>
+				</div>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

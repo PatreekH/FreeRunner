@@ -20,7 +20,7 @@ var onePercentW = windowWidthSize / 100;
 
 //Top and Bottom lane measurements based on screen size
 var percent15 = parseFloat(onePercentH * 15); 
-var laneTop = (percent15 + 198);
+var laneTop = (percent15 + 178);
 var laneBottom = (percent15 + 265);
 
 //Determines the speed of obsticales based on screen width
@@ -241,6 +241,10 @@ function saveBgColor(bgColor){
 
     });  
 }
+
+$('#gameOverModal').on('click', function(){
+    location.reload();
+});
 
 //Code for nav
 
@@ -669,11 +673,11 @@ function start(){
         }, 1);
 
         var barrierCheck = setInterval(function(){
-            var posCheck = $('.box').position();
+            var posCheck = box.position();
             if (posCheck.top <= parseFloat(laneTop) && lane == 1){
-                $('.box').stop();
+                box.stop();
             } else if (posCheck.top >= parseFloat(laneBottom) && lane == 5){
-                $('.box').stop();
+                box.stop();
             }
 
         }, 1);
@@ -706,7 +710,7 @@ function up(){
 
     if (pos.top <= parseFloat(laneTop) && lane == 1){
         console.log("Fall");
-    } else if (pos.top > laneTop /*&& launch == true*/) {
+    } else if (pos.top > laneTop /*launch == true*/) {
         box.animate({
             top: '-=22',
             left: '+=22'
@@ -726,7 +730,7 @@ function down(){
     console.log(pos.top + " " + laneBottom)
     if (pos.top >= parseFloat(laneBottom) && lane == 5){
         console.log("Fall");
-    } else if (pos.top < laneBottom /*&& launch == true*/) {
+    } else if (pos.top < laneBottom /*launch == true*/) {
         box.animate({
             top: '+=22',
             left: '-=22'
@@ -743,19 +747,22 @@ function down(){
 
 //Code for Score
 
+var scoreInt;
+
 function startScore(){
     /*$("#scoreDiv").html('<h3>Score: <span id="score"></span></h3>')*/
-    var scoreInt = setInterval(function(){
+    scoreInt = setInterval(function(){
         score += 1;
         /*$('#score').html(score);*/
     }, 10);
 }
 
 //Code for Coins
+var generateCoins;
 
 function startCoinGenerator(){
     var coinsGenerated = 0;
-    var generateCoins = setInterval(function(){
+    generateCoins = setInterval(function(){
         coinsGenerated += 1;
         console.log("Coins generated: " + coinsGenerated);
         coinCheck();
@@ -826,10 +833,12 @@ function coinGenerator(nextCoin, coinLane){
 
 //Code for Hurdles
 
+var createHerdOfHurdles;
+
 function createHerd(){
     var herd = 0;
     /*var herdInterval = Math.floor(Math.random() * (1800 - 1600)) + 1600;*/
-    var createHerdOfHurdles = setInterval(function(){
+    createHerdOfHurdles = setInterval(function(){
         herd += 1;
         console.log("===== Herd: " + herd + "=====")
         createIntervals();
@@ -896,17 +905,22 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos1.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos1.top && newBoxPos.left < newHurdlePos1.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos1.left && lane == 1) {
-            	removeHurdles(h1counter, 1);
-                //stop all hurdles from moving in background
-                //Do you have to remove hurdle on modal show?
-                //On collision have this update interval stop?
-                //modal keeps popping up, if dismissed than reset the page
-                $('#gameOverModal').modal('show');
-                /*alert("Collision! with lane 1! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 1-" + h1counter);*/
+                clearInterval(update1);
+                clearInterval(scoreInt);
+                clearInterval(createHerdOfHurdles);
+                clearInterval(generateCoins);
+                console.log(loggedIn);
+                $('#gameOverScore').html(score);
+                $('#gameOverCoin').html(coinsCollected);
+                var stopHurdles = setInterval(function(){
+                    $('.hurdle').stop();
+                }, 1);
                 if (loggedIn == true){
                     updateAfterRun();
+                } else {
+                    $('#gameOverModal').modal('show');
+                    $('#gameOverCoinDiv').remove();
                 }
-                /*location.reload();*/
             }
 
         }, 1);
@@ -935,12 +949,22 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos2.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos2.top && newBoxPos.left < newHurdlePos2.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos2.left && lane == 2) {
-            	removeHurdles(h2counter, 2);
-                alert("Collision! with lane 2! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 2-" + h2counter);
+                 clearInterval(update2);
+                clearInterval(scoreInt);
+                clearInterval(createHerdOfHurdles);
+                clearInterval(generateCoins);
+                console.log(loggedIn);
+                $('#gameOverScore').html(score);
+                $('#gameOverCoin').html(coinsCollected);
+                var stopHurdles = setInterval(function(){
+                    $('.hurdle').stop();
+                }, 1);
                 if (loggedIn == true){
                     updateAfterRun();
+                } else {
+                    $('#gameOverModal').modal('show');
+                    $('#gameOverCoinDiv').remove();
                 }
-                location.reload();
             }
 
         }, 1);
@@ -969,12 +993,22 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos3.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos3.top && newBoxPos.left < newHurdlePos3.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos3.left && lane == 3) {
-                removeHurdles(h3counter, 3);
-                alert("Collision! with lane 3! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 3-" + h3counter);
+                clearInterval(update3);
+                clearInterval(scoreInt);
+                clearInterval(createHerdOfHurdles);
+                clearInterval(generateCoins);
+                console.log(loggedIn);
+                $('#gameOverScore').html(score);
+                $('#gameOverCoin').html(coinsCollected);
+                var stopHurdles = setInterval(function(){
+                    $('.hurdle').stop();
+                }, 1);
                 if (loggedIn == true){
                     updateAfterRun();
+                } else {
+                    $('#gameOverModal').modal('show');
+                    $('#gameOverCoinDiv').remove();
                 }
-                location.reload();
             }
 
         }, 1);
@@ -1003,12 +1037,22 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos4.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos4.top && newBoxPos.left < newHurdlePos4.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos4.left && lane == 4) {
-                removeHurdles(h4counter, 4);
-                alert("Collision! with lane 4! Score: " + score + " " + "Coins Collected: " + coinsCollected  + " hurdle: 4-" + h4counter);
+                clearInterval(update4);
+                clearInterval(scoreInt);
+                clearInterval(createHerdOfHurdles);
+                clearInterval(generateCoins);
+                console.log(loggedIn);
+                $('#gameOverScore').html(score);
+                $('#gameOverCoin').html(coinsCollected);
+                var stopHurdles = setInterval(function(){
+                    $('.hurdle').stop();
+                }, 1);
                 if (loggedIn == true){
                     updateAfterRun();
+                } else {
+                    $('#gameOverModal').modal('show');
+                    $('#gameOverCoinDiv').remove();
                 }
-                location.reload();
             }
 
         }, 1);
@@ -1019,7 +1063,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
         h5counter++;
 
-        $('.lane').append('<div class="h5z hurdle" id="hurdle5-' + h5counter + '" style="position:fixed;left:102%;top:260.1px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
+        $('.lane').append('<div class="h5z hurdle" id="hurdle5-' + h5counter + '" style="position:fixed;left:102%;top:257.1px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
         
         $('#hurdle5-' + h5counter).animate({
         left: '-=120%'
@@ -1037,12 +1081,22 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
             newBoxPos = box.position();
 
             if (newBoxPos.top < newHurdlePos5.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos5.top && newBoxPos.left < newHurdlePos5.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos5.left && lane == 5) {
-               	removeHurdles(h5counter, 5);
-                alert("Collision! with lane 5! Score: " + score + " " + "Coins Collected: " + coinsCollected + " hurdle: 5-" + h5counter);
+                clearInterval(update5);
+                clearInterval(scoreInt);
+                clearInterval(createHerdOfHurdles);
+                clearInterval(generateCoins);
+                console.log(loggedIn);
+                $('#gameOverScore').html(score);
+                $('#gameOverCoin').html(coinsCollected);
+                var stopHurdles = setInterval(function(){
+                    $('.hurdle').stop();
+                }, 1);
                 if (loggedIn == true){
                     updateAfterRun();
+                } else {
+                    $('#gameOverModal').modal('show');
+                    $('#gameOverCoinDiv').remove();
                 }
-                location.reload();
             }
 
         }, 1);
@@ -1246,6 +1300,7 @@ function grabUserData(username){
             /*console.log("HERE" + response)*/
             $('#profileHs').html(response.score);
             $('#profileCoins').html(response.coins);
+            $('#shopCoins').html(response.coins);
             $('#userName').html(response.username.capitalizeFirstLetter());
 
 /*            if (response.bgColor == 'white'){
@@ -1301,9 +1356,7 @@ function updateAfterRun(){
             score: parseInt(score)
         },
         success: function(response){
-           /* console.log(response)*/
-            $('#profileHs').html(response.score);
-            $('#profileCoins').html(response.coins);
+            $('#gameOverModal').modal('show');
         }
 
     });
@@ -1350,6 +1403,8 @@ function updateAllItemData(){
 
         success: function(response){
             $('#profileCoins').html(response.coins);
+            $('#shopCoins').html(response.coins);
+
 
             for (i = 0; i < response.items.length; i++){
                 console.log(response.items[i]);
