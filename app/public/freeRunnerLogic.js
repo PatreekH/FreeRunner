@@ -1,6 +1,9 @@
 //BOX RUNNER
 //by Patrick Hernandez
 
+//** Originally, the game would allow the user to 'jump' over the red cubes, thus I named them 'hurdles'
+
+//Measurements and box id reference
 var box = $('#boxside');
 var boxPos = {width: 20, height: 20};
 var hurdlePos = {width: 30, height: 30};
@@ -34,35 +37,38 @@ console.log("Speed Rounded: " + speedRound);
 var speed = speedRound * 1000;
 
 
-
+//initial score on reset
+//loggedIn variable tracks if a user is logged in or not with sessions
 var score = 0;
 var loggedIn;
 
-//Tracks the hurdle to delete when animation is complete
+//Tracks the hurdle to delete it when animation is complete
+//**This prevents lag and build up of hurdles off screen
 var lane1hurdlesPassed = 0;
 var lane2hurdlesPassed = 0;
 var lane3hurdlesPassed = 0;
 var lane4hurdlesPassed = 0;
 var lane5hurdlesPassed = 0;
 
+//Tracks if game is started or not, user starts in lane 1
 var launch = false;
 var lane = 1;
 
+//Sessions will make this var the username of whoever is currently logged in
 var name;
 
 //Global counters to track each hurdle that is produced (lanes 1 - 5)
-//
 var h1counter = 0;
 var h2counter = 0;
 var h3counter = 0;
 var h4counter = 0;
 var h5counter = 0;
 
-//tracks the coins generated counter and coins collected during gameplay
+//tracks the number of coins generated and coins collected during gameplay
 var coinCounter = 0;
 var coinsCollected = 0;
 
-//Intervals for obsticales, global for placement comparison
+//Intervals for obsticales, set to global for placement comparison
 var interval1;
 var interval2;
 var interval3;
@@ -79,7 +85,8 @@ var signUpStatus = 0;*/
 
 
 
-//=======TODO LIST:
+//=======
+//TODO LIST:
 //after animation deleteHurdle function will add 1 to hurdle value then delete -- done
 //function startLaneDetection for lane collision check to avoid over movement -- done
 //cant access any nav buttons while game is started -- done
@@ -100,11 +107,11 @@ var signUpStatus = 0;*/
 //build algo to stop coin and hurdle collision -- attempted
     //--combine hurdle and coin generator to make chain of events, pitfalls as well
 
-//delete room from lobby board on disconnect
-//lowercase when logging in check
-//add paralax cloud movement
-//user is able to remove hat
-//real time lobby updates
+//delete room from lobby board on disconnect -- done
+//lowercase when logging in check -- done
+//add paralax cloud movement -- done
+//user is able to remove hat -- WONT WORK??
+//real time lobby updates -- run ajax on click not on page load
 
 //style profile/multi-lobby/
 //players defeated in profile
@@ -113,8 +120,6 @@ var signUpStatus = 0;*/
 //add logo
 //add logo to nav tab
 //fix multiplayer button from splitting when browser is wide
-//label code
-
 //be able to move and drag highscore list to plant on page?
 //add duel rank
 //duel highscores
@@ -131,11 +136,12 @@ var signUpStatus = 0;*/
 //Function to grab difference between two numbers
 function diff(a,b){return Math.abs(a-b);};
 
-
+//Prototype to capitalize the first letter in a string
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
+//For paralax cloud1 movement
 var backgroundScroll = function(params) {
     params = $.extend({
         scrollSpeed: 35,
@@ -159,6 +165,7 @@ var backgroundScroll = function(params) {
 var scroll = new backgroundScroll();
 scroll.init();
 
+//For paralax cloud2 movement
 var background2Scroll = function(params) {
     params = $.extend({
         scrollSpeed: 35,
@@ -182,8 +189,7 @@ var background2Scroll = function(params) {
 var scroll = new background2Scroll();
 scroll.init();
 
-//Code for spectrum
-
+//Code for background color spectrum
 var picker = $("#backgroundColorPicker");
 var previousСolor;
 var isChange = false;
@@ -223,6 +229,7 @@ picker.spectrum({
     }
 });
 
+//ajax call that saves the background color to database
 function saveBgColor(bgColor){
     $.ajax({
 
@@ -242,14 +249,12 @@ function saveBgColor(bgColor){
     });  
 }
 
+//If any place on the page is clicked after a game is over, the page will reload
 $('#gameOverModal').on('click', function(){
     location.reload();
 });
 
-//Code for nav
-
-    //Code for login dropdown
-
+//Code for login dropdown
 $('#loginBtn').on('click', function() {
     if (loginStatus == 0 && launch == false){
         $('#loginDiv').animate({
@@ -266,6 +271,7 @@ $('#loginBtn').on('click', function() {
     }
 });
 
+//Code for when a user attempts to login
 $("#submitLoginInfo").on("click", function(){
     var usernameInput = $("#usernameInput").val().trim();
     var passwordInput = $("#passwordInput").val().trim();
@@ -274,18 +280,23 @@ $("#submitLoginInfo").on("click", function(){
     return false;
 });
 
+//Shows signUpModal when user clicks 'sign up'
 $("#signUp").on("click", function(){
 	/*signUpStatus += 1;*/
 	$('#signUpModal').modal('show');
 });
 
+//submits new user to the database
 $("#submitNewUser").on("click", function(){
 	var usernameSignUp = $("#signupUserName").val().trim();
     var passwordSignUp = $("#signupPassword").val().trim();
     var passwordCheck = $("#signupPasswordCheck").val().trim();
     var usernameCharCountCheck = $.trim($("#signupUserName").val());
     var passwordCharCountCheck = $.trim($("#signupPassword").val());
-    /*console.log("HERE  " + usernameCharCountCheck + "PS" + passwordCharCountCheck);*/
+    
+    //if the username or password is not filled out, user will be alerted
+    //if password and password verify do not match, user will be alerted
+    //else new user created!
     if (usernameCharCountCheck <= 0 || passwordCharCountCheck <= 0){
     	alert('Please fill out both forms');
     } else if (passwordSignUp != passwordCheck){
@@ -316,15 +327,18 @@ $("#submitNewUser").on("click", function(){
     }
 });
 
+//If login credentials are accepted, page is reloaded and data is pulled for user on reload
 $("#loginAccept").on("click", function(){
 	location.reload();
 });
 
+//Asks user if they are sure they want to log out
 $("#logOutRequest").on("click", function(){
 	/*logOutStatus += 1;*/
 	$('#logOutModal').modal('show');
 });
 
+//If user confirms they want to log out, logout ajax call is run
 $("#logOutConfirm").on("click", function(){
 	$.ajax({
 
@@ -342,23 +356,25 @@ $("#logOutConfirm").on("click", function(){
     });
 });
 
-    //==================
 
-    //Code for multiplayer lobby
+//Code for multiplayer lobby
+//**This is simply the code for the modal, to see multiplayer gameplay open: freeRunnerMulti.js
+
+//Shows the multiplayer lobby modal on click
 $('#multiplayerBtn').on('click', function(){
     $('#lobbyModal').modal('show');
 });
 
+//When Create lobby is clicked, a random number is generated and passed through createRoom()
 $('#createLobby').on('click', function(){
     var room = Math.floor(Math.random() * (50000000000000 - 10000000000000)) + 10000000000000;
     createRoom(room);
 });
 
 
-    //==================
 
-    //Code for profile dropdown
 
+//Code for profile dropdown
 $('#profileBtn').on('click', function(){
     if (profileStatus == 0 && launch == false){
         $('#profileDiv').animate({
@@ -375,10 +391,13 @@ $('#profileBtn').on('click', function(){
     }
 });
 
+//attempt to remove hat from user
 $('#hatPlaceHolder').on('click', function(){
     $('#spot' + currentHat).html("<img data-id='1' id='itemPorfile" + currentHat + "pic' class='hatProfile' src='css/images/hat" + currentHat + ".png'>");
 });
 
+//checks to see if you own the hat before you can wear it
+//**Avoids user clicking and empty space and still getting the hat
 $('.pItem').on('click', function(){
 	var hatId = $(this).attr('data-id');
 	var purchasedCheck = $('#itemProfile' + hatId + 'pic').attr('data-id');
@@ -393,8 +412,10 @@ $('.pItem').on('click', function(){
 	}
 });
 
+//The users current hat that is on
 var currentHat;
 
+//Allows user to select hat from his profile
 function selectHat(itemId){
 	currentHat = itemId;
 	$('#currentHat').remove();
@@ -404,6 +425,7 @@ function selectHat(itemId){
     currentHatUpdate(itemId);
 }
 
+//updates which hat the user is currently wearing
 function currentHatUpdate(itemId){
     $.ajax({
 
@@ -423,10 +445,8 @@ function currentHatUpdate(itemId){
     });
 }
 
-    //==================
-
-    //Code for Options Modal
-
+//Code for Options Modal
+//Opens options modal IF game is not launched
 $('#optionsBtn').on('click', function() {
     if (launch == false){
         $('#optionsModal').modal('show');
@@ -435,8 +455,10 @@ $('#optionsBtn').on('click', function() {
     }
 });
 
+//instructions setting is set to false at first, but is redefined based on user preference (on/off)
 var instructionsBtn = false;
 
+//saves user preference to database and changes btn on screen
 $('#instructionsBtn').on('click', function() {
     $.ajax({
 
@@ -464,6 +486,7 @@ $('#instructionsBtn').on('click', function() {
     });
 });
 
+//updates database on click to save user preference
 function updateInstructions(status){
     $.ajax({
 
@@ -483,10 +506,9 @@ function updateInstructions(status){
     });
 }
 
-    //=============
 
-    //Code for High Score dropdown
-
+//Code for High Score dropdown
+//Opens High Score tab IF game is not launched
 $('#hsBtn').on('click',  function() {
     if (hsStatus == 0 && launch == false){
         $('#highscoreDiv').animate({
@@ -503,9 +525,9 @@ $('#hsBtn').on('click',  function() {
     }
 });
 
-    //==================
 
-    //Code for shop modal
+
+//Code for shop modal
 
 $('#shopBtn').on('click', function() {
     if (launch == false){
@@ -515,11 +537,13 @@ $('#shopBtn').on('click', function() {
     }
 });
 
+//tracks which item is currently in view @ shop
 var nextSlide = 2;
 var currentSlide = 1;
 var itemDataId = 1;
 var previousSlide = 0;
 
+//Makes all items that are not currently selected transparent
 function itemSlide(){
     $('#item' + currentSlide + "pic").addClass('currentItem');
     $('#item' + currentSlide + "pic").removeClass('notSelected');
@@ -529,6 +553,7 @@ function itemSlide(){
     $('#item' + nextSlide + "pic").removeClass('currentItem');
 };
 
+//Slides all shop items to the right and updates current slide
 $('#shopSelectRight').on('click', function(){
     if (currentSlide == 4){
         console.log('no more items left!');
@@ -546,6 +571,7 @@ $('#shopSelectRight').on('click', function(){
 
 });
 
+//Slides all shop items to the left and updates current slide
 $('#shopSelectLeft').on('click', function(){
 if (currentSlide == 0){
         console.log('no more items left!');
@@ -562,16 +588,17 @@ if (currentSlide == 0){
     }
 });
 
+//Runs makePurchase() when user tries to purchase selected item
 $('#purchaseItem').on('click', function(){
     var itemId = $(this).attr('data-id');
     var cost = $('#price' + itemDataId).attr('data-id');
     makePurchase(itemId, cost);
 });
 
-    //==================
 
-    //Code for user commands
 
+//Code for user commands
+//Swtich case for fast response time
 $(document).keyup(function(e) {
     switch (e.which) {
     case 40:
@@ -589,6 +616,7 @@ $(document).keyup(function(e) {
     }
 });
 
+//Tracks if SHIFT and S have been selected at the same time
 var map = {16: false, 83: false};
 $(document).keydown(function(e) {
     if (e.keyCode in map == true) {
@@ -603,8 +631,11 @@ $(document).keydown(function(e) {
     }
 });
 
+//If the game has not already been started, runs start() on SHIFT & S keyup
 function start(){
     if (launch == false){
+    	//Moves start ledge images to the left
+    	// **creates illusion of movement
         $('#ledge-pic').animate({
             left: "-=550px"
         }, 3000);
@@ -621,16 +652,18 @@ function start(){
             left: "-=550px"
         }, 3000);
 
+        //Creates first 'herd', starts score
         createHerd();
         startScore();
 
-/*        var cloudFade = setTimeout(function(){*/
-            $('#start').fadeOut();
-            $('#cloud1').fadeOut();
-            $('#cloud2').fadeOut();
-            $('.instructions').fadeOut();
-/*        }, 1000)*/
+        //All background items fade out to deter lag.
+        $('#start').fadeOut();
+        $('#cloud1').fadeOut();
+        $('#cloud2').fadeOut();
+        $('.instructions').fadeOut();
 
+        //If a user is logged in, coins are added to game play
+        //Else login tab is closed if it is currently open
         if (loggedIn == true){
         	startCoinGenerator();
         } else {
@@ -640,13 +673,19 @@ function start(){
             loginStatus = 0;    
         }
 
+        //Sets launch variable to true
+        //** This is important because the user cannot open any tab while gameplay is running
+    	//** This variable is used for multiple checking operations
         launch = true;
 
+        //Closes the profile tab if it is currently open
         $('#profileDiv').animate({
             top: "-=150px"
         }, 500);
         profileStatus = 0;
 
+        //A constant lane check to z-index the hurdles accordingly based on the users current lane
+        //** This allows the user to be able to pass 'in between' two hurdles
         var laneCheck = setInterval(function(){
             if (lane == 1){
                 $('.h1z').css("z-index", "5");
@@ -672,6 +711,7 @@ function start(){
             }
         }, 1);
 
+        //A constant barrier check which does not allow the user to go over the top or bottom ledge
         var barrierCheck = setInterval(function(){
             var posCheck = box.position();
             if (posCheck.top <= parseFloat(laneTop) && lane == 1){
@@ -687,9 +727,13 @@ function start(){
     }
 }
 
-function pause(){
+//Allows user to pause the game
+
+/*function pause(){
     alert("PAUSE");
 }
+
+//Allows user to jump
 
 function jump(){
     $('.box').animate({
@@ -698,12 +742,15 @@ function jump(){
     fall()
 }
 
+//Fall function brings user back down
+
 function fall(){
     $('.box').animate({
         top: '+=100'
     }, 1100); 
-}
+}*/
 
+//Moves the user up, updates their current lane accordingly
 function up(){
     var pos = box.position();
     console.log(pos.top + " " + laneTop);
@@ -725,6 +772,7 @@ function up(){
     }
 }
 
+//Moves the user down, updates their current lane accordingly
 function down(){
     var pos = box.position();
     console.log(pos.top + " " + laneBottom)
@@ -747,8 +795,11 @@ function down(){
 
 //Code for Score
 
+//Score Interval set to global so it can be stopped later
 var scoreInt;
 
+//startScore function invoked during start()
+//** updating the score real time on the page caused lag, so for now it is commented out
 function startScore(){
     /*$("#scoreDiv").html('<h3>Score: <span id="score"></span></h3>')*/
     scoreInt = setInterval(function(){
@@ -758,8 +809,12 @@ function startScore(){
 }
 
 //Code for Coins
+
+//GenerateCoins Interval set to global so it can be stopped later
 var generateCoins;
 
+//startCoinGenerator function invoked during start()
+//A coin is generated every 1.8 seconds
 function startCoinGenerator(){
     var coinsGenerated = 0;
     generateCoins = setInterval(function(){
@@ -776,6 +831,8 @@ function coinCheck(){
     //Picks random lane
     var coinLane = Math.floor(Math.random() * (5 - 1)) + 1;
     
+    //Attempt to deter coin and hurdle overlap
+    //** DOES NOT WORK.. yet
     if (diff(nextCoin, interval1) < 400 && coinLane == 1 || 
         diff(nextCoin, interval2) < 400 && coinLane == 2 || 
         diff(nextCoin, interval3) < 400 && coinLane == 3 ||
@@ -791,6 +848,7 @@ function coinCheck(){
     }
 }
 
+//Generates a coin on the game and sets collision check interval
 function coinGenerator(nextCoin, coinLane){
 
         var nextCoinTimer = setTimeout(function(){
@@ -833,8 +891,10 @@ function coinGenerator(nextCoin, coinLane){
 
 //Code for Hurdles
 
+//a HERD of HURDLES is 5
 var createHerdOfHurdles;
 
+//Generates a herd of hurdles every 1.8 seconds
 function createHerd(){
     var herd = 0;
     /*var herdInterval = Math.floor(Math.random() * (1800 - 1600)) + 1600;*/
@@ -845,6 +905,9 @@ function createHerd(){
     }, 1800); 
 }
 
+//Creates random Intervals for each herd, creating the space difference between them
+//**IF all hurdles are to close to eachother, algo with grab two of them and push them back
+//**This allows the user to always have a path
 function createIntervals(){
 
     interval1 = Math.floor(Math.random() * (3000 - 1500)) + 1500;
@@ -876,34 +939,47 @@ function createIntervals(){
 
 }
 
-    //rate of speed per 1 second for 130% of window width /10000
-    //algo for box position from top
+//This function could definitely be broken down into a smaller chunk, however, I haven't had time to do so.
+//I will comment out section one, but since the remaining 4 are the same, I will leave those uncommented.
 
+//createHurdles takes in all 5 randomly generated intervals as params
 function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
+	//grabs current position of user
     var newBoxPos = box.position();
 
+    //Code for hurdle in lane 1
+    //uses the first interval and sets a timeout with it
     var newHurdle1 = setTimeout(function(){
 
+    	//adds 1 to the hurdle1 counters
         h1counter++;
 
+        //appends the hrudle 110% off the page
         $('.lane').append('<div class="h1z hurdle" id="hurdle1-' + h1counter + '" style="position:fixed;left:110%;top:168.5px;">' + '<img id="hcube" src="css/images/hcube.png">' + '</div>');
         
+        //moves the hurdle across the page using a speed determined by the page width
         $('#hurdle1-' + h1counter).animate({
             left: '-=120%'
         }, speed, 'linear', function(){
             lane1hurdlesPassed++;
+            //deletes hurdle after it is off the page
             $('#hurdle1-' + lane1hurdlesPassed).remove();
         });
 
+        //creates unique class for the hurdle to be tracks for collision
         var hurdle1 = $('#hurdle1-' + h1counter);
 
+        //sets constant update to check for collision between hurdle and user
         var update1 = setInterval(function(){
 
+        	//grabs hurdles current position
             var newHurdlePos1 = hurdle1.position();
 
+            //grabs users updated position
             newBoxPos = box.position();
 
+            //checks if the user and THIS hurdle have collided and if they do: all hurdles are stopped, all intervals are cleared, gameover modal is shown, and game is reset 
             if (newBoxPos.top < newHurdlePos1.top + hurdlePos.width && newBoxPos.top + boxPos.width > newHurdlePos1.top && newBoxPos.left < newHurdlePos1.left + hurdlePos.height && boxPos.height + newBoxPos.left > newHurdlePos1.left && lane == 1) {
                 clearInterval(update1);
                 clearInterval(scoreInt);
@@ -927,6 +1003,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
     }, interval1);
 
+    //Code for hurdle in lane 2
     var newHurdle2 = setTimeout(function(){
 
         h2counter++;
@@ -971,6 +1048,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
     }, interval2);
 
+	//Code for hurdle in lane 3
     var newHurdle3 = setTimeout(function(){
 
         h3counter++;
@@ -1015,6 +1093,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
     }, interval3);
 
+	//Code for hurdle in lane 4
     var newHurdle4 = setTimeout(function(){
 
         h4counter++;
@@ -1059,6 +1138,7 @@ function createHurdles(interval1, interval2, interval3, interval4, interval5){
 
     }, interval4);
 
+	//Code for hurdle in lane 5
     var newHurdle5 = setTimeout(function(){
 
         h5counter++;
@@ -1114,8 +1194,8 @@ function removeHurdles(counter, lane){
 
 //routes for data
 
-    //grabs user name on page load (testing purposes)
 
+//On page load, isAuthenticated is run to see if a user is logged in or not using sessions
 isAuthenticated();
 
 function isAuthenticated(){
@@ -1158,6 +1238,7 @@ function isAuthenticated(){
     });
 }
 
+//Grabs all multiplayer lobbies currently open and posts them to the lobby
 function grabMultiplayerData(){
     $.ajax({
 
@@ -1180,12 +1261,14 @@ function grabMultiplayerData(){
     }); 
 }
 
+//On click 'join room', joinRoom() is invoked with the roomid as a param
 $('#lobbyBoard').on('click', '#joinRoom', function(){
     var selectedRoom = $(this).attr("data-id");
     console.log('selected room: ' + selectedRoom);
     joinRoom(selectedRoom);
 });
 
+//On join room the url is replaced with the current room url
 function joinRoom(roomId){
     $.ajax({
 
@@ -1208,6 +1291,7 @@ function joinRoom(roomId){
     });
 }
 
+//on createRoom, the url is replaced using the random number generated
 function createRoom(roomId){
     //connect to sec
     $.ajax({
@@ -1231,6 +1315,7 @@ function createRoom(roomId){
 
 }
 
+//runs when user attempts to log in
 function loginAttempt(username, password){
     $.ajax({
 
@@ -1256,6 +1341,7 @@ function loginAttempt(username, password){
     });
 }
 
+//grabs highscore data on page load
 function grabHighScoreData(){
     $.ajax({
 
@@ -1285,6 +1371,7 @@ function grabHighScoreData(){
     });
 }
 
+//grabs user data if a user is logged in
 function grabUserData(username){
     $.ajax({
 
@@ -1303,10 +1390,7 @@ function grabUserData(username){
             $('#shopCoins').html(response.coins);
             $('#userName').html(response.username.capitalizeFirstLetter());
 
-/*            if (response.bgColor == 'white'){
-                $("#start").css("color", "black");
-                $(".instructions").css("color", "black");
-            } else*/if (response.bgColor != "rgb(255, 255, 255)"){
+			if (response.bgColor != "rgb(255, 255, 255)"){
                 $("body").css("background-color", response.bgColor);
                 $("#ledge-block").css("background-color", response.bgColor);
                 $("#ledge-block2").css("background-color", response.bgColor);
@@ -1343,6 +1427,7 @@ function grabUserData(username){
     });
 }
 
+//updates the users data and highscores after game is over
 function updateAfterRun(){
     $.ajax({
 
@@ -1362,6 +1447,7 @@ function updateAfterRun(){
     });
 }
 
+//runs when user attempts to make purchase, makes sure they have enough coins or they dont already own that item
 function makePurchase(itemId, cost){
     console.log(cost);
     $.ajax({
@@ -1390,6 +1476,7 @@ function makePurchase(itemId, cost){
     });
 }
 
+//updates database on purchase
 function updateAllItemData(){
     $.ajax({
 
